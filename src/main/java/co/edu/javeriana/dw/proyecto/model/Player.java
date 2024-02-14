@@ -15,8 +15,24 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String user;
+
+    private String userName;
     private String password;
     private String type;
 
+    public Player(String user, String password, String type) {
+        this.userName = user;
+        this.password = password;
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", user='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
