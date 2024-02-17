@@ -1,9 +1,6 @@
 package co.edu.javeriana.dw.proyecto.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -18,9 +15,11 @@ public class Player {
 
     private String userName;
     private String password;
-    private String type;
+    private PlayerType type;
+    @ManyToOne
+    private Spacecraft spacecraft;
 
-    public Player(String user, String password, String type) {
+    public Player(String user, String password, PlayerType type) {
         this.userName = user;
         this.password = password;
         this.type = type;
