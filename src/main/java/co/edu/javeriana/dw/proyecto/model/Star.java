@@ -1,15 +1,14 @@
 package co.edu.javeriana.dw.proyecto.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -21,7 +20,7 @@ public class Star {
     private String coordinates;
 
     @OneToMany(mappedBy = "star")
-    private List<Planet> planets;
+    private List<Planet> planets = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
