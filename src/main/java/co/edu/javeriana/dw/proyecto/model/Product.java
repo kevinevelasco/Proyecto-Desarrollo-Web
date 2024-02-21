@@ -25,4 +25,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Market> markets;
 
+    @OneToMany(mappedBy = "product")
+    private List<Inventory> inventories;
+
 }

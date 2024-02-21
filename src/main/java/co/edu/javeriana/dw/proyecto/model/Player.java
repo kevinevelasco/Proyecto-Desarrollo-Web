@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -15,6 +16,7 @@ public class Player {
 
     private String userName;
     private String password;
+    @Enumerated(EnumType.STRING)
     private PlayerType type;
     @ManyToOne
     private Spacecraft spacecraft;

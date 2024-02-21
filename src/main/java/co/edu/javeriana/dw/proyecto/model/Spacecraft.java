@@ -1,16 +1,14 @@
 package co.edu.javeriana.dw.proyecto.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -20,11 +18,9 @@ public class Spacecraft {
     private Long id;
 
     private String name;
-    private Double storage;
-    private Double speed;
     private BigDecimal credit;
-    private Double time;
-    private String coordinates;
+    private Double totalTime;
+    private String coordinates; //TODO falta agregarlo al diagrama lógico
 
     @OneToMany(mappedBy = "spacecraft")
     private List<Player> players;
@@ -36,4 +32,10 @@ public class Spacecraft {
             inverseJoinColumns = @JoinColumn(name = "planet_id")
     )
     private List<Planet> planets;
+
+    @OneToOne
+    private SpacecraftModel spacecraftModel;
+
+    @OneToMany(mappedBy = "spacecraft")
+    private List<Inventory> inventories;
 }
