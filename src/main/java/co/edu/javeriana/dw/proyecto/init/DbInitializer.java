@@ -30,9 +30,15 @@ public class DbInitializer implements CommandLineRunner {
     private IPlayerRepository playerRepository;
     @Autowired
     private IProductRepository productRepository;
+    @Autowired
+    private IMarketRepository marketRepository;
+    @Autowired
+    private IInventoryRepository inventoryRepository;
 
     @Override
     public void run(String... args) throws Exception {
+
+        //bucle para generar las 40000 estrellas, dentro de las primeras 20 iteraciones se generan los modelos de naves, en las siguientes 10 se generan las naves y en las siguientes 400 se generan las estrellas y planetas
         for (int i = 0; i < 40000; i++) {
             Faker faker = new Faker();
 
@@ -53,7 +59,7 @@ public class DbInitializer implements CommandLineRunner {
                         spacecraftModel.setModelName(faker.unique().fetchFromYaml("star_wars.vehicles"));
                         break;
                     } finally {
-                        spacecraftModel.setStorage(faker.number().randomDouble(0, 40, 1000));
+                        spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
                         spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 100, 1000));
                         spacecraftModelRepository.save(spacecraftModel);
                     }
@@ -120,7 +126,6 @@ public class DbInitializer implements CommandLineRunner {
             player.setSpacecraft(spacecraftRepository.findById(spacecraftId).get());
             playerRepository.save(player);
         }
-        List<String> productsNames = new ArrayList<>();
         Faker faker = new Faker();
         int totalItemsPrinted = 0;
         int totalItemsToPrint = 500;
@@ -140,7 +145,9 @@ public class DbInitializer implements CommandLineRunner {
                 try {
                     Product product = new Product();
                     product.setName(category.get());
-                    product.setSize(faker.number().randomDouble(0, 1, 1000));
+                    //generamos un numero aleatorio que identifica los metros cubicos que ocupa el producto
+                    product.setSize(faker.number().randomDouble(2, 1, 10));
+
                     productRepository.save(product);
                     totalItemsPrinted++;
                 } catch (Exception e) {
@@ -151,6 +158,59 @@ public class DbInitializer implements CommandLineRunner {
             // Verifica si ya se alcanzó el límite total de impresiones
             if (totalItemsPrinted >= totalItemsToPrint) {
                 break;
+            }
+        }
+
+        //bucle para el Market, en el que por cada planeta, cada producto tiene un precio diferente, dependiendo del stock y la demanda y oferta
+        for (int i = 0; i < 400; i++) {
+            int numberOfProducts = faker.number().numberBetween(15,50);
+            Planet planet = planetRepository.findById((long) i + 1).get();
+            List<Product> products = productRepository.findAll();
+            List<Product> productsInPlanet = new ArrayList<>();
+            for (int j = 0; j < numberOfProducts; j++) {
+                productsInPlanet.add(products.get(faker.number().numberBetween(0, products.size())));
+            }
+            for (Product product : productsInPlanet) {
+                Market market = new Market();
+                market.setPlanet(planet);
+                market.setProduct(product);
+                market.setDemandFactor(faker.number().numberBetween(0, 1000000));
+                market.setStock(faker.number().numberBetween(0, 1000000));
+                market.setSupplyFactor(faker.number().numberBetween(0, 1000000));
+                market.setSellPrice((double) (market.getDemandFactor()/(1+market.getSupplyFactor())));
+                market.setBuyPrice((double) (market.getSupplyFactor()/(1+market.getDemandFactor())));
+                marketRepository.save(market);
+            }
+        }
+        double spaceAcum = 0;
+        //bucle para el inventario de cada nave, hay que tener en cuenta la cantidad maxima de producto que puede haber en la nave, ya que depende de la capacidad de la nave
+        for (int i = 0; i < 10; i++) {
+            int numberOfProducts = faker.number().numberBetween(5,35);
+            Spacecraft spacecraft = spacecraftRepository.findById((long) i + 1).get();
+            List<Product> products = productRepository.findAll();
+            List<Product> productsInSpacecraft = new ArrayList<>();
+
+            for (int j = 0; j < numberOfProducts; j++) {
+                productsInSpacecraft.add(products.get(faker.number().numberBetween(0, products.size())));
+            }
+
+            // ahora se agregan en la nave, teniendo en cuenta la restricción de la capacidad de la nave
+            for (Product product : productsInSpacecraft) {
+                int randomQuantity = faker.number().numberBetween(0, 20);
+                Inventory inventory = new Inventory();
+                inventory.setSpacecraft(spacecraft);
+                inventory.setProduct(product);
+
+                if (spacecraft.getSpacecraftModel().getStorage() >= (spaceAcum + randomQuantity * product.getSize())) {
+                    inventory.setQuantity(randomQuantity);
+                    spaceAcum += randomQuantity * product.getSize();
+                } else {
+                    int maxQuantity = (int) ((spacecraft.getSpacecraftModel().getStorage() - spaceAcum) / product.getSize());
+                    inventory.setQuantity(maxQuantity);
+                    spaceAcum += maxQuantity * product.getSize();
+                }
+                if(inventory.getQuantity() > 0)
+                    inventoryRepository.save(inventory);
             }
         }
     }

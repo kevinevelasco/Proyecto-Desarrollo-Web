@@ -131,3 +131,18 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sanya/D
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 92 more
+2024-02-22 20:34:29.635775-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "SPACECRAFT_" no encontrada
+Table "SPACECRAFT_" not found; SQL statement:
+SELECT * 
+FROM SPACECRAFT S
+JOIN SPACECRAFT_ MODEL SM
+ON S.ID= SM.ID [42102-224]
+2024-02-22 20:57:39.846640-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM INVENTORY PRODUCT [*]PLAYER"
+Syntax error in SQL statement "SELECT * FROM INVENTORY PRODUCT [*]PLAYER"; SQL statement:
+SELECT * FROM INVENTORY PRODUCT PLAYER [42000-224]
+2024-02-22 20:58:10.227509-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]WORMHOLE"
+Syntax error in SQL statement "[*]WORMHOLE"; SQL statement:
+WORMHOLE [42000-224]
