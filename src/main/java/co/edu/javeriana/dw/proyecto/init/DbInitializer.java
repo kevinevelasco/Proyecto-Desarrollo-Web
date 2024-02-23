@@ -9,8 +9,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.function.Supplier;
 
 @Component
 public class DbInitializer implements CommandLineRunner {
@@ -25,6 +28,8 @@ public class DbInitializer implements CommandLineRunner {
     private ISpacecraftRepository spacecraftRepository;
     @Autowired
     private IPlayerRepository playerRepository;
+    @Autowired
+    private IProductRepository productRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -114,7 +119,39 @@ public class DbInitializer implements CommandLineRunner {
             }
             player.setSpacecraft(spacecraftRepository.findById(spacecraftId).get());
             playerRepository.save(player);
+        }
+        List<String> productsNames = new ArrayList<>();
+        Faker faker = new Faker();
+        int totalItemsPrinted = 0;
+        int totalItemsToPrint = 500;
+        List<Supplier<String>> fakerCategories = new ArrayList<>();
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("minecraft.item_name"));
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.spices"));
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.dish"));
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.fruits"));
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.vegetables"));
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.sushi"));
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("creature.animal.name"));
+        fakerCategories.add(() -> faker.unique().fetchFromYaml("creature.animal.genus"));
 
+        // Itera a través de cada categoría de Faker
+        for (Supplier<String> category : fakerCategories) {
+            while (totalItemsPrinted < totalItemsToPrint) {
+                try {
+                    Product product = new Product();
+                    product.setName(category.get());
+                    product.setSize(faker.number().randomDouble(0, 1, 1000));
+                    productRepository.save(product);
+                    totalItemsPrinted++;
+                } catch (Exception e) {
+                    // Rompe el bucle interno si se agotan los elementos únicos de la categoría actual
+                    break;
+                }
+            }
+            // Verifica si ya se alcanzó el límite total de impresiones
+            if (totalItemsPrinted >= totalItemsToPrint) {
+                break;
+            }
         }
     }
 }
