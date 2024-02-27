@@ -17,12 +17,7 @@ public class Planet {
     private Long id;
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Space_Hangar",
-            joinColumns = @JoinColumn(name = "planet_id"),
-            inverseJoinColumns = @JoinColumn(name = "spacecraft_id")
-    )
+    @OneToMany(mappedBy = "planet")
     private List<Spacecraft> spacecrafts;
 
     @ManyToOne

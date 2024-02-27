@@ -25,13 +25,9 @@ public class Spacecraft {
     @OneToMany(mappedBy = "spacecraft")
     private List<Player> players;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Space_Hangar",
-            joinColumns = @JoinColumn(name = "spacecraft_id"),
-            inverseJoinColumns = @JoinColumn(name = "planet_id")
-    )
-    private List<Planet> planets;
+    @ManyToOne
+    @JoinColumn(name = "planet_id")
+    private Planet planet;
 
     @OneToOne
     private SpacecraftModel spacecraftModel;

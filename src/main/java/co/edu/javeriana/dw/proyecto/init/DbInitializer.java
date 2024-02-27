@@ -213,5 +213,13 @@ public class DbInitializer implements CommandLineRunner {
                     inventoryRepository.save(inventory);
             }
         }
+
+        //todas las spacecrafts las inicializamos en la estrella 1 planeta 1
+        for (int i = 0; i < 10; i++) {
+            Spacecraft spacecraft = spacecraftRepository.findById((long) i + 1).get();
+            Planet planet = planetRepository.findById(1L).get();
+            spacecraft.setPlanet(planet);
+            spacecraftRepository.save(spacecraft);
+        }
     }
 }
