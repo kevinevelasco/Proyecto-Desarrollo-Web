@@ -14,3 +14,6 @@ create table player (id bigint not null, password varchar(255), type varchar(255
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]SPACECRAFT"; se esperaba "SAVEPOINT, SCRIPT, SHUTDOWN"
 Syntax error in SQL statement "[*]SPACECRAFT"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
 SPACECRAFT [42001-224]
+2024-02-22 16:50:59.022623-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SPACEHANGAR" not found; SQL statement:
+SELECT * FROM spacehangar [42102-224]

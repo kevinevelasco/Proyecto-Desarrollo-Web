@@ -17,12 +17,14 @@ public class Star {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String coordinates;
+    private Double x;
+    private Double y;
+    private Double z;
 
     @OneToMany(mappedBy = "star")
     private List<Planet> planets = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Wormhole",
             joinColumns = @JoinColumn(name = "star_id"),
@@ -32,4 +34,6 @@ public class Star {
 
     @ManyToMany(mappedBy = "wormholes")
     private List<Star> destinations;
+
 }
+
