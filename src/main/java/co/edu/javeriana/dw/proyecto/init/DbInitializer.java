@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.Set;
 import java.util.function.Supplier;
 
 @Component
@@ -37,10 +39,9 @@ public class DbInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+        Faker faker = new Faker();
         //bucle para generar las 40000 estrellas, dentro de las primeras 20 iteraciones se generan los modelos de naves, en las siguientes 10 se generan las naves y en las siguientes 400 se generan las estrellas y planetas
         for (int i = 0; i < 40000; i++) {
-            Faker faker = new Faker();
 
             Star star = new Star();
             Planet planet1 = new Planet();
@@ -49,7 +50,25 @@ public class DbInitializer implements CommandLineRunner {
             SpacecraftModel spacecraftModel = new SpacecraftModel();
             Spacecraft spacecraft = new Spacecraft();
 
-            star.setCoordinates("TODO");//TODO falta generar las coordenadas aleatorias sin que se sobrelapen
+
+            //Coordenadas para cada planeta que no se sobrelapen
+             Set<String> coordinatesUsed = new HashSet<>();
+
+            String coordinatesString;
+            do {
+                double x = faker.number().randomDouble(0, 1000, 10000);
+                double y = faker.number().randomDouble(0, 1000, 10000);
+                double z = faker.number().randomDouble(0, 1000, 10000);
+
+                coordinatesString = x + "," + y + "," + z;
+            } while (!(coordinatesUsed.add(coordinatesString) || isOverlap(coordinatesString, coordinatesUsed))); // Agregar a las coordenadas utilizadas y continuar si ya existen
+
+            String[] coordinates = coordinatesString.split(",");
+            star.setX(Double.parseDouble(coordinates[0]));
+            star.setY(Double.parseDouble(coordinates[1]));
+            star.setZ(Double.parseDouble(coordinates[2]));
+
+
 
             if (i <= 20) {
                 while (true) {
@@ -103,11 +122,22 @@ public class DbInitializer implements CommandLineRunner {
             }
             star.setName(faker.space().galaxy());
             starRepository.save(star);
-            //TODO falta realizar el grafo con las relaciones entre los wormholes y las estrellas
+
         }
 
+        // Batch para WORMHOLE, el que representa las conexiones entre planeta
+        for (int i = 1; i <= 400; i++) {
+            Star star1 = starRepository.findById((long) i ).get();
+            Star star2 = starRepository.findById((long) faker.number().numberBetween(1,401)).get();
+            star1.getWormholes().add(star2);
+            star2.getWormholes().add(star1);
+            starRepository.save(star1);
+            starRepository.save(star2);
+        }
+
+
+
         for (int j = 0; j < 100; j++) {
-            Faker faker = new Faker();
             Player player = new Player();
             player.setUserName(faker.internet().username());
             player.setPassword("12345");
@@ -126,7 +156,6 @@ public class DbInitializer implements CommandLineRunner {
             player.setSpacecraft(spacecraftRepository.findById(spacecraftId).get());
             playerRepository.save(player);
         }
-        Faker faker = new Faker();
         int totalItemsPrinted = 0;
         int totalItemsToPrint = 500;
         List<Supplier<String>> fakerCategories = new ArrayList<>();
@@ -221,5 +250,26 @@ public class DbInitializer implements CommandLineRunner {
             spacecraft.setPlanet(planet);
             spacecraftRepository.save(spacecraft);
         }
+
+
+    }
+    private boolean isOverlap(String coordinatesString, Set<String> coordinatesUsed) {
+        String[] coordinates = coordinatesString.split(",");
+        double x = Double.parseDouble(coordinates[0]);
+        double y = Double.parseDouble(coordinates[1]);
+        double z = Double.parseDouble(coordinates[2]);
+
+
+        for (String coordinate : coordinatesUsed) {
+            String[] actualCoordinate = coordinate.split(",");
+            double xExisting = Double.parseDouble(actualCoordinate[0]);
+            double yExisting = Double.parseDouble(actualCoordinate[1]);
+            double zExisting = Double.parseDouble(actualCoordinate[2]);
+
+            if (Math.abs(x - xExisting) < 100 || Math.abs(y - yExisting) < 100 || Math.abs(z - zExisting) < 100) {
+                return false;
+            }
+        }
+        return true;
     }
 }
