@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+<h1>Persona</h1>
+<p th:text="|ID: ${player.id}|"></p>
+<p th:text="|Usuario: ${player.userName}|"></p>
+<p th:text="|Contraseña: ${player.password}|"></p>
+<p th:text="|Tipo: ${player.type}|"></p>
+<a th:href="@{/player/list}">Volver</a>
+</body>
+
+</html>

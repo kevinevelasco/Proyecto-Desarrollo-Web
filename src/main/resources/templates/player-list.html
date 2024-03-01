@@ -9,12 +9,13 @@
 <!--<div th:insert="fragments/menu.html :: mainMenu"></div>
 -->
 <h1>Players</h1>
-<a th:href="@{/player/search}">Buscar</a>
 
 <table class="entity-list">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Nombre de usuario</th>
+        <th>Contraseña</th>
         <th>Tipo de jugador</th>
         <th>Nave espacial</th>
         <th>Ver</th>
@@ -33,7 +34,7 @@
             <a th:href="@{/player/view/{id}(id=${player.id})}">Ver</a>
         </td>
         <td>
-            <a th:href="@{/player/edit-form/{id}(id=${player.id})}">Editar</a>
+            <a th:href="@{/player/edit/{id}(id=${player.id})}">Editar</a>
         </td>
     </tr>
     </tbody>

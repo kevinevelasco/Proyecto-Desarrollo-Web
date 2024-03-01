@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css">
+    <title>Editar Jugador</title>
+</head>
+<body>
+    <h1>Editar Jugador</h1>
+    <form action="#" th:action="@{/player/save}" th:object="${player}" method="post">
+        <input type="hidden" th:field="*{id}" id="id" />
+        <label for="playerUserName">Usuario:</label>
+        <input type="text" th:field="*{userName}" id="playerUserName">
+        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Error</span>
+        <label for="playerPassword">Contraseña:</label>
+        <input type="password" th:field="*{password}" id="playerPassword">
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
+        <label for="playerType">Tipo:</label>
+        <select th:field="*{type}" id="playerType">
+            <option value="PILOT">Piloto</option>
+            <option value="CAPTAIN">Capitán</option>
+            <option value="MERCHANT">Comerciante</option>
+        </select>
+        <!--
+        <label for="playerSpaceCraftID"> Nave:</label>
+        TODO: Que se vea la nave bien
+        <input type="text" th:field="*{spaceCraftID}" id="playerSpaceCraftID"> -->
+    </form>
+
+</body>
+</html>

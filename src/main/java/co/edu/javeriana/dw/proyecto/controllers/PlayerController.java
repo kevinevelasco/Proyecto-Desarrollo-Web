@@ -31,18 +31,18 @@ public class PlayerController {
         return "player-list";
     }
     @GetMapping("/view/{id}")
-    public String viewPlayer(Model model, Long  id) {
+    public String viewPlayer(Model model,  @PathVariable Long  id) {
         Player player = playerService.getPlayerById(id);
         model.addAttribute("player", player);
         return "player-view";
     }
     @GetMapping("/delete/{id}")
-    public String deletePlayer(Model model, Long  id) {
+    public String deletePlayer(Model model, @PathVariable Long  id) {
         playerService.deletePlayer(id);
         return "redirect:/player/list";
     }
     @GetMapping("/edit/{id}")
-    public String editPlayer(Model model, Long  id) {
+    public String editPlayer(Model model, @PathVariable Long id) {
         Player player = playerService.getPlayerById(id);
         model.addAttribute("player", player);
         return "player-edit";
