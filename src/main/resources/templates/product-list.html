@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+<!--<div th:insert="fragments/menu.html :: mainMenu"></div>
+-->
+<h1>Products</h1>
+<a th:href="@{/product/search}">Buscar</a>
+
+<table class="entity-list">
+    <thead>
+    <tr>
+        <th>Tamaño</th>
+        <th>Nombre</th>
+        <th>Planetas</th>
+        <th>Mercados</th>
+        <th>Inventarios</th>
+        <th>Editar</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="product : ${products}">
+        <td th:text="${product.size}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.planets}"></td>
+        <td th:text="${product.markets}"></td>
+        <td th:text="${product.inventories}"></td>
+        <td>
+            <a th:href="@{/product/view/{id}(id=${product.id})}">Ver</a>
+        </td>
+        <td>
+            <a th:href="@{/product/edit-form/{id}(id=${product.id})}">Editar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+</html>

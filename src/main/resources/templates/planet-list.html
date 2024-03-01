@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+<!--<div th:insert="fragments/menu.html :: mainMenu"></div>
+-->
+<h1>Players</h1>
+<a th:href="@{/player/search}">Buscar</a>
+
+<table class="entity-list">
+  <thead>
+  <tr>
+    <th>Nombre</th>
+    <th>Naves</th>
+    <th>Estrella</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr th:each="planet : ${planets}">
+    <td th:text="${planet.name}"></td>
+    <td th:text="${planet.spacecrafts}"></td>
+    <td th:text="${planet.star}"></td>
+    <td>
+      <a th:href="@{/planet/view/{id}(id=${planet.id})}">Ver</a>
+    </td>
+    <td>
+      <a th:href="@{/planet/edit-form/{id}(id=${planet.id})}">Editar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+
+</html>

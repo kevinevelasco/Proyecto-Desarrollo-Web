@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+<!--<div th:insert="fragments/menu.html :: mainMenu"></div>
+-->
+<h1>Markets</h1>
+<a th:href="@{/market/search}">Buscar</a>
+
+<table class="entity-list">
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>Planeta</th>
+    <th>Producto</th>
+    <th>Stock</th>
+    <th>Factor demandante</th>
+    <th>Factor ofertante</th>
+    <th>Precio de compra</th>
+    <th>Precio de venta</th>
+    <th>Editar</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr th:each="market : ${markets}">
+    <td th:text="${market.id}"></td>
+    <td th:text="${market.planet}"></td>
+    <td th:text="${market.product}"></td>
+    <td th:text="${market.stock}"></td>
+    <td th:text="${market.demandFactor}"></td>
+    <td th:text="${market.supplyFactor}"></td>
+    <td th:text="${market.buyPrice}"></td>
+    <td th:text="${market.sellPrice}"></td>
+    <td>
+      <a th:href="@{/market/view/{id}(id=${market.id})}">Ver</a>
+    </td>
+    <td>
+      <a th:href="@{/market/edit-form/{id}(id=${market.id})}">Editar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+
+</html>
