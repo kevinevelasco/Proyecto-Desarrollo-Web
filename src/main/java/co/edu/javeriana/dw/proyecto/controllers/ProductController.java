@@ -44,7 +44,7 @@ public class ProductController{
         return "redirect:/product/list";
     }
     @GetMapping("/edit/{id}")
-    public String editProduct(Model model, Long  id) {
+    public String editProduct(Model model, @PathVariable Long  id) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product-edit";
