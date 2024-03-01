@@ -1,5 +1,6 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
+import co.edu.javeriana.dw.proyecto.model.Player;
 import co.edu.javeriana.dw.proyecto.model.Product;
 import co.edu.javeriana.dw.proyecto.service.ProductService;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController{
 
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -28,8 +29,9 @@ public class ProductController {
         List<Product> products = productService.getAllProduct();
         log.info("Products: " + products.size());
         model.addAttribute("products", products);
-        return "products-list";
+        return "product-list";
     }
+
     @GetMapping("/view/{id}")
     public String viewProduct(Model model, Long  id) {
         Product product = productService.getProductById(id);
