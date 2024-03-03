@@ -63,4 +63,19 @@ public class StarController {
         }
         return "redirect:/star/list";
     }
+
+    @GetMapping("/search")
+    public String listStars(@RequestParam(required = false) String searchText, Model model) {
+        List<Star> stars;
+        if (searchText == null || searchText.trim().equals("")) {
+            log.info("No hay texto de búsqueda. Retornando todo");
+            stars = starService.getAllStars();
+        } else {
+            log.info("Buscando estrellas cuyo nombre comienza con {}", searchText);
+            stars = starService.buscarPorNombre(searchText);
+        }
+        model.addAttribute("stars", stars);
+        return "star-search";
+    }
+
 }

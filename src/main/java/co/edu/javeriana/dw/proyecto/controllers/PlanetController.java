@@ -1,6 +1,7 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
 import co.edu.javeriana.dw.proyecto.model.Planet;
+import co.edu.javeriana.dw.proyecto.model.Star;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,30 +31,49 @@ public class PlanetController {
         model.addAttribute("planets", planets);
         return "planet-list";
     }
+
     @GetMapping("/view/{id}")
-    public String viewPlanet(Model model, @PathVariable Long  id) {
+    public String viewPlanet(Model model, @PathVariable Long id) {
         Planet planet = planetService.getPlanetById(id);
         model.addAttribute("planet", planet);
         return "planet-view";
     }
-    @GetMapping("/delete/{id}")
-    public String deletePlanet(Model model, Long  id) {
-        planetService.deletePlanet(id);
-        return "redirect:/planet/list";
-    }
-    @GetMapping("/edit/{id}")
-    public String editPlanet(Model model, @PathVariable Long  id) {
-        Planet planet = planetService.getPlanetById(id);
-        model.addAttribute("planet", planet);
-        return "planet-edit";
-    }
 
     @PostMapping(value = "/save")
     public String savePlanet(@Valid Planet planet, BindingResult result, Model model) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
+            model.addAttribute("planet", planet);
             return "planet-edit";
         }
         planetService.savePlanet(planet);
         return "redirect:/planet/list";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deletePlanet(Model model, Long id) {
+        planetService.deletePlanet(id);
+        return "redirect:/planet/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editPlanet(Model model, @PathVariable Long id) {
+        Planet planet = planetService.getPlanetById(id);
+        model.addAttribute("planet", planet);
+        return "planet-edit";
+    }
+
+    @GetMapping("/search")
+    public String listPlanets(@RequestParam(required = false) String searchText, Model model) {
+        List<Planet> planets;
+        if (searchText == null || searchText.trim().equals("")) {
+            log.info("No hay texto de búsqueda. Retornando todo");
+            planets = planetService.getAllPlanets();
+        } else {
+            log.info("Buscando estrellas cuyo nombre comienza con {}", searchText);
+            planets = planetService.buscarPorNombre(searchText);
+        }
+        model.addAttribute("planets", planets);
+        return "planet-search";
+    }
+
 }

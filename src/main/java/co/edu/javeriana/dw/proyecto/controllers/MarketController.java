@@ -33,7 +33,7 @@ public class MarketController {
     @GetMapping("/view/{id}")
     public String viewMarket(Model model, @PathVariable Long  id) {
         Market market = marketService.getMarketById(id);
-        model.addAttribute("market", marketService);
+        model.addAttribute("market", market);
         return "market-view";
     }
     @GetMapping("/delete/{id}")
@@ -56,4 +56,19 @@ public class MarketController {
         marketService.saveMarket(market);
         return "redirect:/market/list";
     }
+
+    @GetMapping("/search")
+    public String listMarkets(@RequestParam(required = false) String searchText, Model model) {
+        List<Market> markets;
+        if (searchText == null || searchText.trim().equals("")) {
+            log.info("No hay texto de búsqueda. Retornando todo");
+            markets = marketService.getAllMarket();
+        } else {
+            log.info("Buscando mercados cuyo planeta comienza con {}", searchText);
+            markets = marketService.buscarPorNombre(searchText);
+        }
+        model.addAttribute("markets", markets);
+        return "market-search";
+    }
+
 }

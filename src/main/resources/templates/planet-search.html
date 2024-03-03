@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+
+<form method="get" action="#" th:action="@{/planet/search}">
+    <label for="searchText">Buscar por nombre</label>
+    <input type="text" id="searchText" name="searchText">
+    <button type="submit">Search</button>
+</form>
+
+<h1>Planeta</h1>
+<table class="entity-list">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Naves</th>
+        <th>Estrella</th>
+        <th>Productos</th>
+        <th>Mercados</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="planet : ${planets}">
+        <td th:text="${planet.name}"></td>
+        <td th:text="${planet.spacecrafts}"></td>
+        <td th:text="${planet.star}"></td>
+        <td th:text="${planet.products}"></td>
+        <td th:text="${planet.markets}"></td>
+        <td>
+            <a th:href="@{/planet/view/{id}(id=${planet.id})}">Ver</a>
+        </td>
+        <td>
+            <a th:href="@{/planet/edit/{id}(id=${planet.id})}">Editar</a>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+</body>
+
+</html>

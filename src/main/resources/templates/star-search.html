@@ -2,16 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/estilo.css">
 </head>
 
 <body>
-<!--<div th:insert="fragments/menu.html :: mainMenu"></div>
--->
-<h1>Estrellas</h1>
 
-<a th:href="@{/star/search}">Buscar</a>
+<form method="get" action="#" th:action="@{/star/search}">
+  <label for="searchText">Buscar por nombre</label>
+  <input type="text" id="searchText" name="searchText">
+  <button type="submit">Search</button>
+</form>
 
+<h1>Estrella</h1>
 <table class="entity-list">
   <thead>
   <tr>
@@ -35,6 +37,7 @@
       <a th:href="@{/star/edit/{id}(id=${star.id})}">Editar</a>
     </td>
   </tr>
+
   </tbody>
 </table>
 

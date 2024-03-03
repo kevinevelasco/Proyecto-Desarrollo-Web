@@ -1,6 +1,5 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
-import co.edu.javeriana.dw.proyecto.model.Player;
 import co.edu.javeriana.dw.proyecto.model.Product;
 import co.edu.javeriana.dw.proyecto.service.ProductService;
 import org.slf4j.Logger;
@@ -57,5 +56,19 @@ public class ProductController{
         }
         productService.saveProduct(product);
         return "redirect:/product/list";
+    }
+
+    @GetMapping("/search")
+    public String listProducts(@RequestParam(required = false) String searchText, Model model) {
+        List<Product> products;
+        if (searchText == null || searchText.trim().equals("")) {
+            log.info("No hay texto de búsqueda. Retornando todo");
+            products = productService.getAllProduct();
+        } else {
+            log.info("Buscando estrellas cuyo nombre comienza con {}", searchText);
+            products = productService.buscarPorNombre(searchText);
+        }
+        model.addAttribute("products", products);
+        return "product-search";
     }
 }

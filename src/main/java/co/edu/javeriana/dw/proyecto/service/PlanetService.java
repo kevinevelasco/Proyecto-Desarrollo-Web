@@ -2,6 +2,7 @@ package co.edu.javeriana.dw.proyecto.service;
 
 import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.Star;
 import co.edu.javeriana.dw.proyecto.persistence.IPlanetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,8 @@ public class PlanetService {
         planetRepository.deleteById(id);
     }
 
+    public List<Planet> buscarPorNombre(String textoBusqueda) {
+        return planetRepository.findPlanetsByNameStartingWithCaseInsensitive(textoBusqueda);
+    }
 
 }

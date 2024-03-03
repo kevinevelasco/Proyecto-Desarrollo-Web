@@ -2,6 +2,7 @@ package co.edu.javeriana.dw.proyecto.service;
 
 import co.edu.javeriana.dw.proyecto.model.Market;
 
+import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.persistence.IMarketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,8 @@ public class MarketService {
 
     public void deleteMarket(Long id) {marketRepository.deleteById(id);}
 
+    public List<Market> buscarPorNombre(String textoBusqueda) {
+        return marketRepository.findPlanetsByNameStartingWithCaseInsensitive(textoBusqueda);
+    }
 
 }

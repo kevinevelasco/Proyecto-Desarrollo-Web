@@ -22,4 +22,9 @@ public class StarService {
     public boolean deleteStar(Long id) {starRepository.deleteById(id);
         return false;
     }
+
+    public List<Star> buscarPorNombre(String textoBusqueda) {
+        return starRepository.findPersonsByLastNameStartingWithCaseInsensitive(textoBusqueda);
+    }
+
 }
