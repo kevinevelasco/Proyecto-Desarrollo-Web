@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/style.css">
+  <title>Editar mercado</title>
+</head>
+
+<body>
+<h1>Editar mercado</h1>
+<form action="#" th:action="@{/market/save}" th:object="${market}" method="post">
+  <input type="hidden" th:field="*{id}" id="id">
+
+  <label for="MarketPlanet">Planeta: </label>
+  <input type="text" th:field="*{planet}" id="marketPlanet">
+
+  <label for="MarketProduct">Producto: </label>
+  <input type="text" th:field="*{product}" id="marketProduct">
+
+  <label for="MarketStock">Stock: </label>
+  <input type="text" th:field="*{stock}" id="marketStock">
+
+  <label for="MarketDemandFactor">Factor demandante: </label>
+  <input type="text" th:field="*{demandFactor}" id="marketDemandFactor">
+
+  <label for="MarketSupplyFactor">Factor de oferta: </label>
+  <input type="text" th:field="*{supplyFactor}" id="marketSupplyFactor">
+
+  <label for="MarketBuyPrice">Precio de compra: </label>
+  <input type="text" th:field="*{buyPrice}" id="marketBuyPrice">
+
+  <label for="MarketSellPrice">Precio de venta: </label>
+  <input type="text" th:field="*{sellPrice}" id="marketSellPrice">
+
+  <button type="submit">Enviar</button>
+
+</form>
+</body>
+
+</html>

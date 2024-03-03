@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+<h1>Producto</h1>
+<p th:text="|Tamaño: ${product.size}|"></p>
+<p th:text="|Nombre: ${product.name}|"></p>
+<p th:text="|Planetas: ${product.planets}|"></p>
+<p th:text="|Mercados: ${product.markets}|"></p>
+<p th:text="|Inventarios: ${product.inventories}|"></p>
+<a th:href="@{/product/list}">Volver</a>
+</body>
+
+</html>

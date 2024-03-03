@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/style.css">
+  <title>Editar estrella</title>
+</head>
+
+<body>
+<h1>Editar estrella</h1>
+<form action="#" th:action="@{/star/save}" th:object="${star}" method="post">
+  <input type="hidden" th:field="*{id}" id="id">
+
+  <label for="StarName">Nombre: </label>
+  <input type="text" th:field="*{name}" id="starName">
+
+  <label for="StarX">Coordenada x: </label>
+  <input type="text" th:field="*{x}" id="starx">
+
+  <label for="StarY">Coordenada y: </label>
+  <input type="text" th:field="*{y}" id="starY">
+
+  <label for="StarZ">Coordenada z: </label>
+  <input type="text" th:field="*{z}" id="starZ">
+
+  <button type="submit">Enviar</button>
+
+</form>
+</body>
+
+</html>

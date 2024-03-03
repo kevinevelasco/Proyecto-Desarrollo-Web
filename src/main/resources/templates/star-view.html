@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+<h1>Estrella <span th:text="${star.id}"></span></h1>
+<p th:text="|Nombre: ${star.name}|"></p>
+<p th:text="|Coordenada x: ${star.x}|"></p>
+<p th:text="|Coordenada y: ${star.y}|"></p>
+<p th:text="|Coordenada z: ${star.z}|"></p>
+<a th:href="@{/star/list}">Volver</a>
+</body>
+
+</html>

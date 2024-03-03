@@ -31,7 +31,7 @@ public class MarketController {
         return "market-list";
     }
     @GetMapping("/view/{id}")
-    public String viewMarket(Model model, Long  id) {
+    public String viewMarket(Model model, @PathVariable Long  id) {
         Market market = marketService.getMarketById(id);
         model.addAttribute("market", marketService);
         return "market-view";
@@ -42,10 +42,10 @@ public class MarketController {
         return "redirect:/market/list";
     }
     @GetMapping("/edit/{id}")
-    public String editMarket(Model model, Long  id) {
+    public String editMarket(Model model, @PathVariable Long  id) {
         Market market = marketService.getMarketById(id);
         model.addAttribute("market", market);
-        return "player-edit";
+        return "market-edit";
     }
 
     @PostMapping(value = "/save")

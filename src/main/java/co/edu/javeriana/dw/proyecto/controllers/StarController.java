@@ -38,7 +38,7 @@ public class StarController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editStarForm(@PathVariable Long id, Model model) {
+    public String editStarForm(Model model, @PathVariable Long id) {
         Star star = starService.getStarById(id);
         model.addAttribute("star", star);
         return "star-edit";

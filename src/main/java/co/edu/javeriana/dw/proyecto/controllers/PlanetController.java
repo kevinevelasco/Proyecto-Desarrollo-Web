@@ -31,7 +31,7 @@ public class PlanetController {
         return "planet-list";
     }
     @GetMapping("/view/{id}")
-    public String viewPlanet(Model model, Long  id) {
+    public String viewPlanet(Model model, @PathVariable Long  id) {
         Planet planet = planetService.getPlanetById(id);
         model.addAttribute("planet", planet);
         return "planet-view";
@@ -42,7 +42,7 @@ public class PlanetController {
         return "redirect:/planet/list";
     }
     @GetMapping("/edit/{id}")
-    public String editPlanet(Model model, Long  id) {
+    public String editPlanet(Model model, @PathVariable Long  id) {
         Planet planet = planetService.getPlanetById(id);
         model.addAttribute("planet", planet);
         return "planet-edit";

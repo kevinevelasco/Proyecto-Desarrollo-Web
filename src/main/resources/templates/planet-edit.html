@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/style.css">
+  <title>Editar planeta</title>
+</head>
+
+<body>
+<h1>Editar planeta</h1>
+<form action="#" th:action="@{/planet/save}" th:object="${planet}" method="post">
+
+  <label for="PlanetName">Nombre: </label>
+  <input type="text" th:field="*{name}" id="planetName">
+
+  <label for="PlanetSpacecrafts">Spacecrafts: </label>
+  <input type="text" th:field="*{spacecrafts}" id="planetSpacecrafts">
+
+  <label for="PlanetStar">Estrella: </label>
+  <input type="text" th:field="*{star}" id="planetStar">
+
+  <label for="PlanetProducts">Productos: </label>
+  <input type="text" th:field="*{products}" id="planetProducts">
+
+  <label for="PlanetMarkets">Mercados: </label>
+  <input type="text" th:field="*{markets}" id="planetMarkets">
+
+  <button type="submit">Enviar</button>
+
+</form>
+</body>
+
+</html>

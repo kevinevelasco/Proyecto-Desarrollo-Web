@@ -33,7 +33,7 @@ public class ProductController{
     }
 
     @GetMapping("/view/{id}")
-    public String viewProduct(Model model, Long  id) {
+    public String viewProduct(Model model, @PathVariable Long  id) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product-view";
@@ -44,7 +44,7 @@ public class ProductController{
         return "redirect:/product/list";
     }
     @GetMapping("/edit/{id}")
-    public String editProduct(Model model, @PathVariable Long  id) {
+    public String editProduct(@PathVariable Long  id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product-edit";
