@@ -50,7 +50,7 @@ public class PlanetController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deletePlanet(Model model, Long id) {
+    public String deletePlanet(Model model, @PathVariable  Long id) {
         planetService.deletePlanet(id);
         return "redirect:/planet/list";
     }

@@ -55,12 +55,8 @@ public class StarController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteStar(@PathVariable Long id) {
-        if (starService.deleteStar(id)) {
-            log.info("Star with id {} was deleted successfully", id);
-        } else {
-            log.info("Star with id {} not found or could not be deleted", id);
-        }
+    public String deleteStar(Model model, @PathVariable Long id) {
+        starService.deleteStar(id);
         return "redirect:/star/list";
     }
 

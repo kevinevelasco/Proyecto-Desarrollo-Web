@@ -38,7 +38,7 @@ public class ProductController{
         return "product-view";
     }
     @GetMapping("/delete/{id}")
-    public String deleteProduct(Model model, Long  id) {
+    public String deleteProduct(Model model,@PathVariable Long  id) {
         productService.deleteProduct(id);
         return "redirect:/product/list";
     }

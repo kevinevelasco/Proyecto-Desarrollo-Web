@@ -19,8 +19,8 @@ public class StarService {
 
     public Star saveStar(Star star) {return starRepository.save(star);}
 
-    public boolean deleteStar(Long id) {starRepository.deleteById(id);
-        return false;
+    public void deleteStar(Long id) {
+        starRepository.deleteById(id);
     }
 
     public List<Star> buscarPorNombre(String textoBusqueda) {

@@ -37,7 +37,7 @@ public class MarketController {
         return "market-view";
     }
     @GetMapping("/delete/{id}")
-    public String deleteMarket(Model model, Long  id) {
+    public String deleteMarket(Model model, @PathVariable Long  id) {
         marketService.deleteMarket(id);
         return "redirect:/market/list";
     }
