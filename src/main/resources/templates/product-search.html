@@ -10,7 +10,7 @@
 <form method="get" action="#" th:action="@{/product/search}">
   <label for="searchText">Buscar por nombre</label>
   <input type="text" id="searchText" name="searchText">
-  <button type="submit">Search</button>
+  <button type="submit">Buscar</button>
 </form>
 
 <h1>Producto</h1>
@@ -20,8 +20,7 @@
     <th>Tamaño</th>
     <th>Nombre</th>
     <th>Planetas</th>
-    <th>Mercados</th>
-    <th>Inventarios</th>
+    <!-- Secciones de Mercados e Inventarios comentadas y no incluidas -->
   </tr>
   </thead>
   <tbody>
@@ -29,9 +28,12 @@
   <tr th:each="product : ${products}">
     <td th:text="${product.size}"></td>
     <td th:text="${product.name}"></td>
-    <td th:text="${product.planets}"></td>
-    <td th:text="${product.markets}"></td>
-    <td th:text="${product.inventories}"></td>
+    <td>
+      <ul>
+        <li th:each="planet : ${product.planets}" th:text="${planet.name}"></li>
+      </ul>
+    </td>
+    <!-- Detalles de Mercados e Inventarios omitidos -->
     <td>
       <a th:href="@{/product/view/{id}(id=${product.id})}">Ver</a>
     </td>

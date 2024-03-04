@@ -8,24 +8,18 @@
 </head>
 
 <body>
-  <h1>Editar producto</h1>
-  <form action="#" th:action="@{/product/save}" th:object="${product}" method="post">
-    <input type="hidden" th:field="*{id}" id="id">
+<h1>Editar producto</h1>
+<form action="#" th:action="@{/product/save}" th:object="${product}" method="post">
+  <input type="hidden" th:field="*{id}" id="id">
 
-    <label for="productSize">Tamaño: </label>
-    <input type="text" th:field="*{size}" id="productSize">
-    <label for="productName">Nombre: </label>
-    <input type="text" th:field="*{name}" id="productName">
-    <label for="productPlanets">Planetas: </label>
-    <input type="text" th:field="*{planets}" id="productPlanets">
-    <label for="productMarkets">Mercados: </label>
-    <input type="text" th:field="*{markets}" id="productMarkets">
-    <label for="productInventories">Inventarios: </label>
-    <input type="text" th:field="*{inventories}" id="productInventories">
+  <label for="productSize">Tamaño: </label>
+  <input type="text" th:field="*{size}" id="productSize">
 
+  <label for="productName">Nombre: </label>
+  <input type="text" th:field="*{name}" id="productName">
 
-    <button type="submit">Enviar</button>
-  </form>
+  <button type="submit">Enviar</button>
+</form>
 </body>
 
 </html>

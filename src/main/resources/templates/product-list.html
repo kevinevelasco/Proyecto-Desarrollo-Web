@@ -6,9 +6,8 @@
 </head>
 
 <body>
-<!--<div th:insert="fragments/menu.html :: mainMenu"></div>
--->
-<h1>Products</h1>
+<!--<div th:insert="fragments/menu.html :: mainMenu"></div>-->
+<h1>Productos</h1>
 <a th:href="@{/product/search}">Buscar</a>
 
 <table class="entity-list">
@@ -17,18 +16,19 @@
         <th>Tamaño</th>
         <th>Nombre</th>
         <th>Planetas</th>
-        <th>Mercados</th>
-        <th>Inventarios</th>
+        <!-- Las columnas de Mercados e Inventarios están omitidas según la instrucción -->
     </tr>
     </thead>
     <tbody>
-
     <tr th:each="product : ${products}">
         <td th:text="${product.size}"></td>
         <td th:text="${product.name}"></td>
-        <td th:text="${product.planets}"></td>
-        <td th:text="${product.markets}"></td>
-        <td th:text="${product.inventories}"></td>
+        <td>
+            <ul>
+                <li th:each="planet : ${product.planets}" th:text="${planet.name}"></li>
+            </ul>
+        </td>
+        <!-- Los detalles de Mercados e Inventarios no se incluyen -->
         <td>
             <a th:href="@{/product/view/{id}(id=${product.id})}">Ver</a>
         </td>

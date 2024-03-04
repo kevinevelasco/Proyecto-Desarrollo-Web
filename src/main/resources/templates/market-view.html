@@ -3,18 +3,17 @@
 
 <head>
   <link rel="stylesheet" href="/style.css">
-
 </head>
 
 <body>
 <h1>Mercado</h1>
-<p th:text="|Planeta: ${market.planet}|"></p>
-<p th:text="|Producto: ${market.product}|"></p>
-<p th:text="|Stock: ${market.stock}|"></p>
-<p th:text="|Factor demandante: ${market.demandFactor}|"></p>
-<p th:text="|Factor de oferta: ${market.supplyFactor}|"></p>
-<p th:text="|Precio de compra: ${market.buyPrice}|"></p>
-<p th:text="|Precio de venta: ${market.sellPrice}|"></p>
+<p th:text="'Planeta: ' + ${market.planet.name}"></p>
+<p th:text="'Producto: ' + ${market.product.name}"></p>
+<p th:text="'Stock: ' + ${market.stock}"></p>
+<p th:text="'Factor demandante: ' + ${market.demandFactor}"></p>
+<p th:text="'Factor de oferta: ' + ${market.supplyFactor}"></p>
+<p th:text="'Precio de compra: ' + ${market.buyPrice}"></p>
+<p th:text="'Precio de venta: ' + ${market.sellPrice}"></p>
 <a th:href="@{/market/list}">Volver</a>
 </body>
 

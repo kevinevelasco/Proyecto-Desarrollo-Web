@@ -6,8 +6,6 @@
 </head>
 
 <body>
-<!--<div th:insert="fragments/menu.html :: mainMenu"></div>
--->
 <h1>Markets</h1>
 <a th:href="@{/market/search}">Buscar</a>
 
@@ -28,8 +26,8 @@
 
   <tr th:each="market : ${markets}">
     <td th:text="${market.id}"></td>
-    <td th:text="${market.planet}"></td>
-    <td th:text="${market.product}"></td>
+    <td th:text="${market.planet.name}"></td>
+    <td th:text="${market.product.name}"></td>
     <td th:text="${market.stock}"></td>
     <td th:text="${market.demandFactor}"></td>
     <td th:text="${market.supplyFactor}"></td>

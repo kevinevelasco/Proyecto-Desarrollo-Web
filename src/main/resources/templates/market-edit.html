@@ -12,29 +12,26 @@
 <form action="#" th:action="@{/market/save}" th:object="${market}" method="post">
   <input type="hidden" th:field="*{id}" id="id">
 
-  <label for="MarketPlanet">Planeta: </label>
-  <input type="text" th:field="*{planet}" id="marketPlanet">
+  <p><strong>Planeta:</strong> <span th:text="${market.planet.name}">Nombre del planeta</span></p>
 
-  <label for="MarketProduct">Producto: </label>
-  <input type="text" th:field="*{product}" id="marketProduct">
+  <p><strong>Producto:</strong> <span th:text="${market.product.name}">Nombre del producto</span></p>
 
-  <label for="MarketStock">Stock: </label>
+  <label for="marketStock">Stock: </label>
   <input type="text" th:field="*{stock}" id="marketStock">
 
-  <label for="MarketDemandFactor">Factor demandante: </label>
+  <label for="marketDemandFactor">Factor demandante: </label>
   <input type="text" th:field="*{demandFactor}" id="marketDemandFactor">
 
-  <label for="MarketSupplyFactor">Factor de oferta: </label>
+  <label for="marketSupplyFactor">Factor de oferta: </label>
   <input type="text" th:field="*{supplyFactor}" id="marketSupplyFactor">
 
-  <label for="MarketBuyPrice">Precio de compra: </label>
+  <label for="marketBuyPrice">Precio de compra: </label>
   <input type="text" th:field="*{buyPrice}" id="marketBuyPrice">
 
-  <label for="MarketSellPrice">Precio de venta: </label>
+  <label for="marketSellPrice">Precio de venta: </label>
   <input type="text" th:field="*{sellPrice}" id="marketSellPrice">
 
   <button type="submit">Enviar</button>
-
 </form>
 </body>
 

@@ -3,17 +3,21 @@
 
 <head>
   <link rel="stylesheet" href="/style.css">
-
 </head>
 
 <body>
 <h1>Planeta <span th:text="${planet.id}"></span></h1>
 
-<p th:text="|Nombre: ${planet.name}|"></p>
-<p th:text="|SpaceCrafts: ${planet.spacecrafts}|"></p>
-<p th:text="|Estrella: ${planet.star}|"></p>
-<p th:text="|Productos: ${planet.products}|"></p>
-<p th:text="|Mercados: ${planet.markets}|"></p>
+<p th:text="'Nombre: ' + ${planet.name}"></p>
+<p>Spacecrafts:</p>
+<ul>
+  <li th:each="spacecraft : ${planet.spacecrafts}" th:text="${spacecraft.name}"></li>
+</ul>
+<p th:text="'Estrella: ' + ${planet.star.name}"></p>
+<p>Productos:</p>
+<ul>
+  <li th:each="product : ${planet.products}" th:text="${product.name}"></li>
+</ul>
 
 <a th:href="@{/planet/list}">Volver</a>
 

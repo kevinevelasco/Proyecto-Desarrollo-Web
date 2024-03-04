@@ -18,26 +18,40 @@
     <th>Naves</th>
     <th>Estrella</th>
     <th>Productos</th>
-    <th>Mercados</th>
+    <!--<th>Mercados</th>-->
   </tr>
   </thead>
   <tbody>
 
   <tr th:each="planet : ${planets}">
     <td th:text="${planet.name}"></td>
-    <td th:text="${planet.spacecrafts}"></td>
-    <td th:text="${planet.star}"></td>
-    <td th:text="${planet.products}"></td>
-    <td th:text="${planet.markets}"></td>
+
+    <td>
+      <ul>
+        <li th:each="spacecraft : ${planet.spacecrafts}" th:text="${spacecraft.name}"></li>
+      </ul>
+    </td>
+
+    <td th:text="${planet.star.name}"></td>
+
+    <td>
+      <ul>
+        <li th:each="product : ${planet.products}" th:text="${product.name}"></li>
+      </ul>
+    </td>
+
     <td>
       <a th:href="@{/planet/view/{id}(id=${planet.id})}">Ver</a>
     </td>
+
     <td>
       <a th:href="@{/planet/edit/{id}(id=${planet.id})}">Editar</a>
     </td>
+
     <td>
       <a th:href="@{/planet/delete/{id}(id=${planet.id})}" onclick="return confirm('¿Está seguro de que desea eliminar este planeta?')">Eliminar</a>
     </td>
+
   </tr>
   </tbody>
 </table>

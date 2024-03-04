@@ -3,16 +3,17 @@
 
 <head>
     <link rel="stylesheet" href="/style.css">
-
 </head>
 
 <body>
 <h1>Producto</h1>
 <p th:text="|Tamaño: ${product.size}|"></p>
 <p th:text="|Nombre: ${product.name}|"></p>
-<p th:text="|Planetas: ${product.planets}|"></p>
-<p th:text="|Mercados: ${product.markets}|"></p>
-<p th:text="|Inventarios: ${product.inventories}|"></p>
+<p>Planetas:</p>
+<ul>
+    <li th:each="planet : ${product.planets}" th:text="${planet.name}"></li>
+</ul>
+<!-- Las secciones de Mercados e Inventarios permanecen comentadas y no modificadas -->
 <a th:href="@{/product/list}">Volver</a>
 </body>
 

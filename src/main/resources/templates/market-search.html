@@ -10,7 +10,7 @@
 <form method="get" action="#" th:action="@{/market/search}">
     <label for="searchText">Buscar por nombre</label>
     <input type="text" id="searchText" name="searchText">
-    <button type="submit">Search</button>
+    <button type="submit">Buscar</button>
 </form>
 
 <h1>Mercado</h1>
@@ -31,8 +31,8 @@
 
     <tr th:each="market : ${markets}">
         <td th:text="${market.id}"></td>
-        <td th:text="${market.planet}"></td>
-        <td th:text="${market.product}"></td>
+        <td th:text="${market.planet.name}">Planeta</td>
+        <td th:text="${market.product.name}">Producto</td>
         <td th:text="${market.stock}"></td>
         <td th:text="${market.demandFactor}"></td>
         <td th:text="${market.supplyFactor}"></td>
