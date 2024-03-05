@@ -9,6 +9,7 @@
 <!--<div th:insert="fragments/menu.html :: mainMenu"></div>
 -->
 <h1>Naves espaciales</h1>
+<p th:text="${error}" th:class="error"></p>
 <a th:href="@{/spacecraft/create}">Crear nueva nave espacial</a>
 <a th:href="@{/spacecraft/search}">Buscar</a>
 
