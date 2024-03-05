@@ -13,11 +13,13 @@
 
         <label for="playerUserName">Usuario:</label>
         <input type="text" th:field="*{userName}" id="playerUserName">
-        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Error</span>
+        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"
+        th:class="${#fields.hasErrors('userName')} ? 'error' : ''"></span>
 
         <label for="playerPassword">Contraseña:</label>
         <input type="text" th:field="*{password}" id="playerPassword">
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+        th:class="${#fields.hasErrors('password')} ? 'error' : ''"></span>
 
         <label for="playerType">Tipo:</label>
       <select th:field="*{type}" id="playerType">
