@@ -51,22 +51,13 @@ public class DbInitializer implements CommandLineRunner {
             Spacecraft spacecraft = new Spacecraft();
 
 
-            //Coordenadas para cada planeta que no se sobrelapen
-             Set<String> coordinatesUsed = new HashSet<>();
+            double randomX = faker.number().randomDouble(0, -100, 100);
+            double randomY = faker.number().randomDouble(0, -100, 100);
+            double randomZ = faker.number().randomDouble(0, -100, 100);
 
-            String coordinatesString;
-            do {
-                double x = faker.number().randomDouble(0, 1000, 10000);
-                double y = faker.number().randomDouble(0, 1000, 10000);
-                double z = faker.number().randomDouble(0, 1000, 10000);
-
-                coordinatesString = x + "," + y + "," + z;
-            } while (!(coordinatesUsed.add(coordinatesString) || isOverlap(coordinatesString, coordinatesUsed))); // Agregar a las coordenadas utilizadas y continuar si ya existen
-
-            String[] coordinates = coordinatesString.split(",");
-            star.setX(Double.parseDouble(coordinates[0]));
-            star.setY(Double.parseDouble(coordinates[1]));
-            star.setZ(Double.parseDouble(coordinates[2]));
+            star.setX((double)(i+1)*randomX);
+            star.setY((double)(i+1)*randomY);
+            star.setZ((double)(i+1)*randomZ);
 
 
 
@@ -252,24 +243,5 @@ public class DbInitializer implements CommandLineRunner {
         }
 
 
-    }
-    private boolean isOverlap(String coordinatesString, Set<String> coordinatesUsed) {
-        String[] coordinates = coordinatesString.split(",");
-        double x = Double.parseDouble(coordinates[0]);
-        double y = Double.parseDouble(coordinates[1]);
-        double z = Double.parseDouble(coordinates[2]);
-
-
-        for (String coordinate : coordinatesUsed) {
-            String[] actualCoordinate = coordinate.split(",");
-            double xExisting = Double.parseDouble(actualCoordinate[0]);
-            double yExisting = Double.parseDouble(actualCoordinate[1]);
-            double zExisting = Double.parseDouble(actualCoordinate[2]);
-
-            if (Math.abs(x - xExisting) < 100 || Math.abs(y - yExisting) < 100 || Math.abs(z - zExisting) < 100) {
-                return false;
-            }
-        }
-        return true;
     }
 }
