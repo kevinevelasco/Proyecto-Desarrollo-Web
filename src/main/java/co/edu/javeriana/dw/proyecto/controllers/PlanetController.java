@@ -48,6 +48,7 @@ public class PlanetController {
     @PostMapping(value = "/save")
     public String savePlanet(@Valid Planet planet, BindingResult result, Model model) {
         log.info("Saving planet with ID: {}", planet.getId()); // Agregar esta línea para depuración
+        result.getAllErrors().forEach(e -> log.info("Error: {}", e.getDefaultMessage())); // Agregar esta línea para depuración
         if (result.hasErrors()) {
             List<Star> stars = starService.getAllStars();
             model.addAttribute("stars", stars);
@@ -60,7 +61,7 @@ public class PlanetController {
 
 
     @GetMapping("/delete/{id}")
-    public String deletePlanet(Model model, @PathVariable  Long id) {
+    public String deletePlanet(@PathVariable  Long id) {
         planetService.deletePlanet(id);
         return "redirect:/planet/list";
     }
