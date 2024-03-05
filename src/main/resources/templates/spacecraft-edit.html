@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css">
+    <title>Editar Nave</title>
+</head>
+<body>
+    <h1>Editar Nave espacial</h1>
+    <form action="#" th:action="@{/spacecraft/save}" th:object="${spacecraft}" method="post">
+        <input type="hidden" th:field="*{id}" id="id" />
+
+        <label for="name">Nombre de la nave:</label>
+        <input type="text" th:field="*{name}" id="name">
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</span>
+
+        <label for="credit">Crédito:</label>
+        <input type="number" th:field="*{credit}" id="credit">
+        <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}">Error</span>
+
+        <label for="totalTime">Tiempo total:</label>
+        <input type="number" th:field="*{totalTime}" id="totalTime">
+        <span th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}">Error</span>
+
+<!--        <label for="spacecraftModel">Tipo:</label>-->
+<!--        <select th:field="*{spacecraftModel}" id="spacecraftModel">-->
+<!--           <option th:each="spacecraftModel : ${spacecraftModels}" th:value="${spacecraftModel.id}" th:text="${spacecraftModel.name}"></option>-->
+<!--       </select>-->
+        <input type="hidden" th:field="*{players}" id="players"/>
+        <input type="hidden" th:field="*{planet}" id="planet"/>
+        <input type="hidden" th:field="*{inventories}" id="inventories"/>
+        <input type="hidden" th:field="*{spacecraftModel}" id="spacecraftModel"/>
+       <button type="submit">Enviar</button>
+   </form>
+
+</body>
+</html>

@@ -2,7 +2,7 @@ package co.edu.javeriana.dw.proyecto.init;
 
 import co.edu.javeriana.dw.proyecto.model.*;
 import co.edu.javeriana.dw.proyecto.persistence.*;
-import lombok.*;
+import lombok.val;
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,10 +11,8 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import java.util.Set;
 import java.util.function.Supplier;
 
 @Component
@@ -79,7 +77,6 @@ public class DbInitializer implements CommandLineRunner {
                 spacecraft.setName(faker.team().name());
                 spacecraft.setCredit(BigDecimal.valueOf(faker.number().randomDouble(5, 1000, 1000000)));
                 spacecraft.setTotalTime(faker.number().randomDouble(0, 100, 1000));
-                spacecraft.setCoordinates("TODO");//TODO falta generar las coordenadas aleatorias
                 spacecraft.setSpacecraftModel(spacecraftModelRepository.findById((long) i - 20).get());
                 spacecraftRepository.save(spacecraft);
             }
@@ -114,6 +111,13 @@ public class DbInitializer implements CommandLineRunner {
             star.setName(faker.space().galaxy());
             starRepository.save(star);
 
+        }
+        //todas las spacecrafts las inicializamos en la estrella 1 planeta 1
+        for (int i = 0; i < 10; i++) {
+            Spacecraft spacecraft = spacecraftRepository.findById((long) i + 1).get();
+            Planet planet = planetRepository.findById(1L).get();
+            spacecraft.setPlanet(planet);
+            spacecraftRepository.save(spacecraft);
         }
 
         // Batch para WORMHOLE, el que representa las conexiones entre planeta
@@ -233,15 +237,5 @@ public class DbInitializer implements CommandLineRunner {
                     inventoryRepository.save(inventory);
             }
         }
-
-        //todas las spacecrafts las inicializamos en la estrella 1 planeta 1
-        for (int i = 0; i < 10; i++) {
-            Spacecraft spacecraft = spacecraftRepository.findById((long) i + 1).get();
-            Planet planet = planetRepository.findById(1L).get();
-            spacecraft.setPlanet(planet);
-            spacecraftRepository.save(spacecraft);
-        }
-
-
     }
 }
