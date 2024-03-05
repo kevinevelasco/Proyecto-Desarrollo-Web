@@ -9,12 +9,13 @@
 <!--<div th:insert="fragments/menu.html :: mainMenu"></div>
 -->
 <h1>Estrellas</h1>
-
+<p th:text="${error}" th:class="error"></p>
 <a th:href="@{/star/search}">Buscar</a>
 
 <table class="entity-list">
   <thead>
   <tr>
+    <th>ID</th>
     <th>Nombre de estrella</th>
     <th>Coordenada x</th>
     <th>Coordenada y</th>
@@ -24,6 +25,7 @@
   <tbody>
 
   <tr th:each="star : ${stars}">
+    <td th:text="${star.id}"></td>
     <td th:text="${star.name}"></td>
     <td th:text="${star.x}"></td>
     <td th:text="${star.y}"></td>
