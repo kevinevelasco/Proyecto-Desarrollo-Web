@@ -11,10 +11,10 @@
 <h1>Editar mercado</h1>
 <form action="#" th:action="@{/market/save}" th:object="${market}" method="post">
   <input type="hidden" th:field="*{id}" id="id">
+  <input type="hidden" th:field="*{planet}" id="planet">
+    <input type="hidden" th:field="*{product}" id="product">
 
-  <p><strong>Planeta:</strong> <span th:text="${market.planet.name}">Nombre del planeta</span></p>
 
-  <p><strong>Producto:</strong> <span th:text="${market.product.name}">Nombre del producto</span></p>
 
   <label for="marketStock">Stock: </label>
   <input type="text" th:field="*{stock}" id="marketStock">

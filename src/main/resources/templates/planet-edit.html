@@ -10,13 +10,17 @@
 <body>
 <h1>Editar planeta</h1>
 <form action="#" th:action="@{/planet/save}" th:object="${planet}" method="post">
+  <input type="hidden" th:field="*{id}"/>
+  <input type="hidden" th:field="*{spacecrafts}"/>
+    <input type="hidden" th:field="*{star}"/>
+    <input type="hidden" th:field="*{products}"/>
 
   <label for="PlanetName">Nombre: </label>
   <input type="text" th:field="*{name}" id="planetName">
 
   <button type="submit">Enviar</button>
-
 </form>
+
 </body>
 
 </html>
