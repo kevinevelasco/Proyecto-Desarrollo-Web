@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <title>Crear Nave espacial</title>
+</head>
+<body>
+<h1>Crear Nave espacial</h1>
+<form action="#" th:action="@{/spacecraft/save}" th:object="${spacecraft}" method="post">
+    <input type="hidden" th:field="*{id}" id="id" />
+
+    <label for="name">Nombre de la nave:</label>
+    <input type="text" th:field="*{name}" id="name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+          th:class="${#fields.hasErrors('name')} ? 'error' : ''"></span>
+
+    <label for="credit">Crédito de la nave:</label>
+    <input type="number" th:field="*{credit}" id="credit">
+    <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"
+          th:class="${#fields.hasErrors('credit')} ? 'error' : ''"></span>
+
+    <label for="totalTime">Tiempo de juego de la nave:</label>
+    <input type="number" th:field="*{totalTime}" id="totalTime">
+    <span th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}"
+          th:class="${#fields.hasErrors('totalTime')} ? 'error' : ''"></span>
+
+    <label for="spacecraftModel">Modelo de la Nave Espacial:</label>
+    <select th:field="*{spacecraftModel}" id="spacecraftModel">
+        <option th:each="spacecraft : ${models}" th:value="${spacecraft.id}" th:text="${spacecraft.modelName}"></option>
+    </select>
+
+    <label for="planet">Planeta donde se encuentra:</label>
+    <select th:field="*{planet}" id="planet">
+        <option th:each="p : ${planets}" th:value="${p.id}" th:text="${p.name}"></option>
+    </select>
+
+    <button type="submit">Enviar</button>
+</form>
+
+</body>
+</html>

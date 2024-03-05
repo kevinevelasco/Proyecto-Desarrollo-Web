@@ -23,7 +23,7 @@
         <input type="number" th:field="*{totalTime}" id="totalTime">
         <span th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}">Error</span>
 
-        <a th:href="@{/planet/edit/{id}(id=${spacecraft.id})}">Editar jugadores</a>
+        <a th:href="@{/player/list}">Editar jugadores</a>
 
         <label for="planet">Planeta actual:</label>
         <select th:field="*{planet}" id="planet">
@@ -35,7 +35,7 @@
             <option th:each="spacecraftModel : ${models}" th:value="${spacecraftModel.id}" th:text="${spacecraftModel.modelName}"></option>
        </select>
 
-        <a th:href="@{/planet/edit/{id}(id=${spacecraft.id})}">Editar inventario</a>
+        <a th:href="@{/inventory/list}">Editar inventario</a>
 
         <button type="submit">Enviar</button>
    </form>

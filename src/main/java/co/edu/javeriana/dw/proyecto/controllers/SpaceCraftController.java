@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -96,9 +95,14 @@ public class SpaceCraftController {
         return "spacecraft-search";
     }
 
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        dataBinder.setAutoGrowCollectionLimit(600);
+    @GetMapping("/create")
+    public String createSpaceCraft(Model model) {
+        List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+        List<Planet> planets = planetService.getAllPlanets();
+        model.addAttribute("models", spacecraftModels);
+        model.addAttribute("planets", planets);
+        model.addAttribute("spacecraft", new Spacecraft());
+        return "spacecraft-create";
     }
 
 }
