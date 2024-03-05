@@ -7,11 +7,11 @@
 </head>
 
 <body>
-<h1>Persona</h1>
-<p th:text="|ID: ${player.id}|"></p>
+<h1>Jugador <span th:text="${player.id}"></span></h1>
 <p th:text="|Usuario: ${player.userName}|"></p>
 <p th:text="|Contraseña: ${player.password}|"></p>
 <p th:text="|Tipo: ${player.type}|"></p>
+<p th:text="|Nave: ${player.spacecraft.name}|"></p>
 <a th:href="@{/player/list}">Volver</a>
 </body>
 

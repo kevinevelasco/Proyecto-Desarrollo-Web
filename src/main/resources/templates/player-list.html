@@ -29,13 +29,17 @@
         <td th:text="${player.userName}"></td>
         <td th:text="${player.password}"></td>
         <td th:text="${player.type}"></td>
-        <td th:text="${player.spacecraft}"></td>
+        <td th:text="${player.spacecraft.name}"></td>
         <td>
             <a th:href="@{/player/view/{id}(id=${player.id})}">Ver</a>
         </td>
         <td>
             <a th:href="@{/player/edit/{id}(id=${player.id})}">Editar</a>
         </td>
+        <td>
+            <a th:href="@{/player/delete/{id}(id=${player.id})}">Eliminar</a>
+        </td>
+
     </tr>
     </tbody>
 </table>

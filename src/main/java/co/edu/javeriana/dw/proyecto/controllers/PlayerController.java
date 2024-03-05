@@ -36,6 +36,16 @@ public class PlayerController {
         model.addAttribute("player", player);
         return "player-view";
     }
+    @PostMapping(value = "/save")
+    public String savePlayer(@Valid Player player, BindingResult result, Model model) {
+        if(result.hasErrors()) {
+            model.addAttribute("player", player);
+            return "player-edit";
+        }
+        log.info("Player: " + player.toString());
+        playerService.savePlayer(player);
+        return "redirect:/player/list";
+    }
     @GetMapping("/delete/{id}")
     public String deletePlayer(Model model, @PathVariable Long  id) {
         playerService.deletePlayer(id);
@@ -48,12 +58,4 @@ public class PlayerController {
         return "player-edit";
     }
 
-    @PostMapping(value = "/save")
-    public String savePlayer(@Valid Player player, BindingResult result, Model model) {
-      if(result.hasErrors()) {
-          return "player-edit";
-      }
-        playerService.savePlayer(player);
-        return "redirect:/player/list";
-    }
 }
