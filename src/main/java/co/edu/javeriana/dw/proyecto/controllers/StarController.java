@@ -7,6 +7,7 @@ import co.edu.javeriana.dw.proyecto.service.StarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -58,7 +59,7 @@ public class StarController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteStar(Model model, @PathVariable Long id) {
+    public String deleteStar(@PathVariable Long id) {
         starService.deleteStar(id);
         return "redirect:/star/list";
     }
@@ -75,6 +76,11 @@ public class StarController {
         }
         model.addAttribute("stars", stars);
         return "star-search";
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String handleDataIntegrityViolationException(DataIntegrityViolationException e, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", "* ERROR: No se puede eliminar la estrella porque tiene planetas asociados");
+        return "redirect:/star/list";
     }
 
     @GetMapping("/create")

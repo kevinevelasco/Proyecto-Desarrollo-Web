@@ -6,10 +6,12 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -103,6 +105,12 @@ public class SpaceCraftController {
         model.addAttribute("planets", planets);
         model.addAttribute("spacecraft", new Spacecraft());
         return "spacecraft-create";
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String handleDataIntegrityViolationException(DataIntegrityViolationException e, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", "* ERROR: No se puede eliminar la nave porque tiene jugadores e inventarios asociados");
+        return "redirect:/spacecraft/list";
     }
 
 }
