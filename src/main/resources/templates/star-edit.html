@@ -12,20 +12,31 @@
 <form action="#" th:action="@{/star/save}" th:object="${star}" method="post">
   <input type="hidden" th:field="*{id}" id="id">
 
-  <label for="StarName">Nombre: </label>
-  <input type="text" th:field="*{name}" id="starName">
+  <div>
+    <label for="starName">Nombre: </label>
+    <input type="text" th:field="*{name}" id="starName">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error de nombre</div>
+  </div>
 
-  <label for="StarX">Coordenada x: </label>
-  <input type="text" th:field="*{x}" id="starx">
+  <div>
+    <label for="starX">Coordenada x: </label>
+    <input type="text" th:field="*{x}" id="starX">
+    <div class="error" th:if="${#fields.hasErrors('x')}" th:errors="*{x}">Error de coordenada x</div>
+  </div>
 
-  <label for="StarY">Coordenada y: </label>
-  <input type="text" th:field="*{y}" id="starY">
+  <div>
+    <label for="starY">Coordenada y: </label>
+    <input type="text" th:field="*{y}" id="starY">
+    <div class="error" th:if="${#fields.hasErrors('y')}" th:errors="*{y}">Error de coordenada y</div>
+  </div>
 
-  <label for="StarZ">Coordenada z: </label>
-  <input type="text" th:field="*{z}" id="starZ">
+  <div>
+    <label for="starZ">Coordenada z: </label>
+    <input type="text" th:field="*{z}" id="starZ">
+    <div class="error" th:if="${#fields.hasErrors('z')}" th:errors="*{z}">Error de coordenada z</div>
+  </div>
 
   <button type="submit">Enviar</button>
-
 </form>
 </body>
 

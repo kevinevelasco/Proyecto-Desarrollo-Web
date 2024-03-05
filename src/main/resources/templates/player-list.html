@@ -18,8 +18,7 @@
         <th>Contraseña</th>
         <th>Tipo de jugador</th>
         <th>Nave espacial</th>
-        <th>Ver</th>
-        <th>Editar</th>
+
     </tr>
     </thead>
     <tbody>
@@ -37,7 +36,7 @@
             <a th:href="@{/player/edit/{id}(id=${player.id})}">Editar</a>
         </td>
         <td>
-            <a th:href="@{/player/delete/{id}(id=${player.id})}">Eliminar</a>
+            <a th:href="@{/player/delete/{id}(id=${player.id})}" th:onclick="return confirm('¿Estás seguro de que deseas eliminar este elemento?')">Eliminar</a>
         </td>
 
     </tr>

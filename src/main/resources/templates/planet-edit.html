@@ -12,11 +12,14 @@
 <form action="#" th:action="@{/planet/save}" th:object="${planet}" method="post">
   <input type="hidden" th:field="*{id}"/>
   <input type="hidden" th:field="*{spacecrafts}"/>
-    <input type="hidden" th:field="*{star}"/>
-    <input type="hidden" th:field="*{products}"/>
+  <input type="hidden" th:field="*{star}"/>
+  <input type="hidden" th:field="*{products}"/>
 
-  <label for="PlanetName">Nombre: </label>
-  <input type="text" th:field="*{name}" id="planetName">
+  <div>
+    <label for="planetName">Nombre: </label>
+    <input type="text" th:field="*{name}" id="planetName">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error de nombre</div>
+  </div>
 
   <button type="submit">Enviar</button>
 </form>
