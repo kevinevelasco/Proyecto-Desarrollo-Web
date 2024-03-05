@@ -27,6 +27,7 @@ public class PlanetService {
         return planetRepository.save(planet);
     }
 
+
     public void deletePlanet(Long id) {
         planetRepository.deleteById(id);
     }
