@@ -2,31 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="/style.css">
-    <title>Crear Modelo</title>
+    <title>Crear Nave</title>
 </head>
 <body>
-<h1>Crear Modelo</h1>
-<form action="#" th:action="@{/spacecraft-model/save}" th:object="${model}" method="post">
-    <input type="hidden" th:field="*{id}" id="id" />
+    <h1>Crear Nave espacial</h1>
+    <form action="#" th:action="@{/spacecraft-model/save}" th:object="${model}" method="post">
+        <input type="hidden" th:field="*{id}" id="id" />
 
-    <label for="modelName">Nombre del modelo:</label>
-    <input type="text" th:field="*{modelName}" id="modelName">
-    <span th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}"
-          th:class="${#fields.hasErrors('modelName')} ? 'error' : ''"></span>
+        <label for="modelName">Nombre del modelo:</label>
+        <input type="text" th:field="*{modelName}" id="modelName">
+        <span class="error" th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}"
+              th:class="${#fields.hasErrors('modelName')} ? 'error' : ''"></span>
 
-    <label for="storage">Capacidad máxima:</label>
-    <input type="number" th:field="*{storage}" id="storage">
-    <span th:if="${#fields.hasErrors('storage')}" th:errors="*{storage}"
-          th:class="${#fields.hasErrors('storage')} ? 'error' : ''"></span>
+        <label for="storage">Capacidad del modelo:</label>
+        <input type="number" th:field="*{storage}" id="storage">
+        <span class="error" th:if="${#fields.hasErrors('storage')}" th:errors="*{storage}"
+              th:class="${#fields.hasErrors('storage')} ? 'error' : ''"></span>
 
-    <label for="maxSpeed">Velocidad máxima:</label>
-    <input type="number" th:field="*{maxSpeed}" id="maxSpeed">
-    <span th:if="${#fields.hasErrors('maxSpeed')}" th:errors="*{maxSpeed}"
-          th:class="${#fields.hasErrors('maxSpeed')} ? 'error' : ''"></span>
+        <label for="maxSpeed">Máxima velocidad del modelo:</label>
+        <input type="number" th:field="*{maxSpeed}" id="maxSpeed">
+        <span class="error" th:if="${#fields.hasErrors('maxSpeed')}" th:errors="*{maxSpeed}"
+              th:class="${#fields.hasErrors('maxSpeed')} ? 'error' : ''"></span>
 
-    <button type="submit">Enviar</button>
-</form>
+        <button type="submit">Enviar</button>
+   </form>
 
 </body>
 </html>

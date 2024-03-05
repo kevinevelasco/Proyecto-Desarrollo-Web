@@ -12,17 +12,17 @@
 
     <label for="name">Nombre de la nave:</label>
     <input type="text" th:field="*{name}" id="name">
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+    <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
           th:class="${#fields.hasErrors('name')} ? 'error' : ''"></span>
 
     <label for="credit">Crédito de la nave:</label>
     <input type="number" th:field="*{credit}" id="credit">
-    <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"
+    <span class="error" th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"
           th:class="${#fields.hasErrors('credit')} ? 'error' : ''"></span>
 
     <label for="totalTime">Tiempo de juego de la nave:</label>
     <input type="number" th:field="*{totalTime}" id="totalTime">
-    <span th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}"
+    <span class="error" th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}"
           th:class="${#fields.hasErrors('totalTime')} ? 'error' : ''"></span>
 
     <label for="spacecraftModel">Modelo de la Nave Espacial:</label>

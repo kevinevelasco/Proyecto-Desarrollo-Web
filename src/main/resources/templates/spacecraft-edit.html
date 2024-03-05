@@ -13,15 +13,15 @@
 
         <label for="name">Nombre de la nave:</label>
         <input type="text" th:field="*{name}" id="name">
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</span>
+        <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</span>
 
         <label for="credit">Crédito:</label>
         <input type="number" th:field="*{credit}" id="credit">
-        <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}">Error</span>
+        <span class="error" th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}">Error</span>
 
         <label for="totalTime">Tiempo total:</label>
         <input type="number" th:field="*{totalTime}" id="totalTime">
-        <span th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}">Error</span>
+        <span class="error" th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}">Error</span>
 
         <label for="planet">Planeta actual:</label>
         <select th:field="*{planet}" id="planet">

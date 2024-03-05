@@ -76,7 +76,6 @@ public class SpaceCraftModelController {
     @GetMapping("/create")
     public String createSpaceCraftModel(Model m) {
         m.addAttribute("model", new SpacecraftModel());
-        log.info("SpacecraftModel: " + new SpacecraftModel());
         return "spacecraft-model-create";
     }
 }
