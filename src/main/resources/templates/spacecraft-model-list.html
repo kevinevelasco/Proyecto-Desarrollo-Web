@@ -9,7 +9,8 @@
 <div th:insert="fragments/menu.html :: menu"></div>
 <!--<div th:insert="fragments/menu.html :: mainMenu"></div>
 -->
-<h1>Naves espaciales</h1>
+<h1>Modelos de naves espaciales</h1>
+<p th:text="${error}" th:class="error"></p>
 <a th:href="@{/spacecraft-model/create}">Crear nuevo modelo de nave espacial</a>
 <a th:href="@{/spacecraft-model/search}">Buscar</a>
 
@@ -44,7 +45,7 @@
     </td>
 
     <td>
-      <a th:href="@{/spacecraft-model/delete/{id}(id=${spacecraft.id})}" onclick="return confirm('¿Está seguro de que desea eliminar este planeta?')">Eliminar</a>
+      <a th:href="@{/spacecraft-model/delete/{id}(id=${spacecraft.id})}" onclick="return confirm('¿Está seguro de que desea eliminar este modelo de nave?')">Eliminar</a>
     </td>
 
   </tr>

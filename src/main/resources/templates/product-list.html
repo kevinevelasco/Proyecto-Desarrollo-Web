@@ -9,8 +9,9 @@
 <div th:insert="fragments/menu.html :: menu"></div>
 <!--<div th:insert="fragments/menu.html :: mainMenu"></div>-->
 <h1>Productos</h1>
+<p th:text="${error}" th:class="error"></p>
 <a th:href="@{/product/create}">Crear nuevo producto</a>
-<a th:href="@{/product/search}">B3uscar</a>
+<a th:href="@{/product/search}">Buscar</a>
 
 <table class="entity-list">
     <thead>
