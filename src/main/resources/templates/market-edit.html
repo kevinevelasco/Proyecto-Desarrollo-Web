@@ -11,8 +11,6 @@
 <h1>Editar mercado</h1>
 <form action="#" th:action="@{/market/save}" th:object="${market}" method="post">
   <input type="hidden" th:field="*{id}" id="id">
-  <input type="hidden" th:field="*{planet}" id="planet">
-  <input type="hidden" th:field="*{product}" id="product">
 
   <div>
     <label for="marketStock">Stock: </label>
@@ -43,6 +41,19 @@
     <input type="text" th:field="*{sellPrice}" id="marketSellPrice">
     <div class="error" th:if="${#fields.hasErrors('sellPrice')}" th:errors="*{sellPrice}">Error de precio de venta</div>
   </div>
+
+    <div>
+        <label for="marketPlanet">Planeta: </label>
+        <select th:field="*{planet}" id="marketPlanet">
+        <option th:each="planet : ${planets}" th:value="${planet.id}" th:text="${planet.name}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="marketProduct">Producto: </label>
+        <select th:field="*{product}" id="marketProduct">
+        <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+        </select>
+    </div>
 
   <button type="submit">Enviar</button>
 </form>
