@@ -1,5 +1,7 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
+import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.Star;
 import co.edu.javeriana.dw.proyecto.service.StarService;
 import org.slf4j.Logger;
@@ -79,6 +81,12 @@ public class StarController {
     public String handleDataIntegrityViolationException(DataIntegrityViolationException e, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("error", "* ERROR: No se puede eliminar la estrella porque tiene planetas asociados");
         return "redirect:/star/list";
+    }
+
+    @GetMapping("/create")
+    public String createStar(Model model) {
+        model.addAttribute("star", new Star());
+        return "star-create";
     }
 
 }
