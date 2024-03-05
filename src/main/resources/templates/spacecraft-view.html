@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+<h1>Nave espacial <span th:text="${spacecraft.id}"></span></h1>
+
+<p th:text="'Nombre: ' + ${spacecraft.name}"></p>
+
+<p th:text="'Crédito: ' + ${spacecraft.credit}"></p>
+
+<p th:text="'Tiempo total: ' + ${spacecraft.totalTime}"></p>
+<p>Jugadores:</p>
+<ul>
+  <li th:each="player : ${spacecraft.players}" th:text="${player.userName}"></li>
+</ul>
+<p th:text="'Planeta: ' + ${spacecraft.planet.name}"></p>
+<p th:text="'Modelo de la nave: ' + ${spacecraft.spacecraftModel.modelName}"></p>
+<p>Inventario:</p>
+<ul>
+  <li th:each="item : ${spacecraft.inventories}" th:text="${item.product.name}"></li>
+  <li th:if="${spacecraft.inventories.size() == 0}">No hay productos en el inventario</li>
+</ul>
+
+<a th:href="@{/spacecraft/list}">Volver</a>
+
+</body>
+
+</html>

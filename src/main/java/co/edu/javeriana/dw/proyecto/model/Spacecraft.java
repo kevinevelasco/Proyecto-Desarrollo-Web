@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @EqualsAndHashCode(of = "id")
 public class Spacecraft {
     @Id
@@ -20,7 +21,6 @@ public class Spacecraft {
     private String name;
     private BigDecimal credit;
     private Double totalTime;
-    private String coordinates; //TODO falta agregarlo al diagrama lógico
 
     @OneToMany(mappedBy = "spacecraft")
     private List<Player> players;

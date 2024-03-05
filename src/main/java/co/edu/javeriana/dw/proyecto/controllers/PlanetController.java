@@ -41,6 +41,7 @@ public class PlanetController {
 
     @PostMapping(value = "/save")
     public String savePlanet(@Valid Planet planet, BindingResult result, Model model) {
+        log.info("Saving planet with ID: {}", planet.getId()); // Agregar esta línea para depuración
         if (result.hasErrors()) {
             model.addAttribute("planet", planet);
             return "planet-edit";
@@ -48,6 +49,7 @@ public class PlanetController {
         planetService.savePlanet(planet);
         return "redirect:/planet/list";
     }
+
 
     @GetMapping("/delete/{id}")
     public String deletePlanet(Model model, @PathVariable  Long id) {
