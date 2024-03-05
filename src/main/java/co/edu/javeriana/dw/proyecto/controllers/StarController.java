@@ -1,5 +1,7 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
+import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.Star;
 import co.edu.javeriana.dw.proyecto.service.StarService;
 import org.slf4j.Logger;
@@ -73,6 +75,12 @@ public class StarController {
         }
         model.addAttribute("stars", stars);
         return "star-search";
+    }
+
+    @GetMapping("/create")
+    public String createStar(Model model) {
+        model.addAttribute("star", new Star());
+        return "star-create";
     }
 
 }

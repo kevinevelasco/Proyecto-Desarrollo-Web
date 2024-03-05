@@ -1,7 +1,10 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
 import co.edu.javeriana.dw.proyecto.model.Planet;
+import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.Star;
+import co.edu.javeriana.dw.proyecto.service.StarService;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,9 @@ public class PlanetController {
     @Autowired
     private PlanetService planetService;
 
+    @Autowired
+    private StarService starService;
+
     @GetMapping("/list")
     public String listPlanets(Model model) {
         List<Planet> planets = planetService.getAllPlanets();
@@ -43,6 +49,8 @@ public class PlanetController {
     public String savePlanet(@Valid Planet planet, BindingResult result, Model model) {
         log.info("Saving planet with ID: {}", planet.getId()); // Agregar esta línea para depuración
         if (result.hasErrors()) {
+            List<Star> stars = starService.getAllStars();
+            model.addAttribute("stars", stars);
             model.addAttribute("planet", planet);
             return "planet-edit";
         }
@@ -76,6 +84,14 @@ public class PlanetController {
         }
         model.addAttribute("planets", planets);
         return "planet-search";
+    }
+
+    @GetMapping("/create")
+    public String createPlanet(Model model) {
+        List<Star> stars = starService.getAllStars();
+        model.addAttribute("stars", stars);
+        model.addAttribute("planet", new Planet());
+        return "planet-create";
     }
 
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/style.css">
+  <title>Crear mercado</title>
+</head>
+<body>
+<h1>Crear estrella</h1>
+<form action="#" th:action="@{/star/save}" th:object="${star}" method="post">
+  <input type="hidden" th:field="*{id}" id="id">
+
+  <div>
+    <label for="starName">Nombre estrella: </label>
+    <input type="text" th:field="*{name}" id="starName">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error de nombre</div>
+  </div>
+
+  <div>
+    <label for="starX">Coordenada X: </label>
+    <input type="text" th:field="*{x}" id="starX">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{x}">Error de coordenada x</div>
+  </div>
+
+  <div>
+    <label for="starY">Coordenada Y: </label>
+    <input type="text" th:field="*{y}" id="starY">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{y}">Error de coordenada y</div>
+  </div>
+
+  <div>
+    <label for="starZ">Coordenada Z: </label>
+    <input type="text" th:field="*{z}" id="starZ">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{z}">Error de coordenada z</div>
+  </div>
+
+  <button type="submit">Enviar</button>
+</form>
+</body>
+
+</html>
