@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css">
+    <title>Editar Modelo</title>
+</head>
+<body>
+    <h1>Editar Modelo de Nave espacial</h1>
+    <script th:if="${error}">
+        alert("Error: La capacidad máxima no puede ser menor que la actual.");
+    </script>
+    <form action="#" th:action="@{/spacecraft-model/save}" th:object="${model}" method="post">
+        <input type="hidden" th:field="*{id}" id="id" />
+
+        <label for="name">Nombre del modelo de la nave:</label>
+        <input type="text" th:field="*{modelName}" id="name">
+        <span th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}">Error</span>
+
+        <label for="storage">Capacidad máxima:</label>
+        <input type="number" th:field="*{storage}" id="storage">
+        <span th:if="${#fields.hasErrors('storage')}" th:errors="*{storage}">Error</span>
+
+        <label for="maxSpeed">Velocidad máxima:</label>
+        <input type="number" th:field="*{maxSpeed}" id="maxSpeed">
+        <span th:if="${#fields.hasErrors('maxSpeed')}" th:errors="*{maxSpeed}">Error</span>
+
+<!--        <label for="spacecraftModel">Tipo:</label>-->
+<!--        <select th:field="*{spacecraftModel}" id="spacecraftModel">-->
+<!--           <option th:each="spacecraftModel : ${spacecraftModels}" th:value="${spacecraftModel.id}" th:text="${spacecraftModel.name}"></option>-->
+<!--       </select>-->
+        <input type="hidden" th:field="*{spacecraft}" id="players"/>
+       <button type="submit">Enviar</button>
+   </form>
+
+</body>
+</html>
