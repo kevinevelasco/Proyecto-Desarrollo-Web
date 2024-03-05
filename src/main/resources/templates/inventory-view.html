@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <title>Ver Inventario</title>
+</head>
+<body>
+<h1> Inventario <span th:text="${inventory.id}"></span></h1>
+<p th:text="|Producto: ${inventory.product.name}|"></p>
+<p th:text="|Nave espacial: ${inventory.spacecraft.name}|"></p>
+<p th:text="|Cantidad: ${inventory.quantity}|"></p>
+<a th:href="@{/inventory/list}">Volver</a>
+</body>
+</html>

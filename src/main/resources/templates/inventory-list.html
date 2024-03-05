@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <title>Inventarios</title>
+</head>
+<body>
+<h1>Inventarios</h1>
+
+<a th:href="@{/inventory/create}">Crear nuevo inventario</a>
+
+<table class="entity-list">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Producto</th>
+        <th>Nave espacial</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="inventory : ${inventories}">
+        <td th:text="${inventory.id}"></td>
+        <td>
+            <a th:href="@{/product/view/{id}(id=${inventory.product.id})}" th:text="${inventory.product.name}"></a>
+        </td>
+        <td>
+            <a th:href="@{/spacecraft/view/{id}(id=${inventory.spacecraft.id})}" th:text="${inventory.spacecraft.name}"></a>
+        </td>
+        <td th:text="${inventory.quantity}">
+
+        </td>
+        <td>
+            <a th:href="@{/inventory/view/{id}(id=${inventory.id})}">Ver</a>
+        </td>
+        <td>
+            <a th:href="@{/inventory/edit/{id}(id=${inventory.id})}">Editar</a>
+        </td>
+        <td>
+            <a th:href="@{/inventory/delete/{id}(id=${inventory.id})}" th:onclick="return confirm('¿Estás seguro de que deseas eliminar este elemento?')">Eliminar</a>
+        </td>
+
+    </tr>
+    </tbody>
+
+></table>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 package co.edu.javeriana.dw.proyecto.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,8 @@ public class Inventory {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column(name = "quantity")
+    @NotBlank(message = "No puede ser vacio")
     private Integer quantity;
 
 }

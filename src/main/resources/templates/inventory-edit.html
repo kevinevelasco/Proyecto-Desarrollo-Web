@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/style.css">
+  <title>Editar inventario</title>
+</head>
+<body>
+    <h1>Editar Inventario</h1>
+    <form action="#" th:action="@{/inventory/save}" th:object="${inventory}" method="post">
+      <input type="hidden" th:field="*{id}" id="id"/>
+
+      <label for="inventoryQuantity">Cantidad:</label>
+        <input type="text" th:field="*{quantity}" id="inventoryQuantity">
+        <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+        th:class="${#fields.hasErrors('quantity')} ? 'error' : ''"></span>
+
+      <button type="submit">Enviar</button>
+
+
+    </form>
+</body>
+</html>
