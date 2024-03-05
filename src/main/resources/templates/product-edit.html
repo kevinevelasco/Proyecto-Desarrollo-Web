@@ -12,11 +12,17 @@
 <form action="#" th:action="@{/product/save}" th:object="${product}" method="post">
   <input type="hidden" th:field="*{id}" id="id">
 
-  <label for="productSize">Tamaño: </label>
-  <input type="text" th:field="*{size}" id="productSize">
+  <div>
+    <label for="productSize">Tamaño: </label>
+    <input type="text" th:field="*{size}" id="productSize">
+    <div class="error" th:if="${#fields.hasErrors('size')}" th:errors="*{size}">Error de tamaño</div>
+  </div>
 
-  <label for="productName">Nombre: </label>
-  <input type="text" th:field="*{name}" id="productName">
+  <div>
+    <label for="productName">Nombre: </label>
+    <input type="text" th:field="*{name}" id="productName">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error de nombre</div>
+  </div>
 
   <button type="submit">Enviar</button>
 </form>
