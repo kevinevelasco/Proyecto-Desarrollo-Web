@@ -27,6 +27,7 @@
            <option value="CAPTAIN">Capitán</option>
            <option value="MERCHANT">Comerciante</option>
        </select>
+
         <label for="spacecraft">Nave Espacial:</label>
         <select th:field="*{spacecraft}" id="spacecraft">
             <option th:each="spacecraft : ${spacecrafts}" th:value="${spacecraft.id}" th:text="${spacecraft.name}"></option>

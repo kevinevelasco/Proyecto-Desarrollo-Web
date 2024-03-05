@@ -1,8 +1,7 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
-import co.edu.javeriana.dw.proyecto.model.Spacecraft;
-import co.edu.javeriana.dw.proyecto.service.SpacecraftModelService;
-import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
+import co.edu.javeriana.dw.proyecto.model.*;
+import co.edu.javeriana.dw.proyecto.service.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +24,18 @@ public class SpaceCraftController {
 
     @Autowired
     private SpacecraftModelService spacecraftModelService;
+
+    @Autowired
+    private PlayerService playerService;
+
+    @Autowired
+    private PlanetService planetService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/list")
     public String listSpaceCrafts(Model model) {
@@ -59,9 +71,16 @@ public class SpaceCraftController {
     @GetMapping("/edit/{id}")
     public String editSpaceCraft(Model model, @PathVariable Long id) {
         Spacecraft spacecraft = spaceCraftService.getSpacecraftById(id);
-
+        List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+        List<Player> players = playerService.getAllPlayers();
+        List<Planet> planets = planetService.getAllPlanets();
+        List<Inventory> inventories = inventoryService.getAllInventories();
+        List<Product> products = productService.getAllProduct();
         model.addAttribute("spacecraft", spacecraft);
-
+        model.addAttribute("models", spacecraftModels); //TODO el modelo que cambie debe satisfacer las restricciones de capacidad de la nave, es decir la del inventario
+        model.addAttribute("players", players);
+        model.addAttribute("planets", planets);
+        model.addAttribute("products", products);
         return "spacecraft-edit";
     }
 
@@ -75,6 +94,11 @@ public class SpaceCraftController {
         }
         model.addAttribute("spacecrafts", spacecrafts);
         return "spacecraft-search";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        dataBinder.setAutoGrowCollectionLimit(600);
     }
 
 }

@@ -4603,3 +4603,13 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
 	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:114)
 	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-03-05 10:22:07.445877-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "CONSTRAINTS" no encontrada
+Table "CONSTRAINTS" not found; SQL statement:
+select * from information_schema.constraints
+  where table_name = 'SPACECRAFT' [42102-224]
+2024-03-05 10:22:17.480060-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "INFORMATION_SCHEMA" no encontrada
+Table "INFORMATION_SCHEMA" not found; SQL statement:
+select * from information_schema
+  where table_name = 'SPACECRAFT' [42102-224]

@@ -1,6 +1,5 @@
 package co.edu.javeriana.dw.proyecto.service;
 
-import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.model.Product;
 import co.edu.javeriana.dw.proyecto.persistence.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
