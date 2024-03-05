@@ -18,7 +18,7 @@ public class Planet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "planet_name", nullable = false)
+    @Column(nullable = false)
     @NotBlank(message = "El nombre del planeta no puede ser vacio")
     private String name;
 
