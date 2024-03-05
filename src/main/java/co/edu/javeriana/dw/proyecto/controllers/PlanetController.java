@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.SQLDataException;
 import java.util.List;
 
 @Controller
@@ -94,7 +95,7 @@ public class PlanetController {
         return "planet-create";
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler({DataIntegrityViolationException.class, SQLDataException.class})
     public String handleDataIntegrityViolationException(DataIntegrityViolationException e, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("error", "* ERROR: No se puede eliminar el planeta porque tiene otras entidades asociadas");
         return "redirect:/planet/list";
