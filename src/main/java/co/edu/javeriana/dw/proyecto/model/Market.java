@@ -15,12 +15,12 @@ public class Market {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message = "La estrella no puede ser nula")
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "planet_id", nullable = false)
     private Planet planet;
 
-    @NotNull(message = "La estrella no puede ser nula")
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
