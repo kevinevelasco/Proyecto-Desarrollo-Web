@@ -44,7 +44,9 @@ public class PlayerController {
     @PostMapping(value = "/save")
     public String savePlayer(@Valid Player player, BindingResult result, Model model) {
         if(result.hasErrors()) {
+            List<Spacecraft> spacecrafts = spacecraftService.getAllSpacecrafts();
             model.addAttribute("player", player);
+            model.addAttribute("spacecrafts", spacecrafts);
             return "player-edit";
         }
         log.info("Player: " + player.toString());

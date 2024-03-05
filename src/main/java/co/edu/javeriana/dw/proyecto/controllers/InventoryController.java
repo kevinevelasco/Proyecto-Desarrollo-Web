@@ -1,7 +1,11 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
 import co.edu.javeriana.dw.proyecto.model.Inventory;
+import co.edu.javeriana.dw.proyecto.model.Product;
+import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.service.InventoryService;
+import co.edu.javeriana.dw.proyecto.service.ProductService;
+import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 
@@ -28,6 +32,13 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
+    @Autowired
+    private SpacecraftService spacecraftService;
+
+    @Autowired
+    private ProductService productService;
+
+
     @GetMapping("/list")
     public String listInventories(Model model) {
         List<Inventory> inventories = inventoryService.getAllInventories();
@@ -46,7 +57,11 @@ public class InventoryController {
     @PostMapping(value = "/save")
     public String saveInventory(@Valid Inventory inventory, BindingResult result, Model model) {
         if(result.hasErrors()) {
+            List<Spacecraft> spacecrafts = spacecraftService.getAllSpacecrafts();
+            List<Product> products = productService.getAllProduct();
             model.addAttribute("inventory", inventory);
+            model.addAttribute("spacecrafts", spacecrafts);
+            model.addAttribute("products", products);
             return "inventory-edit";
         }
         log.info("Inventory: " + inventory.toString());
@@ -63,8 +78,22 @@ public class InventoryController {
     @GetMapping("/edit/{id}")
     public String editInventory(Model model, @PathVariable Long id) {
         Inventory inventory = inventoryService.getInventoryById(id);
+        List<Spacecraft> spacecrafts = spacecraftService.getAllSpacecrafts();
+        List<Product> products = productService.getAllProduct();
         model.addAttribute("inventory", inventory);
+        model.addAttribute("spacecrafts", spacecrafts);
+        model.addAttribute("products", products);
+
         return "inventory-edit";
+    }
+    @GetMapping("/create")
+    public String createInventory(Model model) {
+        List<Spacecraft> spacecrafts = spacecraftService.getAllSpacecrafts();
+        List<Product> products = productService.getAllProduct();
+        model.addAttribute("spacecrafts", spacecrafts);
+        model.addAttribute("products", products);
+        model.addAttribute("inventory", new Inventory());
+        return "inventory-create";
     }
 
 

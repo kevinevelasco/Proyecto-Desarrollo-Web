@@ -8,6 +8,15 @@
     <h1>Editar Inventario</h1>
     <form action="#" th:action="@{/inventory/save}" th:object="${inventory}" method="post">
       <input type="hidden" th:field="*{id}" id="id"/>
+        <label for="spacecraft">Nave espacial:</label>
+        <select th:field="*{spacecraft}" id="spacecraft">
+            <option th:each="spacecraft : ${spacecrafts}" th:value="${spacecraft.id}" th:text="${spacecraft.name}"></option>
+        </select>
+
+        <label for="product">Producto:</label>
+        <select th:field="*{product}" id="product">
+            <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+        </select>
 
       <label for="inventoryQuantity">Cantidad:</label>
         <input type="text" th:field="*{quantity}" id="inventoryQuantity">
