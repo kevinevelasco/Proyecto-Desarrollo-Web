@@ -71,4 +71,10 @@ public class ProductController{
         model.addAttribute("products", products);
         return "product-search";
     }
+
+    @GetMapping("/create")
+    public String createProduct(Model model) {
+        model.addAttribute("product", new Product());
+        return "product-create";
+    }
 }

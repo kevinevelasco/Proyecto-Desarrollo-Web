@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+<h1>Modelo de Nave espacial <span th:text="${model.id}"></span></h1>
+
+<p th:text="'Nombre del modelo: ' + ${model.modelName}"></p>
+
+<p th:text="'Capacidad máxima: ' + ${model.storage}"></p>
+
+<p th:text="'Velocidad máxima: ' + ${model.maxSpeed}"></p>
+
+<p>Naves que usan este modelo:</p>
+<ul>
+  <li th:each="item : ${model.spacecrafts}" th:text="${item.name}"></li>
+  <li th:if="${model.spacecrafts.size() == 0}">No hay naves que usen este modelo</li>
+</ul>
+
+<a th:href="@{/spacecraft-model/list}">Volver</a>
+
+</body>
+
+</html>

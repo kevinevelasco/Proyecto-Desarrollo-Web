@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+
+<form method="get" action="#" th:action="@{/spacecraft/search}">
+    <label for="searchText">Buscar por nombre</label>
+    <input type="text" id="searchText" name="searchText">
+    <button type="submit">Buscar</button>
+</form>
+
+<h1>Naves espaciales</h1>
+<table class="entity-list">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Crédito</th>
+        <th>Tiempo de juego</th>
+        <th>Jugadores</th>
+        <th>Planeta actual</th>
+        <th>Modelo de nave</th>
+        <th>Inventario</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="spacecraft : ${spacecrafts}">
+        <td th:text="${spacecraft.name}"></td>
+        <td th:text="${spacecraft.credit}"></td>
+        <td th:text="${spacecraft.totalTime}"></td>
+        <td>
+            <ul>
+                <li th:each="player : ${spacecraft.players}" th:text="${player.userName}"></li>
+            </ul>
+        </td>
+
+        <td th:text="${spacecraft.planet.name}"></td>
+
+        <td th:text="${spacecraft.spacecraftModel.modelName}"></td>
+
+        <td>
+            <ul>
+                <li th:each="item : ${spacecraft.inventories}" th:text="${item.product.name}"></li>
+            </ul>
+        </td>
+
+        <td>
+            <a th:href="@{/spacecraft/view/{id}(id=${spacecraft.id})}">Ver</a>
+        </td>
+
+        <td>
+            <a th:href="@{/spacecraft/edit/{id}(id=${spacecraft.id})}">Editar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+</html>

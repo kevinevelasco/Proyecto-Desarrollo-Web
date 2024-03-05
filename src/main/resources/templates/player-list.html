@@ -3,12 +3,13 @@
 
 <head>
     <link rel="stylesheet" href="/style.css">
+    <title>Jugadores</title>
 </head>
 
 <body>
-<!--<div th:insert="fragments/menu.html :: mainMenu"></div>
--->
-<h1>Players</h1>
+<h1>Jugadores</h1>
+
+<a th:href="@{/player/create}">Crear nuevo jugador</a>
 
 <table class="entity-list">
     <thead>
@@ -28,7 +29,9 @@
         <td th:text="${player.userName}"></td>
         <td th:text="${player.password}"></td>
         <td th:text="${player.type}"></td>
-        <td th:text="${player.spacecraft.name}"></td>
+        <td>
+            <a th:href="@{/spacecraft/view/{id}(id=${player.spacecraft.id})}" th:text="${player.spacecraft.name}"></a>
+        </td>
         <td>
             <a th:href="@{/player/view/{id}(id=${player.id})}">Ver</a>
         </td>

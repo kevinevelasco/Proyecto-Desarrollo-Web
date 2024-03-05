@@ -1,8 +1,7 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
-import co.edu.javeriana.dw.proyecto.model.Spacecraft;
-import co.edu.javeriana.dw.proyecto.service.SpacecraftModelService;
-import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
+import co.edu.javeriana.dw.proyecto.model.*;
+import co.edu.javeriana.dw.proyecto.service.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +24,18 @@ public class SpaceCraftController {
     @Autowired
     private SpacecraftModelService spacecraftModelService;
 
+    @Autowired
+    private PlayerService playerService;
+
+    @Autowired
+    private PlanetService planetService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private ProductService productService;
+
     @GetMapping("/list")
     public String listSpaceCrafts(Model model) {
         List< Spacecraft> spacecrafts = spaceCraftService.getAllSpacecrafts();
@@ -43,7 +54,12 @@ public class SpaceCraftController {
     @PostMapping(value = "/save")
     public String saveSpaceCraft(@Valid Spacecraft spacecraft, BindingResult result, Model model) {
         if(result.hasErrors()) {
+            List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+            List<Planet> planets = planetService.getAllPlanets();
+
             model.addAttribute("spacecraft", spacecraft);
+            model.addAttribute("models", spacecraftModels); //TODO el modelo que cambie debe satisfacer las restricciones de capacidad de la nave, es decir la del inventario
+            model.addAttribute("planets", planets);
             return "spacecraft-edit";
         }
         spaceCraftService.saveSpacecraft(spacecraft);
@@ -59,9 +75,11 @@ public class SpaceCraftController {
     @GetMapping("/edit/{id}")
     public String editSpaceCraft(Model model, @PathVariable Long id) {
         Spacecraft spacecraft = spaceCraftService.getSpacecraftById(id);
-
+        List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+        List<Planet> planets = planetService.getAllPlanets();
         model.addAttribute("spacecraft", spacecraft);
-
+        model.addAttribute("models", spacecraftModels); //TODO el modelo que cambie debe satisfacer las restricciones de capacidad de la nave, es decir la del inventario
+        model.addAttribute("planets", planets);
         return "spacecraft-edit";
     }
 
@@ -75,6 +93,16 @@ public class SpaceCraftController {
         }
         model.addAttribute("spacecrafts", spacecrafts);
         return "spacecraft-search";
+    }
+
+    @GetMapping("/create")
+    public String createSpaceCraft(Model model) {
+        List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+        List<Planet> planets = planetService.getAllPlanets();
+        model.addAttribute("models", spacecraftModels);
+        model.addAttribute("planets", planets);
+        model.addAttribute("spacecraft", new Spacecraft());
+        return "spacecraft-create";
     }
 
 }
