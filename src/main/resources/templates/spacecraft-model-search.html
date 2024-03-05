@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+
+<form method="get" action="#" th:action="@{/spacecraft-model/search}">
+    <label for="searchText">Buscar por nombre</label>
+    <input type="text" id="searchText" name="searchText">
+    <button type="submit">Buscar</button>
+</form>
+
+<h1>Naves espaciales</h1>
+<table class="entity-list">
+    <thead>
+    <tr>
+        <th>Nombre del modelo</th>
+        <th>Capacidad máxima</th>
+        <th>Velocidad máxima</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="spacecraft : ${models}">
+        <td th:text="${spacecraft.modelName}"></td>
+        <td th:text="${spacecraft.storage}"></td>
+        <td th:text="${spacecraft.maxSpeed}"></td>
+
+        <td>
+            <a th:href="@{/spacecraft-model/view/{id}(id=${spacecraft.id})}">Ver</a>
+        </td>
+
+        <td>
+            <a th:href="@{/spacecraft-model/edit/{id}(id=${spacecraft.id})}">Editar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+</html>
