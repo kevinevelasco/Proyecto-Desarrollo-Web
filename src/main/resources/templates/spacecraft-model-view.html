@@ -14,6 +14,12 @@
 
 <p th:text="'Velocidad máxima: ' + ${model.maxSpeed}"></p>
 
+<p>Naves que usan este modelo:</p>
+<ul>
+  <li th:each="item : ${model.spacecrafts}" th:text="${item.name}"></li>
+  <li th:if="${model.spacecrafts.size() == 0}">No hay naves que usen este modelo</li>
+</ul>
+
 <a th:href="@{/spacecraft-model/list}">Volver</a>
 
 </body>

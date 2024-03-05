@@ -40,20 +40,8 @@ public class SpaceCraftModelController {
     public String saveSpaceCraftModel(@Valid SpacecraftModel model, BindingResult result, Model m) {
         if(result.hasErrors()) {
             m.addAttribute("model", model);
-            m.addAttribute("error", true); // Agregar atributo de error al modelo
             return "spacecraft-model-edit";
         }
-
-        SpacecraftModel existingModel = spacecraftModelService.getSpacecraftModelById(model.getId());
-        if (existingModel != null) {
-            if (model.getStorage() < existingModel.getStorage()) {
-                result.rejectValue("storage", "error.spacecraftModel", "La capacidad máxima no puede ser menor que la actual.");
-                m.addAttribute("model", model);
-                m.addAttribute("error", true); // Agregar atributo de error al modelo
-                return "spacecraft-model-edit";
-            }
-        }
-
         spacecraftModelService.saveSpacecraftModel(model);
         return "redirect:/spacecraft-model/list";
     }
@@ -83,5 +71,11 @@ public class SpaceCraftModelController {
         }
         m.addAttribute("models", models);
         return "spacecraft-model-search";
+    }
+
+    @GetMapping("/create")
+    public String createSpaceCraftModel(Model m) {
+        m.addAttribute("model", new SpacecraftModel());
+        return "spacecraft-model-create";
     }
 }

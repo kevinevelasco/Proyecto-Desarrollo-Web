@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,7 +54,12 @@ public class SpaceCraftController {
     @PostMapping(value = "/save")
     public String saveSpaceCraft(@Valid Spacecraft spacecraft, BindingResult result, Model model) {
         if(result.hasErrors()) {
+            List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+            List<Planet> planets = planetService.getAllPlanets();
+
             model.addAttribute("spacecraft", spacecraft);
+            model.addAttribute("models", spacecraftModels); //TODO el modelo que cambie debe satisfacer las restricciones de capacidad de la nave, es decir la del inventario
+            model.addAttribute("planets", planets);
             return "spacecraft-edit";
         }
         spaceCraftService.saveSpacecraft(spacecraft);
@@ -72,15 +76,10 @@ public class SpaceCraftController {
     public String editSpaceCraft(Model model, @PathVariable Long id) {
         Spacecraft spacecraft = spaceCraftService.getSpacecraftById(id);
         List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
-        List<Player> players = playerService.getAllPlayers();
         List<Planet> planets = planetService.getAllPlanets();
-        List<Inventory> inventories = inventoryService.getAllInventories();
-        List<Product> products = productService.getAllProduct();
         model.addAttribute("spacecraft", spacecraft);
         model.addAttribute("models", spacecraftModels); //TODO el modelo que cambie debe satisfacer las restricciones de capacidad de la nave, es decir la del inventario
-        model.addAttribute("players", players);
         model.addAttribute("planets", planets);
-        model.addAttribute("products", products);
         return "spacecraft-edit";
     }
 
@@ -96,9 +95,14 @@ public class SpaceCraftController {
         return "spacecraft-search";
     }
 
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        dataBinder.setAutoGrowCollectionLimit(600);
+    @GetMapping("/create")
+    public String createSpaceCraft(Model model) {
+        List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+        List<Planet> planets = planetService.getAllPlanets();
+        model.addAttribute("models", spacecraftModels);
+        model.addAttribute("planets", planets);
+        model.addAttribute("spacecraft", new Spacecraft());
+        return "spacecraft-create";
     }
 
 }
