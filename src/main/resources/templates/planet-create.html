@@ -7,7 +7,6 @@
 <body>
 <h1>Crear planeta</h1>
 <form action="#" th:action="@{/planet/save}" th:object="${planet}" method="post">
-  <input type="hidden" th:field="*{id}" id="id">
 
   <div>
     <label for="planetName">Nombre planeta: </label>
@@ -18,7 +17,7 @@
   <div>
     <label for="planetStar">Estrella:</label>
     <select th:field="*{star}" id="planetStar">
-      <option th:each="star : ${stars}" th:value="${star.name}" th:text="${star.name}"></option>
+      <option th:each="star : ${stars}" th:value="${star.id}" th:text="${star.name}"></option>
     </select>
   </div>
 
