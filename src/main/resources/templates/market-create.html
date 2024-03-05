@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <title>Crear mercado</title>
+</head>
+<body>
+<h1>Editar mercado</h1>
+<form action="#" th:action="@{/market/save}" th:object="${market}" method="post">
+    <input type="hidden" th:field="*{id}" id="id">
+
+    <div>
+        <label for="marketStock">Stock: </label>
+        <input type="text" th:field="*{stock}" id="marketStock">
+        <div class="error" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}">Error de stock</div>
+    </div>
+
+    <div>
+        <label for="marketDemandFactor">Factor demandante: </label>
+        <input type="text" th:field="*{demandFactor}" id="marketDemandFactor">
+        <div class="error" th:if="${#fields.hasErrors('demandFactor')}" th:errors="*{demandFactor}">Error de factor demandante</div>
+    </div>
+
+    <div>
+        <label for="marketSupplyFactor">Factor de oferta: </label>
+        <input type="text" th:field="*{supplyFactor}" id="marketSupplyFactor">
+        <div class="error" th:if="${#fields.hasErrors('supplyFactor')}" th:errors="*{supplyFactor}">Error de factor de oferta</div>
+    </div>
+
+    <div>
+        <label for="marketBuyPrice">Precio de compra: </label>
+        <input type="text" th:field="*{buyPrice}" id="marketBuyPrice">
+        <div class="error" th:if="${#fields.hasErrors('buyPrice')}" th:errors="*{buyPrice}">Error de precio de compra</div>
+    </div>
+
+    <div>
+        <label for="marketSellPrice">Precio de venta: </label>
+        <input type="text" th:field="*{sellPrice}" id="marketSellPrice">
+        <div class="error" th:if="${#fields.hasErrors('sellPrice')}" th:errors="*{sellPrice}">Error de precio de venta</div>
+    </div>
+
+    <div>
+        <label for="marketPlanet">Planeta: </label>
+        <select th:field="*{planet}" id="marketPlanet">
+            <option th:each="planet : ${planets}" th:value="${planet.id}" th:text="${planet.name}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="marketProduct">Producto: </label>
+        <select th:field="*{product}" id="marketProduct">
+            <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+        </select>
+    </div>
+
+    <button type="submit">Enviar</button>
+</form>
+</body>
+
+</html>
