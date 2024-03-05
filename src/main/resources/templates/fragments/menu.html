@@ -7,10 +7,14 @@
 <body>
     <nav th:fragment="menu">
         <ul>
-            <li><a href="@{/player/list}/">Players</a></li>
-            <li><a href="@{/star/list}/">Stars</a></li>
-            <li><a href="@{/market/list}/">Markets</a></li>
-            <li><a href="@{/product/list}/">Products</a></li>
+            <li><a th:href="@{/player/list}">Jugadores</a></li>
+            <li><a th:href="@{/star/list}">Estrellas</a></li>
+            <li><a th:href="@{/market/list}">Mercados</a></li>
+            <li><a th:href="@{/product/list}">Productos</a></li>
+            <li><a th:href="@{/planet/list}">Planetas</a></li>
+            <li><a th:href="@{/spacecraft/list}">Naves</li>
+            <li><a th:href="@{/inventory/list}">Inventarios</a></li>
+            <li><a th:href="@{/spacecraft-model/list}">Modelos de naves</a></li>
         </ul>
     </nav>
 </body>
