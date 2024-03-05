@@ -1,6 +1,7 @@
 package co.edu.javeriana.dw.proyecto.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -13,8 +14,12 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @Column(name = "user_name", nullable = false)
+    @NotBlank(message = "No puede ser vacio")
     private String userName;
+
+    @Column(name = "password", nullable = false)
+    @NotBlank(message = "No puede ser vacio")
     private String password;
     @Enumerated(EnumType.STRING)
     private PlayerType type;
@@ -27,13 +32,4 @@ public class Player {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", user='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", type='" + type + '\'' +
-                '}';
-    }
 }
