@@ -9,6 +9,7 @@
 <!--<div th:insert="fragments/menu.html :: mainMenu"></div>
 -->
 <h1>Naves espaciales</h1>
+<a th:href="@{/spacecraft-model/create}">Crear nuevo modelo de nave espacial</a>
 <a th:href="@{/spacecraft-model/search}">Buscar</a>
 
 <table class="entity-list">
@@ -17,6 +18,7 @@
     <th>Nombre del modelo</th>
     <th>Capacidad máxima</th>
     <th>Velocidad máxima</th>
+    <th>Naves que usan este modelo</th>
     <th>Ver</th>
     <th>Editar</th>
 
@@ -25,6 +27,12 @@
     <td th:text="${spacecraft.modelName}"></td>
     <td th:text="${spacecraft.storage}"></td>
     <td th:text="${spacecraft.maxSpeed}"></td>
+
+  <td>
+    <ul>
+      <li th:each="item : ${spacecraft.spacecrafts}" th:text="${item.name}"></li>
+    </ul>
+  </td>
 
     <td>
       <a th:href="@{/spacecraft-model/view/{id}(id=${spacecraft.id})}">Ver</a>

@@ -54,7 +54,12 @@ public class SpaceCraftController {
     @PostMapping(value = "/save")
     public String saveSpaceCraft(@Valid Spacecraft spacecraft, BindingResult result, Model model) {
         if(result.hasErrors()) {
+            List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
+            List<Planet> planets = planetService.getAllPlanets();
+
             model.addAttribute("spacecraft", spacecraft);
+            model.addAttribute("models", spacecraftModels); //TODO el modelo que cambie debe satisfacer las restricciones de capacidad de la nave, es decir la del inventario
+            model.addAttribute("planets", planets);
             return "spacecraft-edit";
         }
         spaceCraftService.saveSpacecraft(spacecraft);
@@ -71,15 +76,10 @@ public class SpaceCraftController {
     public String editSpaceCraft(Model model, @PathVariable Long id) {
         Spacecraft spacecraft = spaceCraftService.getSpacecraftById(id);
         List<SpacecraftModel> spacecraftModels = spacecraftModelService.getAllSpacecraftModels();
-        List<Player> players = playerService.getAllPlayers();
         List<Planet> planets = planetService.getAllPlanets();
-        List<Inventory> inventories = inventoryService.getAllInventories();
-        List<Product> products = productService.getAllProduct();
         model.addAttribute("spacecraft", spacecraft);
         model.addAttribute("models", spacecraftModels); //TODO el modelo que cambie debe satisfacer las restricciones de capacidad de la nave, es decir la del inventario
-        model.addAttribute("players", players);
         model.addAttribute("planets", planets);
-        model.addAttribute("products", products);
         return "spacecraft-edit";
     }
 
