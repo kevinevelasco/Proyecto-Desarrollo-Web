@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Juagador</title>
+</head>
+<body>
+<h1>Crear Jugador</h1>
+<form action="#" th:action="@{/player/save}" th:object="${player}" method="post">
+    <input type="hidden" th:field="*{id}" id="id" />
+
+    <label for="playerUserName">Usuario:</label>
+    <input type="text" th:field="*{userName}" id="playerUserName">
+    <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"
+          th:class="${#fields.hasErrors('userName')} ? 'error' : ''"></span>
+
+    <label for="playerPassword">Contraseña:</label>
+    <input type="text" th:field="*{password}" id="playerPassword">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+          th:class="${#fields.hasErrors('password')} ? 'error' : ''"></span>
+
+    <label for="playerType">Tipo:</label>
+    <select th:field="*{type}" id="playerType">
+        <option value="PILOT">Piloto</option>
+        <option value="CAPTAIN">Capitán</option>
+        <option value="MERCHANT">Comerciante</option>
+    </select>
+    <label for="spacecraft">Nave Espacial:</label>
+    <select th:field="*{spacecraft}" id="spacecraft">
+        <option th:each="spacecraft : ${spacecrafts}" th:value="${spacecraft.id}" th:text="${spacecraft.name}"></option>
+    </select>
+    <button type="submit">Enviar</button>
+</form>
+
+</body>
+</html>

@@ -1,7 +1,9 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
 import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.service.PlayerService;
+import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class PlayerController {
 
     @Autowired
     private PlayerService playerService;
+
+    @Autowired
+    private SpacecraftService spacecraftService;
 
     @GetMapping("/list")
     public String listPlayers(Model model) {
@@ -54,8 +59,17 @@ public class PlayerController {
     @GetMapping("/edit/{id}")
     public String editPlayer(Model model, @PathVariable Long id) {
         Player player = playerService.getPlayerById(id);
+        List<Spacecraft> spacecrafts = spacecraftService.getAllSpacecrafts();
         model.addAttribute("player", player);
+        model.addAttribute("spacecrafts", spacecrafts);
         return "player-edit";
+    }
+    @GetMapping("/create")
+    public String createPlayer(Model model) {
+        List<Spacecraft> spacecrafts = spacecraftService.getAllSpacecrafts();
+        model.addAttribute("spacecrafts", spacecrafts);
+        model.addAttribute("player", new Player());
+        return "player-create";
     }
 
 }

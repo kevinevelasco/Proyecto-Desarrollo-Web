@@ -27,8 +27,10 @@
            <option value="CAPTAIN">Capitán</option>
            <option value="MERCHANT">Comerciante</option>
        </select>
-
-        <input type="hidden" th:field="*{spacecraft}" id="spacecraft"/>
+        <label for="spacecraft">Nave Espacial:</label>
+        <select th:field="*{spacecraft}" id="spacecraft">
+            <option th:each="spacecraft : ${spacecrafts}" th:value="${spacecraft.id}" th:text="${spacecraft.name}"></option>
+</select>
        <button type="submit">Enviar</button>
    </form>
 
