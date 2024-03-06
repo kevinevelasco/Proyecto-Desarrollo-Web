@@ -1,21 +1,21 @@
 package co.edu.javeriana.dw.proyecto.controllers;
 
 import co.edu.javeriana.dw.proyecto.model.Planet;
-import co.edu.javeriana.dw.proyecto.model.Player;
-import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.Star;
-import co.edu.javeriana.dw.proyecto.service.StarService;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
+import co.edu.javeriana.dw.proyecto.service.StarService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
-import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import java.sql.SQLDataException;
 import java.util.List;
 
 @Controller
@@ -93,6 +93,12 @@ public class PlanetController {
         model.addAttribute("stars", stars);
         model.addAttribute("planet", new Planet());
         return "planet-create";
+    }
+
+    @ExceptionHandler({DataIntegrityViolationException.class, SQLDataException.class})
+    public String handleDataIntegrityViolationException(DataIntegrityViolationException e, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", "* ERROR: No se puede eliminar el planeta porque tiene otras entidades asociadas");
+        return "redirect:/planet/list";
     }
 
 }

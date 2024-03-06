@@ -59,7 +59,7 @@ public class SpaceCraftModelController {
     @GetMapping("/edit/{id}")
     public String editSpaceCraftModel(Model m, @PathVariable Long id) {
         SpacecraftModel model = spacecraftModelService.getSpacecraftModelById(id);
-        m.addAttribute("model", model);
+        m.addAttribute("spacecraftModel", model);
         return "spacecraft-model-edit"; //TODO tener en cuenta que al cambiar la capacidad, no puede ser menor a la capacidad actual de la nave
     }
 

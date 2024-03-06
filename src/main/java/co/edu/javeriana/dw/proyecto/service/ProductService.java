@@ -1,7 +1,10 @@
 package co.edu.javeriana.dw.proyecto.service;
 
 import co.edu.javeriana.dw.proyecto.model.Product;
+import co.edu.javeriana.dw.proyecto.model.Star;
 import co.edu.javeriana.dw.proyecto.persistence.IProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +29,15 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public List<Product> buscarPorNombre(String textoBusqueda) {
-        return productRepository.findPlanetsByNameStartingWithCaseInsensitive(textoBusqueda);
+    public int actualizarNombreProducto(Long id, String name) {
+        return productRepository.updateProductName(id, name);
+    }
+    public Page<Product> listarProductosPaginable(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    public Page<Product> buscarProducto(String name, Pageable pageable) {
+        return productRepository.findAllByNameStartingWithIgnoreCase(name, pageable);
     }
 
 }
