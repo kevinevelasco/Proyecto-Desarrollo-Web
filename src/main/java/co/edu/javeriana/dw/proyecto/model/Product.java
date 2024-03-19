@@ -1,5 +1,6 @@
 package co.edu.javeriana.dw.proyecto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -26,12 +27,15 @@ public class Product {
     @NotBlank(message = "El nombre del producto no puede ser vacio")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "products")
     private List<Planet> planets;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Market> markets;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Inventory> inventories;
 }

@@ -1,5 +1,6 @@
 package co.edu.javeriana.dw.proyecto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -35,9 +36,11 @@ public class Star {
     @Column(nullable = false)
     private Double z;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "star")
     private List<Planet> planets = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Wormhole",
@@ -46,6 +49,7 @@ public class Star {
     )
     private List<Star> wormholes;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "wormholes")
     private List<Star> destinations;
 }
