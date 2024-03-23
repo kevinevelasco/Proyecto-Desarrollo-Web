@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
+package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.Market;
 import co.edu.javeriana.dw.proyecto.model.Planet;
@@ -6,97 +6,89 @@ import co.edu.javeriana.dw.proyecto.model.Product;
 import co.edu.javeriana.dw.proyecto.service.MarketService;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
 import co.edu.javeriana.dw.proyecto.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
-import jakarta.validation.Valid;
-
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/market")
-public class MarketControllerOld {
-
-    Logger log = LoggerFactory.getLogger(getClass());
+@RestController
+@RequestMapping("/api/market")
+public class MarketController {
 
     @Autowired
     private MarketService marketService;
-
+    @Autowired
+    private ProductService productService;
     @Autowired
     private PlanetService planetService;
 
-    @Autowired
-    private ProductService productService;
+    Logger log = LoggerFactory.getLogger(getClass());
+
 
     @GetMapping("/list")
-    public String listMarkets(Model model) {
-        List<Market> markets = marketService.getAllMarket();
-        log.info("Markets: " + markets.size());
-        model.addAttribute("markets", markets);
-        return "market-list";
-    }
-    @GetMapping("/view/{id}")
-    public String viewMarket(Model model, @PathVariable Long  id) {
-        Market market = marketService.getMarketById(id);
-        model.addAttribute("market", market);
-        return "market-view";
-    }
-    @GetMapping("/delete/{id}")
-    public String deleteMarket( @PathVariable Long  id) {
-        marketService.deleteMarket(id);
-        return "redirect:/market/list";
-    }
-    @GetMapping("/edit/{id}")
-    public String editMarket(Model model, @PathVariable Long  id) {
-        Market market = marketService.getMarketById(id);
-        List<Planet> planets = planetService.getAllPlanets();
-        List<Product> products = productService.getAllProduct();
-        model.addAttribute("market", market);
-        model.addAttribute("planets", planets);
-        model.addAttribute("products", products);
-        return "market-edit";
+    public List<Market> listMarkets() {
+        return marketService.getAllMarket();
     }
 
-    @PostMapping(value = "/save")
-    public String saveMarket(@Valid Market market, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            List<Planet> planets = planetService.getAllPlanets();
-            List<Product> products = productService.getAllProduct();
-            model.addAttribute("market", market);
-            model.addAttribute("planets", planets);
-            model.addAttribute("products", products);
-            return "market-edit";
-        }
-        marketService.saveMarket(market);
-        return "redirect:/market/list";
+    @GetMapping("/list-page")
+    public Page<Market> getAllMarkets(Pageable pageable){
+        return marketService.listarMercadosPaginable(pageable);
     }
 
     @GetMapping("/search")
-    public String listMarkets(@RequestParam(required = false) String searchText, Model model) {
-        List<Market> markets;
-        if (searchText == null || searchText.trim().equals("")) {
-            log.info("No hay texto de búsqueda. Retornando todo");
-            markets = marketService.getAllMarket();
-        } else {
-            log.info("Buscando mercados cuyo planeta comienza con {}", searchText);
-            markets = marketService.buscarPorNombre(searchText);
-        }
-        model.addAttribute("markets", markets);
-        return "market-search";
+    public Page<Market> searchMarketsByPlanetId(@RequestParam Long planetId, Pageable pageable){
+        return marketService.buscarMercado(planetId, pageable);
     }
-    @GetMapping("/create")
-    public String createMarket(Model model) {
-        List<Planet> planets = planetService.getAllPlanets();
-        List<Product> products = productService.getAllProduct();
-        model.addAttribute("planets", planets);
-        model.addAttribute("products", products);
-        model.addAttribute("market", new Market());
-        return "market-create";
+
+    @Operation(summary = "Get market by id", description = "Get market by id")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Encontró el mercado",
+                            content = { @Content(mediaType = "application/json") }),
+                    @ApiResponse(responseCode = "400", description = "Id suministrado es invalido", content = @io.swagger.v3.oas.annotations.media.Content),
+                    @ApiResponse(responseCode = "404", description = "Mercado no encontrado")
+            }
+    )
+    @GetMapping("/{id}")
+    public Market getMarket(@PathVariable Long id) {
+        return marketService.getMarketById(id);
     }
+
+    @PostMapping("/{productId}/{planetId}")
+    public Market saveMarket(@PathVariable Long productId, @PathVariable Long planetId, @RequestBody Market market) {
+        Product product = productService.getProductById(productId);
+        Planet planet = planetService.getPlanetById(planetId);
+        market.setProduct(product);
+        market.setPlanet(planet);
+        log.info("Market: " + market);
+        return marketService.saveMarket(market);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteMarket(@PathVariable Long id) {
+        marketService.deleteMarket(id);
+    }
+
+    @PutMapping("")
+    public Market updateMarket(@RequestBody Market market) {
+        return marketService.saveMarket(market);
+    }
+
+    //@PatchMapping("/{id}/planetId") usarlo si se necesita después.
+
 
 }

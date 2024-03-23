@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftModelService;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/spacecraft-model")
-public class SpaceCraftModelController {
+public class SpaceCraftModelControllerOld {
     Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired

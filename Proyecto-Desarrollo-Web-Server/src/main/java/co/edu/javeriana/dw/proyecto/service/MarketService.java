@@ -5,6 +5,8 @@ import co.edu.javeriana.dw.proyecto.model.Market;
 import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.persistence.IMarketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,4 +29,11 @@ public class MarketService {
         return marketRepository.findPlanetsByNameStartingWithCaseInsensitive(textoBusqueda);
     }
 
+    public Page<Market> listarMercadosPaginable(Pageable pageable) {
+        return marketRepository.findAll(pageable);
+    }
+
+    public Page<Market> buscarMercado(Long planetId, Pageable pageable) {
+        return marketRepository.findAllByPlanetId(planetId, pageable);
+    }
 }

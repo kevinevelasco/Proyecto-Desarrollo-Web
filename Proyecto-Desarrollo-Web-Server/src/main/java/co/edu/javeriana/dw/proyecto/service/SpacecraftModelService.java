@@ -3,6 +3,8 @@ package co.edu.javeriana.dw.proyecto.service;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
 import co.edu.javeriana.dw.proyecto.persistence.ISpacecraftModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,4 +21,16 @@ public class SpacecraftModelService {
         return spacecraftModelRepository.findSpacecraftModelsByNameStartingWithCaseInsensitive(textoBusqueda);
     }
 
+    public Page<SpacecraftModel> listarModelosNavesPaginable(Pageable pageable) {
+        return spacecraftModelRepository.findAll(pageable);
+    }
+
+    public Page<SpacecraftModel> buscarSpacecraftModel(String name, Pageable pageable) {
+        return spacecraftModelRepository.findAllByModelNameStartingWithIgnoreCase(name, pageable);
+    }
+
+
+    public int actualizarNombreModeloNave(Long id, String name) {
+        return spacecraftModelRepository.updateSpacecraftModelName(id, name);
+    }
 }

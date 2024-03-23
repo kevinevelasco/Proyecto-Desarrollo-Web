@@ -24,15 +24,14 @@ GET http://localhost:8080/api/spacecraft/500
 GET http://localhost:8080/api/spacecraft/aaa
 ###revisar el retorno de código http
 
-###
-POST http://localhost:8080/api/spacecraft
+###/http://localhost:8080/spacecraft/{modelId}/{planetId}"
+POST http://localhost:8080/api/spacecraft/1/1
 Content-Type: application/json
 
 {
     "name": "Hola 742",
     "credit": 8525,
-    "totalTime": 1324
-    
+    "totalTime": 1324 
 }
 
 ###

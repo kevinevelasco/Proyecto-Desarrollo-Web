@@ -1,0 +1,63 @@
+GET http://localhost:8080/api/market/list
+
+###
+GET http://localhost:8080/api/market/list-page?page=0&size=5
+
+
+###
+GET http://localhost:8080/api/market/search?planetId=1&page=0&size=5
+
+###
+GET http://localhost:8080/api/market/search?planetId=2&page=0&size=10
+
+###
+GET http://localhost:8080/api/market/2
+
+###
+
+GET http://localhost:8080/api/market/5
+###
+
+GET http://localhost:8080/api/market/500
+###todo revisar el retorno de código http
+
+GET http://localhost:8080/api/market/aaa
+###todo revisar el retorno de código http
+
+##http://localhost:8080/api/market/{productId}/{planetId}
+POST http://localhost:8080/api/market/1/1
+Content-Type: application/json
+
+{
+    "stock": 365,
+    "demandFactor": 82525,
+    "supplyFactor": 13424,
+    "buyPrice": 2.0,
+    "sellPrice": 10.0
+}
+
+
+###
+PUT http://localhost:8080/api/market
+Content-Type: application/json
+
+{
+    "id": 2,
+    "stock": 88,
+    "demandFactor": 125,
+    "supplyFactor": 55,
+    "buyPrice": 0.0,
+    "sellPrice": 8.0,
+    "product": 2,
+    "planet": 2 
+}
+
+
+###
+DELETE http://localhost:8080/api/market/2
+
+
+###
+#PATCH http://localhost:8080/api/market/10/modelName
+
+#Anastasio

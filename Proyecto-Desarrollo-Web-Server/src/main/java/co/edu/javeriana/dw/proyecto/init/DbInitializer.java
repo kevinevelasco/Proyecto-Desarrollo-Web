@@ -45,8 +45,7 @@ public class DbInitializer implements CommandLineRunner {
             Planet planet1 = new Planet();
             Planet planet2 = new Planet();
             Planet planet3 = new Planet();
-            SpacecraftModel spacecraftModel = new SpacecraftModel();
-            Spacecraft spacecraft = new Spacecraft();
+
 
 
             double randomX = faker.number().randomDouble(0, -100, 100);
@@ -57,29 +56,6 @@ public class DbInitializer implements CommandLineRunner {
             star.setY((double)(i+1)*randomY);
             star.setZ((double)(i+1)*randomZ);
 
-
-
-            if (i <= 20) {
-                while (true) {
-                    try {
-                        spacecraftModel.setModelName(faker.unique().fetchFromYaml("space.nasa_space_craft"));
-                    } catch (NoSuchElementException e) {
-                        spacecraftModel.setModelName(faker.unique().fetchFromYaml("star_wars.vehicles"));
-                        break;
-                    } finally {
-                        spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
-                        spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 100, 1000));
-                        spacecraftModelRepository.save(spacecraftModel);
-                    }
-                }
-            }
-            if (i > 20 && i <= 30) {
-                spacecraft.setName(faker.team().name());
-                spacecraft.setCredit(BigDecimal.valueOf(faker.number().randomDouble(5, 1000, 1000000)));
-                spacecraft.setTotalTime(faker.number().randomDouble(0, 100, 1000));
-                spacecraft.setSpacecraftModel(spacecraftModelRepository.findById((long) i - 20).get());
-                spacecraftRepository.save(spacecraft);
-            }
             if (i <= 400) {
                 star.setName(faker.space().star());
                 starRepository.save(star);
@@ -111,6 +87,29 @@ public class DbInitializer implements CommandLineRunner {
             star.setName(faker.space().galaxy());
             starRepository.save(star);
 
+        }
+        for (int i = 0; i < 10; i++) {
+            SpacecraftModel spacecraftModel = new SpacecraftModel();
+            while (true) {
+                try {
+                    spacecraftModel.setModelName(faker.unique().fetchFromYaml("space.nasa_space_craft"));
+                } catch (NoSuchElementException e) {
+                    spacecraftModel.setModelName(faker.unique().fetchFromYaml("star_wars.vehicles"));
+                    break;
+                } finally {
+                    spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
+                    spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 100, 1000));
+                    spacecraftModelRepository.save(spacecraftModel);
+                }
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            Spacecraft spacecraft = new Spacecraft();
+            spacecraft.setName(faker.team().name());
+            spacecraft.setCredit(BigDecimal.valueOf(faker.number().randomDouble(5, 1000, 1000000)));
+            spacecraft.setTotalTime(faker.number().randomDouble(0, 100, 1000));
+            spacecraft.setSpacecraftModel(spacecraftModelRepository.findById((long) i + 1).get());
+            spacecraftRepository.save(spacecraft);
         }
         //todas las spacecrafts las inicializamos en la estrella 1 planeta 1
         for (int i = 0; i < 10; i++) {

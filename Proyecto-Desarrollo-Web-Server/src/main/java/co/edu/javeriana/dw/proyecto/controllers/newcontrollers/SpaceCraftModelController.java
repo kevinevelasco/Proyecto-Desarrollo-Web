@@ -1,89 +1,91 @@
-package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
+package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 
+import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftModelService;
+import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Controller
-@RequestMapping("/spacecraft-model")
-public class SpaceCraftModelControllerOld {
+@RestController
+@RequestMapping("/api/spacecraft-model")
+public class SpaceCraftModelController {
     Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SpacecraftModelService spacecraftModelService;
 
+    @Autowired
+    private SpacecraftService spacecraftService;
+
     @GetMapping("/list")
-    public String listSpaceCraftModels(Model model) {
-        List<SpacecraftModel> models = spacecraftModelService.getAllSpacecraftModels();
-        log.info("SpacecraftModels: " + models.toString());
-        model.addAttribute("models", models);
-        return "spacecraft-model-list";
+    public List<SpacecraftModel> listSpaceCraftModels() {
+        return spacecraftModelService.getAllSpacecraftModels();
     }
 
-    @GetMapping("/view/{id}")
-    public String viewSpaceCraftModel(Model m, @PathVariable Long id) {
-        SpacecraftModel model = spacecraftModelService.getSpacecraftModelById(id);
-        m.addAttribute("model", model);
-        return "spacecraft-model-view";
-    }
-
-    @PostMapping(value = "/save")
-    public String saveSpaceCraftModel(@Valid SpacecraftModel model, BindingResult result, Model m) {
-        if(result.hasErrors()) {
-            m.addAttribute("model", model);
-            return "spacecraft-model-edit";
-        }
-        spacecraftModelService.saveSpacecraftModel(model);
-        return "redirect:/spacecraft-model/list";
-    }
-
-
-
-    @GetMapping("/delete/{id}")
-    public String deleteSpaceCraftModel(Model m, @PathVariable Long id) {
-        spacecraftModelService.deleteSpacecraftModel(id);
-        return "redirect:/spacecraft-model/list";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editSpaceCraftModel(Model m, @PathVariable Long id) {
-        SpacecraftModel model = spacecraftModelService.getSpacecraftModelById(id);
-        m.addAttribute("spacecraftModel", model);
-        return "spacecraft-model-edit"; //TODO tener en cuenta que al cambiar la capacidad, no puede ser menor a la capacidad actual de la nave
+    @GetMapping("/list-page")
+    public Page<SpacecraftModel> getAllSpacecraftModels(Pageable pageable) {
+        return spacecraftModelService.listarModelosNavesPaginable(pageable);
     }
 
     @GetMapping("/search")
-    public String searchSpaceCraftModel(@RequestParam(required = false) String searchText, Model m) {
-        List<SpacecraftModel> models = spacecraftModelService.buscarPorNombre(searchText);
-        if(searchText == null || searchText.isEmpty()) {
-            models = spacecraftModelService.getAllSpacecraftModels();
-        } else{
-            models = spacecraftModelService.buscarPorNombre(searchText);
-        }
-        m.addAttribute("models", models);
-        return "spacecraft-model-search";
+    public Page<SpacecraftModel> searchSpaceCraftModel(@RequestParam String modelName, Pageable pageable) {
+        return spacecraftModelService.buscarSpacecraftModel(modelName, pageable);
     }
 
-    @GetMapping("/create")
-    public String createSpaceCraftModel(Model m) {
-        m.addAttribute("model", new SpacecraftModel());
-        return "spacecraft-model-create";
+    @Operation(summary = "Get spacecraft model by id", description = "Get spacecraft model by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Encontró el modelo de nave espacial",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SpacecraftModel.class)) }),
+            @ApiResponse(responseCode = "400", description = "Id suministrado es invalido", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Modelo de nave espacial no encontrada") })
+    @GetMapping("/{id}")
+    public SpacecraftModel getSpaceCraftModel(@PathVariable Long id) {
+        return spacecraftModelService.getSpacecraftModelById(id);
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public String handleDataIntegrityViolationException(DataIntegrityViolationException e, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("error", "* ERROR: No se puede eliminar el modelo de la nave porque tiene otras entidades asociadas");
-        return "redirect:/spacecraft-model/list";
+    @PostMapping("")
+    public SpacecraftModel saveSpaceCraftModel(@Valid @RequestBody SpacecraftModel model) {
+        return spacecraftModelService.saveSpacecraftModel(model);
     }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteSpaceCraftModel(@PathVariable Long id) {
+        spacecraftModelService.deleteSpacecraftModel(id);
+    }
+
+    @PutMapping("")
+    public SpacecraftModel updateSpaceCraftModel(@Valid @RequestBody SpacecraftModel model) {
+        return spacecraftModelService.saveSpacecraftModel(model);
+    }
+
+    @PatchMapping("/{id}/modelName")
+    public Map<String, Object> updateSpaceCraftModelName(@PathVariable Long id, @RequestBody String modelName) {
+        int numeroRegistrosModificados = spacecraftModelService.actualizarNombreModeloNave(id, modelName);
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("cantidadTuplasModificadas", numeroRegistrosModificados);
+        return respuesta;
+    }
+
 }

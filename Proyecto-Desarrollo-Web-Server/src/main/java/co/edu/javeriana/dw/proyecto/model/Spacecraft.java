@@ -41,11 +41,13 @@ public class Spacecraft {
 
     @JsonIgnore
     @ManyToOne
+    //@NotNull(message = "No puede ser vacio") TODO revisar por qué al quitarlo da error en batch
     @JoinColumn(name = "planet_id")
     private Planet planet;
 
     @JsonIgnore
     @ManyToOne
+    @NotNull(message = "No puede ser vacio")
     private SpacecraftModel spacecraftModel;
 
     @JsonIgnore

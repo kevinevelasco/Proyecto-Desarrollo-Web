@@ -29,13 +29,13 @@ public class SpaceCraftControllerOld {
     @Autowired
     private PlanetService planetService;
 
-//    @GetMapping("/list")
-//    public String listSpaceCrafts(Model model) {
-//        List< Spacecraft> spacecrafts = spaceCraftService.getAllSpacecrafts();
-//        log.info("Spacecrafts: " + spacecrafts.toString());
-//        model.addAttribute("spacecrafts", spacecrafts);
-//        return "spacecraft-list";
-//    }
+    @GetMapping("/list")
+    public String listSpaceCrafts(Model model) {
+        List< Spacecraft> spacecrafts = spaceCraftService.getAllSpacecrafts();
+        log.info("Spacecrafts: " + spacecrafts.toString());
+        model.addAttribute("spacecrafts", spacecrafts);
+        return "spacecraft-list";
+    }
 
     @GetMapping("/view/{id}")
     public String viewSpaceCraft(Model model, @PathVariable Long id) {

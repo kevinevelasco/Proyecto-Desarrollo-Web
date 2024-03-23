@@ -69,8 +69,17 @@ public class SpaceCraftController {
         return spaceCraftService.getSpacecraftById(id);
     }
 
-    @PostMapping("")
-    public Spacecraft createSpaceCraft(@RequestBody Spacecraft spacecraft) {
+//    @PostMapping("")
+//    public Spacecraft createSpaceCraft(@RequestBody Spacecraft spacecraft) {
+//        return spaceCraftService.saveSpacecraft(spacecraft);
+//    }
+
+    @PostMapping("/{modelId}/{planetId}") //método POST para crear una nave espacial asociada a un modelo de nave espacial
+    public Spacecraft createSpacecraft(@PathVariable Long modelId, @PathVariable Long planetId, @RequestBody Spacecraft spacecraft) {
+        SpacecraftModel model = spacecraftModelService.getSpacecraftModelById(modelId);
+        Planet planet = planetService.getPlanetById(planetId);
+        spacecraft.setSpacecraftModel(model);
+        spacecraft.setPlanet(planet);
         return spaceCraftService.saveSpacecraft(spacecraft);
     }
 
@@ -80,7 +89,7 @@ public class SpaceCraftController {
     }
 
     @PutMapping("")
-    public Spacecraft updateSpaceCraft(@RequestBody Spacecraft spacecraft) {
+    public Spacecraft updateSpaceCraft(@Valid @RequestBody Spacecraft spacecraft) {
         return spaceCraftService.saveSpacecraft(spacecraft);
     }
 
@@ -91,5 +100,4 @@ public class SpaceCraftController {
         respuesta.put("cantidadTuplasModificadas", numeroRegistrosModificados);
         return respuesta;
     }
-
 }

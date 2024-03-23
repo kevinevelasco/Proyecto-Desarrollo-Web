@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.Market;
 import co.edu.javeriana.dw.proyecto.model.Planet;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/market")
-public class MarketController {
+public class MarketControllerOld {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
