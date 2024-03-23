@@ -1,5 +1,6 @@
 package co.edu.javeriana.dw.proyecto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,17 +35,20 @@ public class Spacecraft {
     @Positive(message = "Total time should not be less than 1")
     private Double totalTime;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "spacecraft")
     private List<Player> players;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "planet_id")
     private Planet planet;
 
+    @JsonIgnore
     @ManyToOne
-    @NotNull(message = "No puede ser vacio")
     private SpacecraftModel spacecraftModel;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "spacecraft")
     private List<Inventory> inventories;
 }

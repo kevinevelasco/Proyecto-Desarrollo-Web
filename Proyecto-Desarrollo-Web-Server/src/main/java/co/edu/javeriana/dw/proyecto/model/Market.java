@@ -1,5 +1,6 @@
 package co.edu.javeriana.dw.proyecto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
@@ -15,11 +16,13 @@ public class Market {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne
     @JoinColumn(name = "planet_id", nullable = false)
     private Planet planet;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

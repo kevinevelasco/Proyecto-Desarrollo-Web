@@ -1,5 +1,6 @@
 package co.edu.javeriana.dw.proyecto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ public class SpacecraftModel {
     @Positive(message = "Speed should not be less than 1 km/s")
     private Double maxSpeed;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "spacecraftModel")
     private List<Spacecraft> spacecrafts;
 }

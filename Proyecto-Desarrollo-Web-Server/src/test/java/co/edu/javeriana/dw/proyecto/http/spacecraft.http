@@ -1,0 +1,57 @@
+GET http://localhost:8080/api/spacecraft/list
+
+###
+GET http://localhost:8080/api/spacecraft/list-page?page=0&size=5
+
+
+###
+GET http://localhost:8080/api/spacecraft/search?name=Hola&page=0&size=5
+
+###
+GET http://localhost:8080/api/spacecraft/search?name=Ho&page=0&size=10
+
+###
+GET http://localhost:8080/api/spacecraft/2
+
+###
+
+GET http://localhost:8080/api/spacecraft/2
+###
+
+GET http://localhost:8080/api/spacecraft/500
+###revisar el retorno de código http
+
+GET http://localhost:8080/api/spacecraft/aaa
+###revisar el retorno de código http
+
+###
+POST http://localhost:8080/api/spacecraft
+Content-Type: application/json
+
+{
+    "name": "Hola 742",
+    "credit": 8525,
+    "totalTime": 1324
+    
+}
+
+###
+PUT http://localhost:8080/api/spacecraft
+Content-Type: application/json
+
+{
+    "id": 11,
+    "name": "Equipo dinamita",
+    "credit": 125,
+    "totalTime": 55
+}
+
+
+###
+DELETE http://localhost:8080/api/spacecraft/14
+
+
+###
+PATCH http://localhost:8080/api/spacecraft/10/name
+
+Anastasio
