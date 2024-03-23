@@ -1,11 +1,11 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.news;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import co.edu.javeriana.dw.proyecto.model.Product;
-import co.edu.javeriana.dw.proyecto.service.ProductService;
+import co.edu.javeriana.dw.proyecto.model.Star;
+import co.edu.javeriana.dw.proyecto.service.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,63 +26,62 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+
 @RestController
-@RequestMapping("/api/product")
-public class ProductController {
+@RequestMapping("/api/star")
+public class StarController {
 
     @Autowired
-    private ProductService productService;
+    private StarService starService;
 
-    // http://localhost:8080/api/product/list
+    // http://localhost:8080/api/star/list
     @GetMapping("/list")
-    public List<Product> listProducts() {
-        return productService.getAllProduct();
+    public List<Star> listStars() {
+        return starService.getAllStars();
     }
 
     @GetMapping("/list-page")
-    public Page<Product> getAllProducts(Pageable pageable) {
-        return productService.listarProductosPaginable(pageable);
+    public Page<Star> getAllStars(Pageable pageable) {
+        return starService.listarEstrellasPaginable(pageable);
     }
 
     // https://www.baeldung.com/spring-rest-openapi-documentation
     @GetMapping("/search")
-    public Page<Product> searchProduct(@RequestParam String nombre, Pageable pageable) {
-        return productService.buscarProducto(nombre, pageable);
+    public Page<Star> searchStar(@RequestParam String name, Pageable pageable) {
+        return starService.buscarEstrella(name, pageable);
     }
 
-
-
-    // http://localhost:8080/api/product/2
-    @Operation(summary = "Buscar producto por ID")
+    // http://localhost:8080/api/star/2
+    @Operation(summary = "Buscar estrellas por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Encontró el producto", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class)) }),
+            @ApiResponse(responseCode = "200", description = "Encontró la estrella", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Star.class)) }),
             @ApiResponse(responseCode = "400", description = "Id suministrado es invalido", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Producto no encontrada", content = @Content) })
+            @ApiResponse(responseCode = "404", description = "Estrella no encontrada", content = @Content) })
 
     @GetMapping("/{id}")
-    public Product recoverProduct(@PathVariable Long id) {
-        return productService.getProductById(id);
+    public Star recoverStar(@PathVariable Long id) {
+        return starService.getStarById(id);
     }
 
     @PostMapping("")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
+    public Star createStar(@RequestBody Star star) {
+        return starService.saveStar(star);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long idProducto) {
-        productService.deleteProduct(idProducto);
+    public void deleteStar(@PathVariable Long id) {
+        starService.deleteStar(id);
     }
 
     @PutMapping("")
-    public Product updateProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
+    public Star updateStar(@RequestBody Star star) {
+        return starService.saveStar(star);
     }
 
-    @PatchMapping("{id}/nombre")
+    @PatchMapping("{id}/name")
     public Map<String, Object> modifyName(@PathVariable Long id, @RequestBody String nuevoNombre) {
-        int numeroRegistrosModificados = productService.actualizarNombreProducto(id, nuevoNombre);
+        int numeroRegistrosModificados = starService.actualizarNombreEstrella(id, nuevoNombre);
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("cantidadTuplasModificadas", numeroRegistrosModificados);
         return respuesta;

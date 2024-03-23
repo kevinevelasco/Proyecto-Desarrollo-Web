@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.olds;
 
 import co.edu.javeriana.dw.proyecto.model.Product;
 import co.edu.javeriana.dw.proyecto.service.ProductService;
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/product")

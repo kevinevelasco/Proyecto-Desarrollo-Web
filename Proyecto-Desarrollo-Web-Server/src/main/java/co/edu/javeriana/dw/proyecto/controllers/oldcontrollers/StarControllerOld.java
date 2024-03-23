@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.olds;
 
 import co.edu.javeriana.dw.proyecto.model.Star;
 import co.edu.javeriana.dw.proyecto.service.StarService;
@@ -12,8 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/star")
