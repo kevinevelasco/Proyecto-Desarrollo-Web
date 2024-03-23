@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers.olds;
+package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.Star;
 import co.edu.javeriana.dw.proyecto.service.StarService;

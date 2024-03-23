@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers.news;
+package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 
 import java.util.HashMap;
 import java.util.List;
