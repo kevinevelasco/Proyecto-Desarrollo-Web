@@ -1,0 +1,57 @@
+GET http://localhost:8080/api/spacecraft-model/list
+
+###
+GET http://localhost:8080/api/spacecraft-model/list-page?page=0&size=5
+
+
+###
+GET http://localhost:8080/api/spacecraft-model/search?modelName=TIE&page=0&size=5
+
+###
+GET http://localhost:8080/api/spacecraft-model/search?modelName=T&page=0&size=10
+
+###
+GET http://localhost:8080/api/spacecraft-model/2
+
+###
+
+GET http://localhost:8080/api/spacecraft-model/5
+###
+
+GET http://localhost:8080/api/spacecraft-model/500
+###todo revisar el retorno de código http
+
+GET http://localhost:8080/api/spacecraft-model/aaa
+###todo revisar el retorno de código http
+
+###
+POST http://localhost:8080/api/spacecraft-model
+Content-Type: application/json
+
+{
+    "modelName": "Nave del jefe maestro",
+    "storage": 8525,
+    "maxSpeed": 1324
+    
+}
+
+###
+PUT http://localhost:8080/api/spacecraft-model
+Content-Type: application/json
+
+{
+    "id": 11,
+    "modelName": "La Milano",
+    "storage": 125,
+    "maxSpeed": 55
+}
+
+
+###
+DELETE http://localhost:8080/api/spacecraft-model/14
+
+
+###
+PATCH http://localhost:8080/api/spacecraft-model/10/modelName
+
+Anastasio
