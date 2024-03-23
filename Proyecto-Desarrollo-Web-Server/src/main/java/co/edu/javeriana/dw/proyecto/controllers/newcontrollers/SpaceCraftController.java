@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/spacecraft")
-public class SpaceCraftController {
+public class SpaceCraftControllerOld {
     Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -27,24 +27,15 @@ public class SpaceCraftController {
     private SpacecraftModelService spacecraftModelService;
 
     @Autowired
-    private PlayerService playerService;
-
-    @Autowired
     private PlanetService planetService;
 
-    @Autowired
-    private InventoryService inventoryService;
-
-    @Autowired
-    private ProductService productService;
-
-    @GetMapping("/list")
-    public String listSpaceCrafts(Model model) {
-        List< Spacecraft> spacecrafts = spaceCraftService.getAllSpacecrafts();
-        log.info("Spacecrafts: " + spacecrafts.toString());
-        model.addAttribute("spacecrafts", spacecrafts);
-        return "spacecraft-list";
-    }
+//    @GetMapping("/list")
+//    public String listSpaceCrafts(Model model) {
+//        List< Spacecraft> spacecrafts = spaceCraftService.getAllSpacecrafts();
+//        log.info("Spacecrafts: " + spacecrafts.toString());
+//        model.addAttribute("spacecrafts", spacecrafts);
+//        return "spacecraft-list";
+//    }
 
     @GetMapping("/view/{id}")
     public String viewSpaceCraft(Model model, @PathVariable Long id) {
