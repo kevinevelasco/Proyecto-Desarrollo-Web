@@ -3,6 +3,7 @@ package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 import co.edu.javeriana.dw.proyecto.model.Market;
 import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.model.Product;
+import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.service.MarketService;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
 import co.edu.javeriana.dw.proyecto.service.ProductService;
@@ -85,6 +86,11 @@ public class MarketController {
 
     @PutMapping("")
     public Market updateMarket(@RequestBody Market market) {
+        if(market.getPlanet() == null || market.getProduct() == null){ //si recibe planet o product nulos es porque quiere que estos queden igual
+            Market marketAux = marketService.getMarketById(market.getId());
+            market.setPlanet(marketAux.getPlanet());
+            market.setProduct(marketAux.getProduct());
+        }
         return marketService.saveMarket(market);
     }
 

@@ -44,12 +44,10 @@ Content-Type: application/json
 {
     "id": 2,
     "stock": 88,
-    "demandFactor": 125,
-    "supplyFactor": 55,
-    "buyPrice": 0.0,
-    "sellPrice": 8.0,
-    "product": 2,
-    "planet": 2 
+    "demandFactor": 88,
+    "supplyFactor": 88,
+    "buyPrice": 88,
+    "sellPrice": 88
 }
 
 
