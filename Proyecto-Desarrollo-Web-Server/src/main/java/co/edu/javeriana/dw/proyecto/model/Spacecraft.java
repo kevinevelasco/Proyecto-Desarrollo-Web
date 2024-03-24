@@ -53,4 +53,5 @@ public class Spacecraft {
     @JsonIgnore
     @OneToMany(mappedBy = "spacecraft")
     private List<Inventory> inventories;
+
 }
