@@ -54,3 +54,15 @@ DELETE http://localhost:8080/api/spacecraft/14
 PATCH http://localhost:8080/api/spacecraft/10/name
 
 Anastasio
+
+### http://localhost:8080/{spacecraftid}/model/
+GET http://localhost:8080/api/spacecraft/2/model
+
+### http://localhost:8080/{spacecraftid}/planetId"
+GET http://localhost:8080/api/spacecraft/2/planet
+
+### http://localhost:8080/{spacecraftid}/actualInventory"
+GET http://localhost:8080/api/spacecraft/2/actualInventory
+
+### http://localhost:8080/{spacecraftid}/inventory" para obtener los productos
+GET http://localhost:8080/api/spacecraft/2/inventory

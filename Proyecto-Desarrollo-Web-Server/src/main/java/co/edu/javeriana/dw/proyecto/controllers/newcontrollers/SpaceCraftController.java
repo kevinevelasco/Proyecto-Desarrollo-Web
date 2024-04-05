@@ -1,5 +1,6 @@
 package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 
+import co.edu.javeriana.dw.proyecto.model.Inventory;
 import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
@@ -99,5 +100,33 @@ public class SpaceCraftController {
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("cantidadTuplasModificadas", numeroRegistrosModificados);
         return respuesta;
+    }
+
+    @GetMapping("{id}/model")
+    public SpacecraftModel getModel(@PathVariable Long id) {
+        return spaceCraftService.getSpacecraftById(id).getSpacecraftModel();
+    }
+
+    @GetMapping("{id}/planet")
+    public Planet getPlanet(@PathVariable Long id) {
+        return spaceCraftService.getSpacecraftById(id).getPlanet();
+    }
+
+    //hacemos un get de la carga actual de productos de la nave
+    @GetMapping("{id}/actualInventory")
+    public Double getInventory(@PathVariable Long id) {
+        var inventories = spaceCraftService.getSpacecraftById(id).getInventories();
+        var actualInventory = 0.0;
+        //la capacidad es igual al total de cada producto por su tamaño
+        for (Inventory inventory : inventories) {
+            actualInventory += inventory.getProduct().getSize() * inventory.getQuantity();
+        }
+        return actualInventory;
+    }
+
+    //Hacemos un get de los productos que tiene la nave
+    @GetMapping("{id}/inventory")
+    public List<Inventory> getInventoryList(@PathVariable Long id) {
+        return spaceCraftService.getSpacecraftById(id).getInventories();
     }
 }
