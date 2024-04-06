@@ -12,6 +12,13 @@ import { StarListComponent } from './star/star-list/star-list.component';
 import { StarEditComponent } from './star/star-edit/star-edit.component';
 import { StarViewComponent } from './star/star-view/star-view.component';
 import { SpaceTravelInterfaceComponent } from './space-travel/space-travel-interface/space-travel-interface.component';
+import { UiComponent } from './space-travel/ui/ui.component';
+import { UiInfobarBottomComponent } from './space-travel/ui/ui-infobar-bottom/ui-infobar-bottom.component';
+import { UiInfobarTopComponent } from './space-travel/ui/ui-infobar-top/ui-infobar-top.component';
+import { UiInfobarLeftComponent } from './space-travel/ui/ui-infobar-left/ui-infobar-left.component';
+import { UiInfobarRightComponent } from './space-travel/ui/ui-infobar-right/ui-infobar-right.component';
+import { EngineComponent } from './space-travel/engine/engine.component';
+import { SpaceTravelComponent } from './space-travel/space-travel.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +29,14 @@ import { SpaceTravelInterfaceComponent } from './space-travel/space-travel-inter
     StarListComponent,
     StarEditComponent,
     StarViewComponent,
-    SpaceTravelInterfaceComponent
+    SpaceTravelInterfaceComponent,
+    UiComponent,
+    UiInfobarBottomComponent,
+    UiInfobarTopComponent,
+    UiInfobarLeftComponent,
+    UiInfobarRightComponent,
+    EngineComponent,
+    SpaceTravelComponent
   ],
   imports: [
     BrowserModule,

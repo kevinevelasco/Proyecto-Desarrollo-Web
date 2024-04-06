@@ -4,12 +4,14 @@ import { SpacecraftModelListComponent } from './spacecraftModel/spacecraft-model
 import { SpacecraftModelViewComponent } from './spacecraftModel/spacecraft-model-view/spacecraft-model-view.component';
 import { SpacecraftModelEditComponent } from './spacecraftModel/spacecraft-model-edit/spacecraft-model-edit.component';
 import { SpaceTravelInterfaceComponent } from './space-travel/space-travel-interface/space-travel-interface.component';
+import { SpaceTravelComponent } from './space-travel/space-travel.component';
 
 const routes: Routes = [
   { path: 'spacecraft-model/view/:id', component: SpacecraftModelViewComponent },
   { path: 'spacecraft-model/edit/:id', component: SpacecraftModelEditComponent },
   { path: 'spacecraft-model/list', component: SpacecraftModelListComponent },
-  { path: 'space-travel', component: SpaceTravelInterfaceComponent },
+  { path: 'space-travelling', component: SpaceTravelInterfaceComponent },
+  { path: 'space-travel', component: SpaceTravelComponent },
   { path: '', pathMatch: 'full', redirectTo: 'person/list' },
 ];
 
