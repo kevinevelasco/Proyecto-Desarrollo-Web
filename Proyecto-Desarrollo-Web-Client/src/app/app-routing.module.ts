@@ -4,12 +4,14 @@ import { SpaceTravelInterfaceComponent } from './space-travel/space-travel-inter
 import { SpaceTravelComponent } from './space-travel/space-travel.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 const routes: Routes = [
   { path: 'space-travelling', component: SpaceTravelInterfaceComponent },
   { path: 'space-travel', component: SpaceTravelComponent },
   { path: 'home', component: DashboardComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'admin', component: AdminComponent},
   { path: '', pathMatch: 'full', redirectTo: '/home' },
 ];
 

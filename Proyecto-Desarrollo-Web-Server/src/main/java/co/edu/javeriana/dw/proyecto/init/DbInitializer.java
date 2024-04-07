@@ -236,5 +236,11 @@ public class DbInitializer implements CommandLineRunner {
                     inventoryRepository.save(inventory);
             }
         }
+        //creamos al administrador
+//        Player admin = new Player();
+//        admin.setUserName("admin");
+//        admin.setPassword("admin");
+//        playerRepository.save(admin);
+
     }
 }

@@ -11,7 +11,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode(of = "id")
 public class Player {
     @Id

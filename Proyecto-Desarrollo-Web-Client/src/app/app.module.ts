@@ -19,6 +19,7 @@ import { SpaceTravelComponent } from './space-travel/space-travel.component';
 import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
     SpaceTravelComponent,
     LoginComponent,
     DashboardComponent,
-    NavbarComponent
+    NavbarComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

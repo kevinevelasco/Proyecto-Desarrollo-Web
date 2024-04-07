@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/star")
 public class StarControllerOld {
@@ -22,13 +24,13 @@ public class StarControllerOld {
     @Autowired
     private StarService starService;
 
-    /*@GetMapping("/list")
+    @GetMapping("/list")
     public String listStars(Model model) {
         List<Star> stars = starService.getAllStars();
         log.info("Estrellas: " + stars.size());
         model.addAttribute("stars", stars);
         return "star-list";
-    }*/
+    }
 
     @GetMapping("/view/{id}")
     public String viewStar(@PathVariable("id") Long id, Model model) {
