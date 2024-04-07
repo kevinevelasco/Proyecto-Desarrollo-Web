@@ -1,5 +1,5 @@
 <body>
-  <app-engine></app-engine>
-  <app-ui></app-ui>
+  <app-engine *ngIf="userLoginOn"></app-engine>
+  <app-ui *ngIf="userLoginOn"></app-ui>
+  <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
 </body>
-
