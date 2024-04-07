@@ -12,6 +12,7 @@ export class SpaceTravelInterfaceComponent implements OnInit, OnDestroy {
   constructor(private starService: StarService) { }
   @Input() userData?: Player;
   currentStar : Star;
+
   ngOnInit(): void {
     // if(this.userData != null){
     //   this.starService.getStarDataBasedOnUser(this.userData.id).subscribe((star: Star) => this.currentStar = star);

@@ -2,6 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Player } from '../model/player';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../services/auth/login.service';
+import { Planet } from '../model/planet';
+import { Star } from '../model/star';
+import { PlanetService } from '../services/planet.service';
+import { StarService } from '../services/star.service';
 
 @Component({
   selector: 'app-space-travel',
@@ -10,11 +14,16 @@ import { LoginService } from '../services/auth/login.service';
 })
 export class SpaceTravelComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
+
+  //recolectamos los datos que necesitemos para la interfaz para después pasarselas a los componentes hijos
   userData?: Player;
+  currentStar: Star;
+  starPlanets: Planet[] = [];
+
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService, private starService: StarService, private planetService: PlanetService) {}
 
   ngOnInit(): void {
     this.loginSubscription = this.loginService.currentUserLoginOn.subscribe({
@@ -28,6 +37,7 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
         this.userData = userData;
       }
     });
+    this.getCurrentStarAndPlanets();
   }
 
   ngOnDestroy(): void {
@@ -38,4 +48,19 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
       this.userDataSubscription.unsubscribe();
     }
   }
+
+  getCurrentStarAndPlanets(): void {
+    console.log(this.userData);
+    if(this.userData != null){
+      this.starService.getStarDataBasedOnUser(this.userData.id).subscribe((star: Star) => {
+        this.currentStar = star;
+        console.log(this.currentStar); 
+
+        this.planetService.getPlanetsByStarId(this.currentStar.id).subscribe(planets => {
+          this.starPlanets = planets;
+          console.log(this.starPlanets);
+        });
+      });
+    }
+}
 }

@@ -1,5 +1,5 @@
 <body>
   <app-engine *ngIf="userLoginOn"></app-engine>
-  <app-ui *ngIf="userLoginOn" [userData]="userData"></app-ui>
+  <app-ui *ngIf="userLoginOn" [userData]="userData" [currentStar]="currentStar" [starPlanets]="starPlanets"></app-ui>
   <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
 </body>

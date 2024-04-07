@@ -11,25 +11,17 @@ import { PlanetService } from '../../services/planet.service';
   styleUrls: ['./ui.component.css']
 })
 export class UiComponent implements OnInit, OnDestroy {
-  constructor(private starService: StarService, private planetService: PlanetService) { }
+  constructor() { }
   
   @Input() userData?: Player;
-  currentStar: Star;
-  starPlanets: Planet[] = [];
+  @Input() currentStar: Star;
+  @Input() starPlanets: Planet[] = [];
+
 
   ngOnInit(): void {
     console.log(this.userData);
-    if(this.userData != null){
-      this.starService.getStarDataBasedOnUser(this.userData.id).subscribe((star: Star) => {
-        this.currentStar = star;
-        console.log(this.currentStar); 
-
-        this.planetService.getPlanetsByStarId(this.currentStar.id).subscribe(planets => {
-          this.starPlanets = planets;
-          console.log(this.starPlanets);
-        });
-      });
-    }
+    console.log(this.currentStar);
+    console.log(this.starPlanets);
   }
 
   ngOnDestroy(): void {
