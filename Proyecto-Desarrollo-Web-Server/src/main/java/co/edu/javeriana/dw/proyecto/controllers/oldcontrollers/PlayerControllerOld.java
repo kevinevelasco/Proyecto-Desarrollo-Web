@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.Player;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/player")
-public class PlayerController {
+public class PlayerControllerOld {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
