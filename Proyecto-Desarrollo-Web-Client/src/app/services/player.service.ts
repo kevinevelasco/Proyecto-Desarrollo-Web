@@ -7,10 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class PlayerService {
-
   constructor(
     private http: HttpClient
   ) { }
 
-  
 }

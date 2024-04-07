@@ -1,6 +1,12 @@
 <div class="ui-wrapper">
-  <app-ui-infobar-top></app-ui-infobar-top>
-  <app-ui-infobar-left></app-ui-infobar-left>
-  <app-ui-infobar-right></app-ui-infobar-right>
-  <app-ui-infobar-bottom></app-ui-infobar-bottom>
+  <h1>Ubicación</h1>
+  <!--usamos la variable  currentStar para mostrar el nombre de la estrella y los planetas-->
+  <h2>{{currentStar.name}}</h2>
+  <div *ngIf="starPlanets.length === 0">No hay planetas en esta estrella</div>
+    <div *ngIf="starPlanets.length > 0">
+      <ul>
+        <li *ngFor="let planet of starPlanets">
+          <a [routerLink]="['/planet', planet.id]">{{planet.name}}</a>
+        </li>
+      </ul>
 </div>

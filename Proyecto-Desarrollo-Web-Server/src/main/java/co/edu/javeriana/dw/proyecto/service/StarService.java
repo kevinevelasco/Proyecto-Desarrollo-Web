@@ -1,6 +1,7 @@
 package co.edu.javeriana.dw.proyecto.service;
 
 import co.edu.javeriana.dw.proyecto.model.Star;
+import co.edu.javeriana.dw.proyecto.persistence.IPlanetRepository;
 import co.edu.javeriana.dw.proyecto.persistence.IStarRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,9 @@ public class StarService {
 
     @Autowired
     private IStarRepository starRepository;
+
+    @Autowired
+    private IPlanetRepository planetRepository;
 
     public List<Star> getAllStars() {
         return starRepository.findAll();
@@ -68,4 +72,8 @@ public class StarService {
         return star.getPlanets();
     }
 
+    public Star getStarByPlayer(Long id) {
+        Planet currentPlanet = planetRepository.findById(id).orElseThrow(() -> new RuntimeException("Planeta no encontrado"));
+        return currentPlanet.getStar();
+    }
 }

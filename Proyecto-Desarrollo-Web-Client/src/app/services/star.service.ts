@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Star } from '../model/star';
 import { environment } from '../../environments/environment.development';
+import { Player } from '../model/player';
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +26,8 @@ export class StarService {
   getStar(id: number): Observable<Star>  {
     return this.http.get<Star>(`${environment.serverUrl}/api/star/${id}`);
   }
+  getStarDataBasedOnUser(id: number): Observable<Star> {
+    return this.http.get<Star>(`${environment.serverUrl}/api/star/player/${id}`);
+  }
+
 }
