@@ -6,6 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import co.edu.javeriana.dw.proyecto.model.Planet;
+
+
 
 import java.util.List;
 
@@ -40,6 +45,28 @@ public class StarService {
 
     public Page<Star> buscarEstrella(String name, Pageable pageable) {
         return starRepository.findAllByNameStartingWithIgnoreCase(name, pageable);
+    }
+
+    public List<Star> findNearestStars(Long currentStarId, int limit) {
+        Star currentStar = starRepository.findById(currentStarId).orElseThrow(() -> new RuntimeException("Estrella no encontrada"));
+        List<Star> allStars = starRepository.findAll();
+        // Calcula distancias y ordena
+        return allStars.stream()
+                .filter(star -> !star.getId().equals(currentStarId)) // Excluye la estrella actual
+                .sorted(Comparator.comparingDouble(star -> calculateDistance(currentStar, star)))
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    private double calculateDistance(Star fromStar, Star toStar) {
+        return Math.sqrt(Math.pow(toStar.getX() - fromStar.getX(), 2) +
+                Math.pow(toStar.getY() - fromStar.getY(), 2) +
+                Math.pow(toStar.getZ() - fromStar.getZ(), 2));
+    }
+
+    public List<Planet> findPlanetsByStarId(Long starId) {
+        Star star = starRepository.findById(starId).orElseThrow(() -> new RuntimeException("Estrella no encontrada"));
+        return star.getPlanets(); // Devuelve la lista de planetas asociados a la estrella
     }
 
 }

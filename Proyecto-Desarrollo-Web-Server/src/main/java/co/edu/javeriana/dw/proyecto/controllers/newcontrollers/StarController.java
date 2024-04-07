@@ -25,6 +25,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import co.edu.javeriana.dw.proyecto.model.Planet;
+
 
 
 @RestController
@@ -85,5 +87,15 @@ public class StarController {
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("cantidadTuplasModificadas", numeroRegistrosModificados);
         return respuesta;
+    }
+
+    @GetMapping("/{id}/nearest")
+    public List<Star> getNearestStars(@PathVariable Long id) {
+        return starService.findNearestStars(id, 10);
+    }
+
+    @GetMapping("/{id}/planets")
+    public List<Planet> getPlanetsByStar(@PathVariable Long id) {
+        return starService.findPlanetsByStarId(id);
     }
 }
