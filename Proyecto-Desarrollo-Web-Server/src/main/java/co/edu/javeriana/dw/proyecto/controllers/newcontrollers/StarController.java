@@ -89,11 +89,13 @@ public class StarController {
         return respuesta;
     }
 
+    //buscar las 10 estrellas mas cercanas
     @GetMapping("/{id}/nearest")
     public List<Star> getNearestStars(@PathVariable Long id) {
         return starService.findNearestStars(id, 10);
     }
 
+    //esto muestra los planetas q hay en la estrella
     @GetMapping("/{id}/planets")
     public List<Planet> getPlanetsByStar(@PathVariable Long id) {
         return starService.findPlanetsByStarId(id);
