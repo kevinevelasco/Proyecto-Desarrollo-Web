@@ -1,0 +1,17 @@
+<nav class="navbar">
+  <div class="navbar__logo">
+    <a routerLink="/home">
+      <img src="assets/images/logo.png" alt="Logo">
+    </a>
+  </div>
+  <div class="navbar__menu">
+    <ul>
+      <li *ngIf="!userLoginOn">
+        <a routerLink="/login" routerLinkActive="active">LOGIN</a>
+      </li>
+      <li *ngIf="userLoginOn">
+        <a routerLink="/login" routerLinkActive="active">LOGOUT</a>
+      </li> 
+    </ul>
+  </div>
+</nav>

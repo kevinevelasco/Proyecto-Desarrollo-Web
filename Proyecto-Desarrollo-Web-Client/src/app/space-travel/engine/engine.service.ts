@@ -106,7 +106,7 @@ export class EngineService implements OnDestroy {
 
   //para saber los datos de la estrella en la que estoy, dependo de spacecraft
   //ya que es la nave de la cual hace parte el jugador que se logueó
-  public getStarData() {
-    
+  public getCurrentUserStarData() {
+    //TODO hay que usar este método del service
   }
 }

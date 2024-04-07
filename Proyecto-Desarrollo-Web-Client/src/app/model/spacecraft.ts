@@ -9,9 +9,9 @@ export class Spacecraft {
   public name: string, 
   public credit: number,
   public totalTime: number,
-  public players : Player[],
-  public planet: Planet,
-  public spacecraftModel: SpacecraftModel,
-  public inventories: Inventory[]
+  public players? : Player[],
+  public planet?: Planet,
+  public spacecraftModel?: SpacecraftModel,
+  public inventories?: Inventory[]
   ){}
 }

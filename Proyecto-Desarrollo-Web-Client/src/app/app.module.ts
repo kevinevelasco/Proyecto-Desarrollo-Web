@@ -4,10 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { SpacecraftModelViewComponent } from './spacecraftModel/spacecraft-model-view/spacecraft-model-view.component';
-import { SpacecraftModelListComponent } from './spacecraftModel/spacecraft-model-list/spacecraft-model-list.component';
-import { SpacecraftModelEditComponent } from './spacecraftModel/spacecraft-model-edit/spacecraft-model-edit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StarListComponent } from './star/star-list/star-list.component';
 import { StarEditComponent } from './star/star-edit/star-edit.component';
 import { StarViewComponent } from './star/star-view/star-view.component';
@@ -19,13 +16,13 @@ import { UiInfobarLeftComponent } from './space-travel/ui/ui-infobar-left/ui-inf
 import { UiInfobarRightComponent } from './space-travel/ui/ui-infobar-right/ui-infobar-right.component';
 import { EngineComponent } from './space-travel/engine/engine.component';
 import { SpaceTravelComponent } from './space-travel/space-travel.component';
+import { LoginComponent } from './auth/login/login.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SpacecraftModelViewComponent,
-    SpacecraftModelListComponent,
-    SpacecraftModelEditComponent,
     StarListComponent,
     StarEditComponent,
     StarViewComponent,
@@ -36,13 +33,16 @@ import { SpaceTravelComponent } from './space-travel/space-travel.component';
     UiInfobarLeftComponent,
     UiInfobarRightComponent,
     EngineComponent,
-    SpaceTravelComponent
+    SpaceTravelComponent,
+    LoginComponent,
+    DashboardComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

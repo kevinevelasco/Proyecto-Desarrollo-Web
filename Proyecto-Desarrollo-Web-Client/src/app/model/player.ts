@@ -7,6 +7,6 @@ export class Player {
     public userName: string,
     public password: string,
     public type: PlayerType,
-    public spacecraft: Spacecraft
+    public spacecraft?: Spacecraft
   ){}
 }
