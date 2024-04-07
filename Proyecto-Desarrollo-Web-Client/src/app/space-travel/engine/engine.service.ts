@@ -1,20 +1,23 @@
 import * as THREE from 'three';
-import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
+import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { Star } from '../../model/star';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class EngineService implements OnDestroy {
   private canvas: HTMLCanvasElement;
   private renderer: THREE.WebGLRenderer;
-  private camera: THREE.PerspectiveCamera;
   private scene: THREE.Scene;
   private light: THREE.AmbientLight;
-
-  private cube: THREE.Mesh;
-
   private frameId: number = 0;
+  private camera: THREE.PerspectiveCamera;
 
-  public constructor(private ngZone: NgZone) {
-  }
+  private sun: THREE.Mesh;
+
+  //creamos una lista de planetas que tiene la estrella
+  private planets: THREE.Mesh[] = [];
+
+  public constructor(private ngZone: NgZone) {}
 
   public ngOnDestroy(): void {
     if (this.frameId != null) {
@@ -32,7 +35,7 @@ export class EngineService implements OnDestroy {
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      alpha: true,    // transparent background
+      alpha: true, // transparent background
       antialias: true // smooth edges
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -41,9 +44,15 @@ export class EngineService implements OnDestroy {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(
-      75, window.innerWidth / window.innerHeight, 0.1, 1000
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
     );
-    this.camera.position.z = 5;
+
+    const orbit = new OrbitControls(this.camera, this.renderer.domElement);
+    this.camera.position.set(0, 0, 50); // Cambiamos la posición de la cámara para que mire hacia el cubo y el sol
+    orbit.update();
     this.scene.add(this.camera);
 
     // soft white light
@@ -51,11 +60,11 @@ export class EngineService implements OnDestroy {
     this.light.position.z = 10;
     this.scene.add(this.light);
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    this.cube = new THREE.Mesh(geometry, material);
-    this.scene.add(this.cube);
-
+    const sunTexture = new THREE.TextureLoader().load('assets/img/sun.jpg');
+    const sunGeo = new THREE.SphereGeometry(16, 32, 32);
+    const sunMat = new THREE.MeshBasicMaterial({ map: sunTexture });
+    this.sun = new THREE.Mesh(sunGeo, sunMat);
+    this.scene.add(this.sun);
   }
 
   public animate(): void {
@@ -81,8 +90,7 @@ export class EngineService implements OnDestroy {
       this.render();
     });
 
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
+    this.sun.rotateY(0.004);
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -94,5 +102,11 @@ export class EngineService implements OnDestroy {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
+  }
+
+  //para saber los datos de la estrella en la que estoy, dependo de spacecraft
+  //ya que es la nave de la cual hace parte el jugador que se logueó
+  public getStarData() {
+    
   }
 }
