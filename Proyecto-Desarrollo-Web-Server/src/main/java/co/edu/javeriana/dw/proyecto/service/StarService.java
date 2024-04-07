@@ -51,7 +51,7 @@ public class StarService {
         Star currentStar = starRepository.findById(currentStarId).orElseThrow(() -> new RuntimeException("Estrella no encontrada"));
         List<Star> allStars = starRepository.findAll();
         return allStars.stream()
-                .filter(star -> !star.getId().equals(currentStarId)) // esto quita para q no se muestre la estrella donde esa
+                .filter(star -> !star.getId().equals(currentStarId)) // esto quita para q no se muestre la estrella donde esta
                 .sorted(Comparator.comparingDouble(star -> calculateDistance(currentStar, star)))
                 .limit(limit)
                 .collect(Collectors.toList());

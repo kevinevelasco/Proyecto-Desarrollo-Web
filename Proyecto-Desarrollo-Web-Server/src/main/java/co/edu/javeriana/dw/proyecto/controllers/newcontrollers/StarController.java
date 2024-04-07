@@ -95,7 +95,7 @@ public class StarController {
         return starService.findNearestStars(id, 10);
     }
 
-    //esto muestra los planetas q hay en la estrella
+    //esto muestra los planetas que hay en la estrella
     @GetMapping("/{id}/planets")
     public List<Planet> getPlanetsByStar(@PathVariable Long id) {
         return starService.findPlanetsByStarId(id);
