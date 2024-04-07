@@ -17,6 +17,6 @@ public class AuthService {
         if (player != null && player.getPassword().equals(loginRequest.getPassword())) {
             return player;
         }
-        return new Player();
+        return null;
     }
 }

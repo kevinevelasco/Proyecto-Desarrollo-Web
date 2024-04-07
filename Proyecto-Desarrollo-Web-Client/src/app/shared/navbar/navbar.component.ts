@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from '../../services/auth/login.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -9,9 +10,12 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
+  private subscription: Subscription;
   constructor(private loginService: LoginService, private router:Router) {}
   ngOnDestroy(): void {
-    this.loginService.currentUserLoginOn.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();  // Desuscribirse de la suscripción
+    }
   }
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({

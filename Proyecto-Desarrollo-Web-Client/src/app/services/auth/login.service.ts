@@ -7,11 +7,9 @@ import {
 import { LoginRequest } from './loginRequest';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../../environments/environment.development';
-import { SpacecraftModel } from '../../model/spacecraft-model';
 import { Player } from '../../model/player';
 import { catchError, throwError, BehaviorSubject, tap } from 'rxjs';
 import { PlayerType } from '../../model/player-type';
-import { Spacecraft } from '../../model/spacecraft';
 
 @Injectable({
   providedIn: 'root',
@@ -24,32 +22,38 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginRequest): Observable<Player> {
-    {
-      return this.http.post<any>(`${environment.serverUrl}/api/auth/login`, credentials).pipe(
-        tap((userData) => {
-          this.currentUserData.next(userData);
-          this.currentUserLoginOn.next(true);
-        }),
-        catchError(this.handleError)
-      );
-    }
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      console.error('Se ha producido un error: ' + error.error);
-    } else {
-      console.error(
-        'Backend retornó el código de estado: ' + error.status,
-        error.error
-      );
-    }
-
-    return throwError(
-      () => new Error('Algo falló. Por favor intente nuevamente')
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log(credentials.userName, credentials.password)
+    return this.http.post<any>(
+      `${environment.serverUrl}/api/auth/login`, //TODO, hay que realizar este proceso con JWT y con toda la seguridad, pero por el momento sirve así
+      credentials,
+      httpOptions
+    ).pipe(
+      tap((userData) => {
+        console.log(userData);
+        localStorage.setItem('currentUserData', JSON.stringify(userData));
+        this.currentUserData.next(userData);
+        this.currentUserLoginOn.next(true);
+      }),
+      catchError(this.handleError)
     );
   }
+  
 
+  private handleError(error:HttpErrorResponse){
+    if(error.status===0){
+      console.error('Se ha producio un error ', error.error);
+    }
+    else{
+      console.error('Backend retornó el código de estado ', error);
+    }
+    return throwError(()=> new Error('Algo falló. Por favor intente nuevamente.'));
+  }
+  
   get userData(): Observable<Player> {
     return this.currentUserData.asObservable();
   }
@@ -59,6 +63,7 @@ export class LoginService {
   }
   logout() {
     this.currentUserLoginOn.next(false);
-    this.currentUserData.next(new Player(0, '', '', PlayerType.CAPTAIN));
+    this.currentUserData.next(JSON.parse(localStorage.getItem('currentUserData') ?? '{}'));
+    localStorage.removeItem('currentUserData');
   }
 }
