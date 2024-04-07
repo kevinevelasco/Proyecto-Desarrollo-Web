@@ -21,4 +21,8 @@ public class InventoryService {
 
     public void deleteInventory(Long id) {inventoryRepository.deleteById(id);}
 
+
+    public List<Inventory> getInventoriesBySpacecraft(Long id) {
+        return inventoryRepository.findAllBySpacecraftId(id);
+    }
 }

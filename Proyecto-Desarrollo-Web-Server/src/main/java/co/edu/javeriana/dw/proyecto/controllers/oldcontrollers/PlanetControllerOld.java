@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.model.Star;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/planet")
-public class PlanetController {
+public class PlanetControllerOld {
 
     Logger log = LoggerFactory.getLogger(getClass());
 

@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.controllers;
+package co.edu.javeriana.dw.proyecto.controllers.oldcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.Inventory;
 import co.edu.javeriana.dw.proyecto.model.Product;
@@ -24,7 +24,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/inventory")
-public class InventoryController {
+public class InventoryControllerOld {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
