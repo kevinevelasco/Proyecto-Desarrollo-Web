@@ -100,4 +100,10 @@ public class StarController {
     public List<Planet> getPlanetsByStar(@PathVariable Long id) {
         return starService.findPlanetsByStarId(id);
     }
+
+    //obtener la estrella según el id del player el cual tiene el id del planeta en el que está
+    @GetMapping("/player/{id}")
+    public Star getStarByPlayer(@PathVariable Long id) {
+        return starService.getStarByPlayer(id);
+    }
 }

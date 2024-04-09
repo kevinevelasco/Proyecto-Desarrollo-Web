@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode(of = "id")
 public class Spacecraft {
     @Id

@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/product")
 public class ProductControllerOld {
@@ -22,13 +24,13 @@ public class ProductControllerOld {
     @Autowired
     private ProductService productService;
 
-    /*@GetMapping("/list")
+    @GetMapping("/list") //TODO hacerle un pageable
     public String listProducts(Model model) {
         List<Product> products = productService.getAllProduct();
         log.info("Products: " + products.size());
         model.addAttribute("products", products);
         return "product-list";
-    }*/
+    }
 
     @GetMapping("/view/{id}")
     public String viewProduct(Model model, @PathVariable Long  id) {

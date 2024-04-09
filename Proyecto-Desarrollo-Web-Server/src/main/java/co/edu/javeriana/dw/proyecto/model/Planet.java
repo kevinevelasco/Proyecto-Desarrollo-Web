@@ -40,4 +40,12 @@ public class Planet {
 
     @OneToMany(mappedBy = "planet")
     private List<Market> markets;
+
+    private Integer position;
+
+    private Boolean ring;
+
+    private Integer size;
+
+    private Integer texture;
 }

@@ -1,0 +1,8 @@
+<app-navbar></app-navbar>
+<p *ngIf="!userLoginOn">Usuario NO autenticado</p>
+<p *ngIf="userLoginOn">Usuario autenticado</p>
+<div *ngIf="userLoginOn">
+  <p>Id: {{userData?.id}}</p>
+  <p>Usuario: {{userData?.userName}}</p>
+  <p>Mensaje: {{userData?.type}}</p>
+</div>

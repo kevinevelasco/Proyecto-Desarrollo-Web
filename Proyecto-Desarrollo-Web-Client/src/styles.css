@@ -38,3 +38,11 @@ body {
 .ui-wrapper * {
   z-index: 1;
 }
+
+.ng-valid:not(form).ng-touched {
+  border-color: #42A948;
+}
+
+.ng-invalid:not(form).ng-touched {
+  border-color: #a94442;
+}

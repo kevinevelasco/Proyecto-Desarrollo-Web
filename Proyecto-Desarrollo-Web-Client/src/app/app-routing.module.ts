@@ -1,18 +1,18 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SpacecraftModelListComponent } from './spacecraftModel/spacecraft-model-list/spacecraft-model-list.component';
-import { SpacecraftModelViewComponent } from './spacecraftModel/spacecraft-model-view/spacecraft-model-view.component';
-import { SpacecraftModelEditComponent } from './spacecraftModel/spacecraft-model-edit/spacecraft-model-edit.component';
 import { SpaceTravelInterfaceComponent } from './space-travel/space-travel-interface/space-travel-interface.component';
 import { SpaceTravelComponent } from './space-travel/space-travel.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 const routes: Routes = [
-  { path: 'spacecraft-model/view/:id', component: SpacecraftModelViewComponent },
-  { path: 'spacecraft-model/edit/:id', component: SpacecraftModelEditComponent },
-  { path: 'spacecraft-model/list', component: SpacecraftModelListComponent },
   { path: 'space-travelling', component: SpaceTravelInterfaceComponent },
   { path: 'space-travel', component: SpaceTravelComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'person/list' },
+  { path: 'home', component: DashboardComponent},
+  { path: 'login', component: LoginComponent},
+  { path: 'admin', component: AdminComponent},
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
 ];
 
 @NgModule({

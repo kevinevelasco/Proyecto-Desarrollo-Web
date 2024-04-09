@@ -1,0 +1,22 @@
+<form [formGroup]="loginForm">
+  <!-- añadimos un error-->
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  <!--usando username y password-->
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input formControlName="username" type="text" class="form-control" id="username" name="username" required>
+    <div *ngIf="username.invalid && (username.dirty || username.touched)" 
+      class="alert alert-danger">
+      <div *ngIf="username.errors?.['required']">Username is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input formControlName="password" type="password" class="form-control" id="password" name="password"required>
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" 
+      class="alert alert-danger">
+      <div *ngIf="password.errors?.['required']">Password is required</div>
+  </div>
+  </div>
+  <button type="submit" (click)="login()" class="btn btn-primary">Login</button>
+</form>
