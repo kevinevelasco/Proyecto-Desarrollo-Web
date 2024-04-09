@@ -16,5 +16,4 @@ public interface IStarRepository extends JpaRepository<Star, Long > {
     int updateStarName(@Param("id") Long id, @Param("name") String name);
 
     Page<Star> findAllByNameStartingWithIgnoreCase(String name, Pageable pageable);
-
 }

@@ -2,6 +2,7 @@
 
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
+import co.edu.javeriana.dw.proyecto.model.Star;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -54,7 +54,7 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
     if(this.userData != null){
       this.starService.getStarDataBasedOnUser(this.userData.id).subscribe((star: Star) => {
         this.currentStar = star;
-        console.log(this.currentStar); 
+        console.log('La estrella en la que estoy es:', this.currentStar); 
 
         this.planetService.getPlanetsByStarId(this.currentStar.id).subscribe(planets => {
           this.starPlanets = planets;

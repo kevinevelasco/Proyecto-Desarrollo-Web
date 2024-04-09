@@ -2807,3 +2807,11 @@ The connection was not closed by the application and is garbage collected [90018
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 16 more
+2024-04-08 23:13:07.156831-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PLANETS" no encontrada
+Table "PLANETS" not found; SQL statement:
+SELECT * FROM planets where star_id = 1 [42102-224]
+2024-04-08 23:13:12.235380-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PLANETS" no encontrada
+Table "PLANETS" not found; SQL statement:
+SELECT * FROM planets [42102-224]
