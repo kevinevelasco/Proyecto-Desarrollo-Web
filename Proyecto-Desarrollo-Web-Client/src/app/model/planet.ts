@@ -10,6 +10,10 @@ export class Planet {
     public spacecrafts: Spacecraft[],
     public star: Star,
     public products: Product[],
-    public markets: Market[]
+    public markets: Market[],
+    public position: number,
+    public ring: boolean,
+    public size: number,
+    public texture: number
   ){}
 }

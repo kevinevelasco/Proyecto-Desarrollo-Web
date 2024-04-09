@@ -64,23 +64,58 @@ public class DbInitializer implements CommandLineRunner {
                 if (random == 1) {
                     planet1.setName(faker.space().planet());
                     planet1.setStar(star);
+
+                    planet1.setRing(faker.bool().bool());
+                    planet1.setSize(faker.number().numberBetween(1, 8));
+                    planet1.setTexture(faker.number().numberBetween(1, 18));
+                    planet1.setPosition(faker.number().numberBetween(20, 40));
                     planetRepository.save(planet1);
                 } else if (random == 2) {
                     planet1.setName(faker.starWars().planets());
                     planet1.setStar(star);
-                    planetRepository.save(planet1);
+
+                    planet1.setRing(faker.bool().bool());
+                    planet1.setSize(faker.number().numberBetween(1, 4));
+                    planet1.setTexture(faker.number().numberBetween(1, 9));
+                    planet1.setPosition(faker.number().numberBetween(20, 30));
+
                     planet2.setName(faker.starCraft().planet());
                     planet2.setStar(star);
+
+                    planet2.setRing(faker.bool().bool());
+                    planet2.setSize(faker.number().numberBetween(4, 6));
+                    planet2.setTexture(faker.number().numberBetween(10, 18));
+                    planet2.setPosition(faker.number().numberBetween(50, 60));
+                    planetRepository.save(planet1);
                     planetRepository.save(planet2);
                 } else {
                     planet1.setName(faker.dune().planet());
                     planet1.setStar(star);
-                    planetRepository.save(planet1);
+
+                    planet1.setRing(faker.bool().bool());
+                    planet1.setSize(faker.number().numberBetween(1, 3));
+                    planet1.setTexture(faker.number().numberBetween(1, 7));
+                    planet1.setPosition(faker.number().numberBetween(20, 25));
+
                     planet2.setName(faker.cultureSeries().planets());
                     planet2.setStar(star);
-                    planetRepository.save(planet2);
+
+                    planet2.setRing(faker.bool().bool());
+                    planet2.setSize(faker.number().numberBetween(4, 6));
+                    planet2.setTexture(faker.number().numberBetween(8, 13));
+                    planet2.setPosition(faker.number().numberBetween(40, 60));
+
+
                     planet3.setName(faker.massEffect().planet());
                     planet3.setStar(star);
+
+                    planet3.setRing(faker.bool().bool());
+                    planet3.setSize(faker.number().numberBetween(6, 8));
+                    planet3.setTexture(faker.number().numberBetween(14, 18));
+                    planet3.setPosition(faker.number().numberBetween(80, 100));
+
+                    planetRepository.save(planet1);
+                    planetRepository.save(planet2);
                     planetRepository.save(planet3);
                 }
             }
