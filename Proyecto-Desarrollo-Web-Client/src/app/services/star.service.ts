@@ -30,4 +30,8 @@ export class StarService {
     return this.http.get<Star>(`${environment.serverUrl}/api/star/player/${id}`);
   }
 
+  getNearestStars(id: number): Observable<Star[]> {
+    return this.http.get<Star[]>(`${environment.serverUrl}/api/star/${id}/nearest`);
+  }
+
 }

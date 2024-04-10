@@ -2,8 +2,6 @@ import * as THREE from 'three';
 import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Planet } from '../../model/planet';
-import vertexShader from  './vertexShader';
-import fragmentShader from './fragmentShader';
 
 @Injectable({ providedIn: 'root' })
 export class EngineService implements OnDestroy {
@@ -35,6 +33,7 @@ export class EngineService implements OnDestroy {
     if (this.renderer != null) {
       this.renderer.dispose();
       this.renderer.forceContextLoss();
+      this.renderer = null as any;
     }
 
     document.body.removeChild(this.renderer.domElement);

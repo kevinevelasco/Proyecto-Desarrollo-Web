@@ -12,11 +12,15 @@ import { EngineService } from '../engine/engine.service';
   styleUrls: ['./ui.component.css'],
 })
 export class UiComponent implements OnInit, OnDestroy {
+onStarClick(_t34: Star) {
+throw new Error('Method not implemented.');
+}
   constructor(private engineService: EngineService) {}
 
   @Input() userData?: Player;
   @Input() currentStar: Star;
   @Input() starPlanets: Planet[] = [];
+  @Input() nearestStars : Star[] = [];
   booleanPlanet: boolean = false;
   currentPlanet: Planet;
 
@@ -24,6 +28,7 @@ export class UiComponent implements OnInit, OnDestroy {
     console.log(this.userData);
     console.log(this.currentStar);
     console.log(this.starPlanets);
+    console.log(this.nearestStars);
   }
 
   ngOnDestroy(): void {}

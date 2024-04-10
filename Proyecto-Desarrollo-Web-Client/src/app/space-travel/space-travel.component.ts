@@ -19,6 +19,7 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
   userData?: Player;
   currentStar: Star;
   starPlanets: Planet[] = [];
+  nearestStars: Star[] = [];
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
@@ -38,6 +39,7 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
       }
     });
     this.getCurrentStarAndPlanets();
+    window.onbeforeunload = () => this.ngOnDestroy();
   }
 
   ngOnDestroy(): void {
@@ -59,6 +61,10 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
         this.planetService.getPlanetsByStarId(this.currentStar.id).subscribe(planets => {
           this.starPlanets = planets;
           console.log(this.starPlanets);
+        });
+        this.starService.getNearestStars(this.currentStar.id).subscribe(nearestStars => {
+          this.nearestStars = nearestStars;
+          console.log('las estrellas más cercanas son', this.nearestStars);
         });
       });
     }
