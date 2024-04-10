@@ -45,6 +45,8 @@ Content-Type: application/json
     "totalTime": 55
 }
 
+###@PatchMapping("/player/{id}/planet/{planetId}")
+PATCH http://localhost:8080/api/spacecraft/player/1/planet/4
 
 ###
 DELETE http://localhost:8080/api/spacecraft/14

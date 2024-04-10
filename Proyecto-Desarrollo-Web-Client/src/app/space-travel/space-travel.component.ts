@@ -64,9 +64,15 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
         });
         this.starService.getNearestStars(this.currentStar.id).subscribe(nearestStars => {
           this.nearestStars = nearestStars;
-          console.log('las estrellas más cercanas son', this.nearestStars);
+          //por cada una guardamos sus planetas
+          this.nearestStars.forEach(nearestStar => {
+            this.planetService.getPlanetsByStarId(nearestStar.id).subscribe(planets => {
+              nearestStar.planets = planets;
+            });
         });
-      });
-    }
+    });
+  });
 }
 }
+}
+

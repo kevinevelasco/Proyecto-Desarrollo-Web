@@ -19,10 +19,16 @@
     </div>
   <h1>Estrellas cercanas</h1>
   <div *ngIf="nearestStars.length === 0">No hay estrellas cercanas</div>
-  <div *ngIf="nearestStars.length > 0">
+  <div class="stars" *ngIf="nearestStars.length > 0">
+    <!--imprimimos cada estrella y de cada estrella sus correspondientes planetas-->
     <ul>
       <li *ngFor="let star of nearestStars">
-        <a (click)="onStarClick(star)">{{star.name}}</a>
+        <h2>{{star.name}}</h2>
+        <ul *ngIf="userData!=undefined">
+          <li *ngFor="let planet of star.planets">
+            <a (click)="onOtherStarPlanetClick(planet, userData)">{{planet.name}}</a>
+          </li>
+        </ul>
       </li>
     </ul>
 </div>

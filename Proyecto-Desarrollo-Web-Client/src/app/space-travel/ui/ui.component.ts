@@ -1,10 +1,14 @@
 import { StarService } from './../../services/star.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Star } from '../../model/star';
 import { Player } from '../../model/player';
 import { Planet } from '../../model/planet';
 import { PlanetService } from '../../services/planet.service';
 import { EngineService } from '../engine/engine.service';
+import { Router } from '@angular/router';
+import { SpacecraftService } from '../../services/spacecraft.service';
+import { SpacecraftPlanet } from './spacecraftPlanet';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ui',
@@ -12,15 +16,16 @@ import { EngineService } from '../engine/engine.service';
   styleUrls: ['./ui.component.css'],
 })
 export class UiComponent implements OnInit, OnDestroy {
-onStarClick(_t34: Star) {
-throw new Error('Method not implemented.');
-}
-  constructor(private engineService: EngineService) {}
+  constructor(
+    private engineService: EngineService,
+    private router: Router,
+    private spacecraftService: SpacecraftService
+  ) {}
 
   @Input() userData?: Player;
   @Input() currentStar: Star;
   @Input() starPlanets: Planet[] = [];
-  @Input() nearestStars : Star[] = [];
+  @Input() nearestStars: Star[] = [];
   booleanPlanet: boolean = false;
   currentPlanet: Planet;
 
@@ -45,5 +50,21 @@ throw new Error('Method not implemented.');
   }
   onTravelClick() {
     throw new Error('Method not implemented.');
+    }
+  onOtherStarPlanetClick(planet: Planet, userData: Player) {
+    //convertimos la respuesta en la interfaz SpacecraftPlanet
+    const spacecraftPlanet: SpacecraftPlanet = {idPlanet: planet.id, idUser: userData.id};
+
+    this.spacecraftService.setPlanet(spacecraftPlanet).pipe(
+      //delay(2000)
+    ).subscribe(data => {
+      console.log(data);
+      this.router.navigate(['/space-travelling']).then(() => {
+        // Redirigir a '/space-travel' después de 2 segundos
+        setTimeout(() => {
+          this.router.navigate(['/space-travel']); //corregir por la interfaz de compra y venta de Nicolás
+        }, 5000); // retraso de 2 segundos
+      });
+    });
   }
 }

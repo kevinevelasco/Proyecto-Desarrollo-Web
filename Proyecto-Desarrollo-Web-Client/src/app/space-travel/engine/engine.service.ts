@@ -35,8 +35,6 @@ export class EngineService implements OnDestroy {
       this.renderer.forceContextLoss();
       this.renderer = null as any;
     }
-
-    document.body.removeChild(this.renderer.domElement);
   }
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {

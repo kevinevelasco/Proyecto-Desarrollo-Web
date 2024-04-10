@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { SpacecraftModel } from '../model/spacecraft-model';
 import { environment } from '../../environments/environment.development';
+import { Spacecraft } from '../model/spacecraft';
+import { SpacecraftPlanet } from '../space-travel/ui/spacecraftPlanet';
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +31,18 @@ export class SpacecraftService {
   saveSpacecraftModel(spacecraftModel: SpacecraftModel): Observable<SpacecraftModel> {
     return this.http.put<SpacecraftModel>(`${environment.serverUrl}/api/spacecraft-model`, spacecraftModel, { headers: this.headers });
   }
+
+  //mediante una petición patch al servidor hacemos update
+  setPlanet(spacecraftPlanet: SpacecraftPlanet): Observable<Spacecraft> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    
+    return this.http.patch<Spacecraft>(`${environment.serverUrl}/api/spacecraft/player/${spacecraftPlanet.idUser}/planet/${spacecraftPlanet.idPlanet}`, null);
+  }
 }
+
+
+

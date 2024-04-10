@@ -1,4 +1,4 @@
-package co.edu.javeriana.dw.proyecto.auth;
+package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
-    String username;
-    String password; 
+public class SpacecraftPlanet {
+    Long idPlanet;
+    Long idUser;
 }
