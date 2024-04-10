@@ -1,11 +1,13 @@
 import * as THREE from 'three';
 import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { Star } from '../../model/star';
 import { Planet } from '../../model/planet';
+import vertexShader from  './vertexShader';
+import fragmentShader from './fragmentShader';
 
 @Injectable({ providedIn: 'root' })
 export class EngineService implements OnDestroy {
+
   private canvas: HTMLCanvasElement;
   private renderer: THREE.WebGLRenderer;
   private scene: THREE.Scene;
@@ -14,14 +16,19 @@ export class EngineService implements OnDestroy {
   private camera: THREE.PerspectiveCamera;
 
   private sun: THREE.Mesh;
+  private stars: THREE.Mesh[] = []; //creamos una lista de estrellas
 
   //creamos una lista de planetas que tiene la estrella
   private planets: { [name: string]: THREE.Mesh } = {};
   private objs: { [name: string]: THREE.Object3D } = {};
+  private infoPlanet: boolean = false;
+  private info: boolean = false;
+  private currentPlanet: Planet;
 
   public constructor(private ngZone: NgZone) {}
 
   public ngOnDestroy(): void {
+    console.log("ngOnDestroy");
     if (this.frameId != null) {
       cancelAnimationFrame(this.frameId);
     }
@@ -29,6 +36,8 @@ export class EngineService implements OnDestroy {
       this.renderer.dispose();
       this.renderer.forceContextLoss();
     }
+
+    document.body.removeChild(this.renderer.domElement);
   }
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
@@ -52,15 +61,38 @@ export class EngineService implements OnDestroy {
       1000
     );
 
-    const orbit = new OrbitControls(this.camera, this.renderer.domElement);
-    this.camera.position.set(0, 0, 50); // Cambiamos la posición de la cámara para que mire hacia el cubo y el sol
-    orbit.update();
+    this.camera.position.set(0, 0, 150); // Cambiamos la posición de la cámara para que mire hacia el cubo y el sol
     this.scene.add(this.camera);
 
     // soft white light
     this.light = new THREE.AmbientLight(0x404040);
     this.light.position.z = 10;
     this.scene.add(this.light);
+
+
+    for ( var z= -1000; z < 1000; z+=20 ) {
+		
+      // Make a sphere (exactly the same as before). 
+      var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
+      var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+      var sphere = new THREE.Mesh(geometry, material)
+
+      // This time we give the sphere random x and y positions between -500 and 500
+      sphere.position.x = Math.random() * 1000 - 500;
+      sphere.position.y = Math.random() * 1000 - 500;
+
+      // Then set the z position to where it is in the loop (distance of camera)
+      sphere.position.z = z;
+
+      // scale it up a bit
+      sphere.scale.x = sphere.scale.y = 2;
+
+      //add the sphere to the scene
+      this.scene.add( sphere );
+
+      //finally push it to the stars array 
+      this.stars.push(sphere); 
+    }
 
     const sunTexture = new THREE.TextureLoader().load('assets/img/sun/sun.jpg');
     const sunGeo = new THREE.SphereGeometry(16, 32, 32);
@@ -95,15 +127,35 @@ export class EngineService implements OnDestroy {
       this.render();
     });
 
+    for(var i=0; i<this.stars.length; i++) {
+			
+			const star = this.stars[i]; 
+				
+			// and move it forward dependent on the mouseY position. 
+			star.position.z +=  i/10;
+				
+			// if the particle is too close move it to the back
+			if(star.position.z>1000) star.position.z-=2000; 
+			
+		}
     this.sun.rotateY(0.004);
     //con un for hacemos rotar a los objetos y a los planetas
     for (let planet in this.planets) {
-      this.planets[planet].rotateY(0.001);
-      this.objs[planet].rotateY(0.0008);
+      if(!this.info){
+        this.planets[planet].rotateY(0.001);
+        this.objs[planet].rotateY(0.0008);
+      } else {
+        if (planet == this.currentPlanet.name && this.infoPlanet) {
+          var zoomIn = this.currentPlanet.size + 10;
+          if(this.camera.position.z > this.objs[planet].position.z + zoomIn){
+            this.camera.position.z -= 0.1;
+          } 
+        }
     }
 
     this.renderer.render(this.scene, this.camera);
   }
+}
 
   public resize(): void {
     const width = window.innerWidth;
@@ -139,5 +191,19 @@ export class EngineService implements OnDestroy {
       this.objs[planet.name] = obj;
   }
 );
+  }
+
+  showPlanet(planet: Planet) {
+    this.camera.position.set(0, 0, 150);
+    this.infoPlanet = true;
+    this.info=true;
+    this.currentPlanet = planet;
+    this.camera.position.set(planet.position, 0, 50);
+
+  }
+
+  setInfo(info: boolean) {
+    this.info = info;
+    this.camera.position.set(0, 0, 150);
   }
 }

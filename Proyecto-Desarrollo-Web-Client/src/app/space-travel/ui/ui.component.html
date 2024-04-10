@@ -1,12 +1,22 @@
 <div class="ui-wrapper">
   <h1>Ubicación</h1>
-  <!--usamos la variable  currentStar para mostrar el nombre de la estrella y los planetas-->
   <h2>{{currentStar.name}}</h2>
   <div *ngIf="starPlanets.length === 0">No hay planetas en esta estrella</div>
     <div *ngIf="starPlanets.length > 0">
       <ul>
         <li *ngFor="let planet of starPlanets">
-          <a [routerLink]="['/planet', planet.id]">{{planet.name}}</a>
+          <a (click)="onPlanetClick(planet)">{{planet.name}}</a>
         </li>
       </ul>
+      <!-- mostramos la columna derecha solo si se le dio click a onPlanetClick-->
+<div class="right-column" *ngIf="booleanPlanet">
+  <h2>{{currentPlanet.name}}</h2>
+  <p>{{currentPlanet.position}}</p>
+  <p>Te gustaría ir a este planeta? </p>
+  <button (click)="onTravelClick()">Viajar</button>
+  <button (click)="onCancelClick()">Volver</button>
 </div>
+
+</div>
+
+
