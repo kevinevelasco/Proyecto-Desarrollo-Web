@@ -5,6 +5,7 @@ import { SpacecraftModel } from '../model/spacecraft-model';
 import { environment } from '../../environments/environment.development';
 import { Spacecraft } from '../model/spacecraft';
 import { SpacecraftPlanet } from '../space-travel/ui/spacecraftPlanet';
+import { Planet } from '../model/planet';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +44,8 @@ export class SpacecraftService {
     return this.http.patch<Spacecraft>(`${environment.serverUrl}/api/spacecraft/player/${spacecraftPlanet.idUser}/planet/${spacecraftPlanet.idPlanet}`, null);
   }
 
-  getPlanetBySpacecraft(spacecraftId: number): Observable<Spacecraft> {
-    return this.http.get<Spacecraft>(`${environment.serverUrl}/api/spacecraft/${spacecraftId}/planet`);
+  getPlanetBySpacecraft(spacecraftId: number): Observable<Planet> {
+    return this.http.get<Planet>(`${environment.serverUrl}/api/spacecraft/${spacecraftId}/planet`);
   }
 }
 

@@ -22,7 +22,7 @@ export class PlayerService {
     return this.http.get<Player>(`${environment.serverUrl}/api/player/${playerId}`);
   }
   getPlayerSpacecraft(playerId: number): Observable<Spacecraft> {
-    return this.http.get<Spacecraft>(`${environment.serverUrl}/api/${playerId}/spacecraft`);
+    return this.http.get<Spacecraft>(`${environment.serverUrl}/api/player/${playerId}/spacecraft`);
   }
 
 }

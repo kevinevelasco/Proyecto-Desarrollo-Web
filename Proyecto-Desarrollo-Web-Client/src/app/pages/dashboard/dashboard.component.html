@@ -2,9 +2,9 @@
 <body>
   <div *ngIf="userLoginOn">
     <p>Bienvenido {{playerData?.userName}}, actualmente te encuentras en
-       el equipo de nave {{playerData?.spacecraft?.name}} y están en el
-      planeta{{playerData?.spacecraft?.planet}} </p>
-      <p>Recuerda que tienes {{playerData?.spacecraft?.totalTime}} minutos para completar el juego</p>
+       el equipo de nave {{spaceCraftData?.name}} y están en el
+      planeta {{planetData?.name}} </p>
+      <p>Recuerda que tienes {{spaceCraftData?.totalTime}} minutos para completar el juego</p>
 
   </div>
 </body>

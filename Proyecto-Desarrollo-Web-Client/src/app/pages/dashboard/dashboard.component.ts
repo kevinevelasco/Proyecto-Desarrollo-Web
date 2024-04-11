@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from '../../services/auth/login.service';
 import { PlayerService } from '../../services/player.service';
+import { SpacecraftService } from '../../services/spacecraft.service';
 import { Player } from '../../model/player';
 import { Subscription } from 'rxjs';
 import { Spacecraft } from '../../model/spacecraft';
@@ -20,7 +21,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private loginSubscription: Subscription; 
   private userDataSubscription: Subscription;
-  constructor(private loginService: LoginService, private playerService: PlayerService) { }
+  constructor(private loginService: LoginService, private playerService: PlayerService,
+     private spaceCraftService: SpacecraftService) { }
   ngOnInit(): void {
 
     const userData = localStorage.getItem('currentUserData');
@@ -55,9 +57,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(this.userData);
     if (this.userData != null) {
       this.playerService.getPlayerById(this.userData.id).subscribe((player: Player) => {
-        console.log('El jugador es:', player.spacecraft?.name);
+        console.log('El jugador es:', player.type);
         this.playerData = player;
-      });    }
+        this.getSpaceCraftData();
+      });    
+    }
 
   }
   getSpaceCraftData(): void {
@@ -66,6 +70,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.playerService.getPlayerSpacecraft(this.playerData.id).subscribe((spacecraft: Spacecraft) => {
         console.log('La nave es:', spacecraft.name);
         this.spaceCraftData = spacecraft;
+        this.getPlanetData();
+      });
+    }
+  }
+  getPlanetData(): void {
+    console.log(this.spaceCraftData);
+    if (this.spaceCraftData != null) {
+      this.spaceCraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
+        console.log('El planeta es:', planet.name);
+        this.planetData = planet;
       });
     }
   }

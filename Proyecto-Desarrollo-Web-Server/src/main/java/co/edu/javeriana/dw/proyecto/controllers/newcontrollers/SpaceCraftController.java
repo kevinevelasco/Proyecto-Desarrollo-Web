@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/spacecraft")
 public class SpaceCraftController {
+
+    Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SpacecraftService spaceCraftService;
@@ -132,6 +135,7 @@ public class SpaceCraftController {
 
     @GetMapping("{id}/planet")
     public Planet getPlanet(@PathVariable Long id) {
+        log.info("Planeta de la nave con id: " + id+ " es: " + spaceCraftService.getSpacecraftById(id).getPlanet());
         return spaceCraftService.getSpacecraftById(id).getPlanet();
     }
 
