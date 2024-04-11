@@ -28,6 +28,7 @@ p{
 }
 
 input[type="text"] {
+    font-family: 'Big Shoulders Display';
     background-color: transparent; 
     border: 1px solid var(--primary);
     color: var(--primary);
@@ -76,6 +77,10 @@ input[type="password"] {
     cursor: pointer;
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+  button:hover {
+    background-color: var(--primary);
+    color: black;
   }
 
   .alert-alert-danger{
