@@ -3,6 +3,8 @@ import { LoginService } from '../../services/auth/login.service';
 import { PlayerService } from '../../services/player.service';
 import { Player } from '../../model/player';
 import { Subscription } from 'rxjs';
+import { Spacecraft } from '../../model/spacecraft';
+import { Planet } from '../../model/planet';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +15,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
   userData?:Player;
   playerData?:Player;
+  spaceCraftData?:Spacecraft;
+  planetData?:Planet;
+
   private loginSubscription: Subscription; 
   private userDataSubscription: Subscription;
   constructor(private loginService: LoginService, private playerService: PlayerService) { }
@@ -54,5 +59,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.playerData = player;
       });    }
 
+  }
+  getSpaceCraftData(): void {
+    console.log(this.playerData);
+    if (this.playerData != null) {
+      this.playerService.getPlayerSpacecraft(this.playerData.id).subscribe((spacecraft: Spacecraft) => {
+        console.log('La nave es:', spacecraft.name);
+        this.spaceCraftData = spacecraft;
+      });
+    }
   }
 }

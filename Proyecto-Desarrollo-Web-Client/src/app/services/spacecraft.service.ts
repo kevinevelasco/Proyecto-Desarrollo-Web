@@ -42,6 +42,10 @@ export class SpacecraftService {
     
     return this.http.patch<Spacecraft>(`${environment.serverUrl}/api/spacecraft/player/${spacecraftPlanet.idUser}/planet/${spacecraftPlanet.idPlanet}`, null);
   }
+
+  getPlanetBySpacecraft(spacecraftId: number): Observable<Spacecraft> {
+    return this.http.get<Spacecraft>(`${environment.serverUrl}/api/spacecraft/${spacecraftId}/planet`);
+  }
 }
 
 
