@@ -1,0 +1,52 @@
+.dialog-chart{
+    padding: 15px;
+    background-color: rgba(212,169,68, 0.6);
+    margin-left: 300px;
+    margin-top: 80px;
+    width: 40%;
+    height: 20%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+p{
+    font-family: 'Iceland';
+    font-size: 20px;
+}
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-right: 200px;
+    margin-top: 150px;
+}
+button{
+    font-family: 'Big Shoulders Display';
+    background-color: transparent;
+    text-transform: uppercase;
+    cursor: pointer;
+
+}
+.exit{
+    width: 150px;
+    font-size: 40px;
+    border: 1px solid red;
+    color: red;
+    margin-right: 30px;
+}
+.exit:hover{
+    background-color: red;
+    color: black;
+}
+.start{
+    width: 200px;
+    font-size: 40px;
+    border: 1px solid var(--green);
+    color: var(--green);
+    margin-right: 30px;
+}
+.start:hover{
+    background-color: var(--green);
+    color: black;
+}

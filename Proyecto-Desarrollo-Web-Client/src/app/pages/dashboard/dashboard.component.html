@@ -1,10 +1,20 @@
 <app-navbar></app-navbar>
 <body>
   <div *ngIf="userLoginOn">
-    <p>Bienvenido {{playerData?.userName}}, actualmente te encuentras en
-       el equipo de nave {{spaceCraftData?.name}} y están en el
-      planeta {{planetData?.name}} </p>
-      <p>Recuerda que tienes {{spaceCraftData?.totalTime}} minutos para completar el juego</p>
+    <div class="dialog-chart">
+      <p>Bienvenido {{playerData?.userName}}, actualmente te encuentras en
+        el equipo de nave {{spaceCraftData?.name}} y están en el
+       planeta {{planetData?.name}}. </p>
+       <p>Recuerda que tienes {{spaceCraftData?.totalTime}} minutos para completar el juego.</p>
+    </div>
+
+    <div class="buttons">
+      <button (click)="logoutAndRedirect()" class="exit">Salir</button>
+      <button class="start">Iniciar el juego</button>
+
+
+    </div>
+   
 
   </div>
 </body>

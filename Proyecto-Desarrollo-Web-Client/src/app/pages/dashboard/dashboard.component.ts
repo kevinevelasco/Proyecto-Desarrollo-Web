@@ -6,6 +6,7 @@ import { Player } from '../../model/player';
 import { Subscription } from 'rxjs';
 import { Spacecraft } from '../../model/spacecraft';
 import { Planet } from '../../model/planet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private loginSubscription: Subscription; 
   private userDataSubscription: Subscription;
   constructor(private loginService: LoginService, private playerService: PlayerService,
-     private spaceCraftService: SpacecraftService) { }
+     private spaceCraftService: SpacecraftService, private router: Router) { }
   ngOnInit(): void {
 
     const userData = localStorage.getItem('currentUserData');
@@ -82,5 +83,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.planetData = planet;
       });
     }
+  }
+
+  logoutAndRedirect(): void {
+    this.loginService.logout();
+    this.userLoginOn = false;
+    this.router.navigate(['/login']);
   }
 }
