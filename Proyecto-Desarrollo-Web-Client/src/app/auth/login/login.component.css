@@ -1,0 +1,87 @@
+form{
+    font-family: 'Big Shoulders Display';
+}
+
+h1{
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 120px;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+
+p{
+    font-family: 'Iceland';
+    font-weight: regular;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.form-group{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+input[type="text"] {
+    background-color: transparent; 
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 20px; 
+    width: 250px; 
+  }
+  input[type="text"]::placeholder {
+    font-family: 'Big Shoulders Display';
+    font-weight: bold;
+    color: var(--primary); /* Color más claro para el placeholder */
+  }
+  input:focus::placeholder {
+    color: transparent;
+  }
+  
+input[type="password"] {
+    background-color: var(--primary); 
+    border: 1px solid var(--primary);
+    color: black;
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 20px; 
+    width: 250px; 
+  }
+  input[type="password"]::placeholder {
+    font-family: 'Big Shoulders Display';
+    font-weight: bold;
+    color: black; /* Color más claro para el placeholder */
+  }
+
+  .button{
+    
+    text-align: center;
+  }
+  button {
+    font-family: 'Big Shoulders Display';
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 1px solid var(--primary);
+    background-color: transparent;
+    color: var(--primary);
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .alert-alert-danger{
+    font-weight: light;
+    font-size: 20px;
+    padding: 0px;
+    color: red;
+    text-align: center;
+  }
