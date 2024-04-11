@@ -1,8 +1,3 @@
 ###
-POST http://localhost:8080/api/player/login
+GET  http://localhost:8080/api/player/1
 Content-Type: application/json
-
-{
-    "userName": "ronnie.anderson",
-    "password": "12345"
-}

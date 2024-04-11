@@ -4,9 +4,7 @@ import co.edu.javeriana.dw.proyecto.model.Inventory;
 import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
-import co.edu.javeriana.dw.proyecto.persistence.ISpacecraftRepository;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
-import co.edu.javeriana.dw.proyecto.service.PlayerService;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftModelService;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,12 +41,6 @@ public class SpaceCraftController {
 
     @Autowired
     private PlanetService planetService;
-
-    @Autowired
-    private PlayerService playerService;
-
-    @Autowired
-    private ISpacecraftRepository spaceCraftRepository;
 
     // http://localhost:8080/api/spacecraft/list
     @GetMapping("/list")
@@ -102,21 +94,6 @@ public class SpaceCraftController {
         return spaceCraftService.saveSpacecraft(spacecraft);
     }
 
-    //hacemos un método para actualizar el planeta en el que se encuentra la nave, usando el id del jugador y el id del planeta
-    //http://localhost:8080/api/spacecraft/player/1/planet/1
-    @PatchMapping("/player/{id}/planet/{planetId}")
-    public Spacecraft updateSpaceCraftPlanet(@PathVariable Long id, @PathVariable Long planetId) {
-        //filtramos en las naves, en las que tenga ese jugador con id = id
-        //obtenemos la spacecraft que contiene en su lista de jugadores el jugador con el id {id}
-        Spacecraft spacecraft = spaceCraftRepository.findAll().stream()
-                .filter(s -> s.getPlayers().stream().anyMatch(p -> p.getId().equals(id)))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Nave no encontrada"));
-        spacecraft.setPlanet(planetService.getPlanetById(planetId));
-        spaceCraftService.saveSpacecraft(spacecraft);
-        return spacecraft;
-    }
-
     @PatchMapping("/{id}/name")
     public Map<String, Object> updateSpaceCraftName(@PathVariable Long id, @RequestBody String name) {
         int numeroRegistrosModificados = spaceCraftService.actualizarNombreNave(id, name);
@@ -152,6 +129,4 @@ public class SpaceCraftController {
     public List<Inventory> getInventoryList(@PathVariable Long id) {
         return spaceCraftService.getSpacecraftById(id).getInventories();
     }
-
-    //hacemos un set en la base de datos del nuevo planeta en el cuál se encuentra la nave, el cual será uno de los que tenga la star que le llega
 }

@@ -1,8 +1,11 @@
 <app-navbar></app-navbar>
-<p *ngIf="!userLoginOn">Usuario NO autenticado</p>
-<p *ngIf="userLoginOn">Usuario autenticado</p>
-<div *ngIf="userLoginOn">
-  <p>Id: {{userData?.id}}</p>
-  <p>Usuario: {{userData?.userName}}</p>
-  <p>Mensaje: {{userData?.type}}</p>
-</div>
+<body>
+  <div *ngIf="userLoginOn">
+    <p>Bienvenido {{playerData?.userName}}, actualmente te encuentras en
+       el equipo de nave {{playerData?.spacecraft?.name}} y están en el
+      planeta{{playerData?.spacecraft?.planet}} </p>
+      <p>Recuerda que tienes {{playerData?.spacecraft?.totalTime}} minutos para completar el juego</p>
+
+  </div>
+</body>
+
