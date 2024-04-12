@@ -23,7 +23,7 @@ public class Market {
     @JoinColumn(name = "planet_id", nullable = false)
     private Planet planet;
 
-    @JsonIgnore
+   // @JsonIgnore
     @NotNull
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

@@ -36,5 +36,7 @@ public class MarketService {
     public Page<Market> buscarMercado(Long planetId, Pageable pageable) {
         return marketRepository.findAllByPlanetId(planetId, pageable);
     }
-
+    public List<Market> getMarketsByPlanetId(Long planetId) {
+        return marketRepository.findAllByPlanetId(planetId);
+    }
 }

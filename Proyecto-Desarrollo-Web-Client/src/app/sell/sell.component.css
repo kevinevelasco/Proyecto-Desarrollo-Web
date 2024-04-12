@@ -1,0 +1,246 @@
+/* Estilos existentes para babyYoda */
+.babyYoda {
+    width: 20%;
+    height: 700px;
+    overflow: hidden;
+    position: relative;
+    margin-left: 250px;
+    z-index: 1;
+}
+
+.babyYoda img {
+    position: absolute;
+    bottom: -100%;
+    left: 40%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: auto;
+    animation: slideUp 1s forwards;
+}
+
+.globoTexto {
+    position: absolute;
+    z-index: 10; /* Asegura que aparezca encima */
+    width: 20%; /* Ancho inicial, ajusta según necesites */
+    height: auto; /* Esto mantiene la proporción de la imagen */
+    left: 23%; /* Posición inicial, ajusta según necesites */
+    top: 120px; /* Distancia desde el top, ajusta según necesites */
+    transform: translateX(-50%); /* Centra el elemento horizontalmente */
+    animation: slideInGlobo 1s ease-out forwards; /* Añade animación para que aparezca */
+}
+
+.globoTexto img {
+    width: 100%; /* La imagen ocupa todo el ancho de su contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+/* Añade estilos para textoYoda */
+.textoYoda {
+    position: absolute; /* Posicionamiento absoluto dentro de globoTexto */
+    top: 20%; /* Ajusta esto según donde quieras que el texto aparezca dentro del globo */
+    left: 50%; /* Centra el texto dentro del globo */
+    transform: translateX(-50%); /* Ajuste fino para centrar el texto */
+    width: 80%; /* Ancho del texto; ajusta según sea necesario */
+    text-align: center; /* Centra el texto horizontalmente */
+    color: black; /* Color del texto, cambia según necesites */
+    font-size: 14px; /* Tamaño de la fuente, ajusta según necesites */
+    animation: fadeInTexto 2s ease-in 1s forwards; /* Comienza después de que termina la animación del globo */
+    opacity: 0; /* Establece la opacidad inicial a 0 para asegurar el efecto deseado. */
+    animation: fadeInTexto 2s ease-in 1s forwards; /* Ajusta para cambiar la opacidad a 1 de forma permanente. */
+}
+
+
+
+
+
+
+
+.botonesAccion {
+    position: absolute;
+    top: 80%;
+    left: calc(100% - 450px);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    gap: 1px;
+    animation: slideInFromRight 1.5s ease-out forwards; /* Duración de la animación ajustada a 1.5 segundos */
+}
+
+/* Estilo general para los botones */
+.botonesAccion button {
+    cursor: pointer;
+    padding: 10px 30px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    outline: none;
+    background: transparent;
+    transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
+    font-weight: bold;
+}
+
+/* Estilo específico para el botón COMPRAR con texto en verde */
+.botonesAccion button.comprar {
+    color: limegreen;
+    border-color: limegreen;
+}
+
+/* Estilo específico para el botón VENDER con texto en rojo */
+.botonesAccion button.vender {
+    color: red;
+    border-color: red;
+}
+
+.botonesAccion button.comprar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px limegreen, 0 0 20px limegreen, 0 0 30px limegreen;
+}
+
+.botonesAccion button.vender:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+}
+
+.botonesAccion button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px #fff, 0 0 10px #fff;
+}
+
+
+
+
+.table-container {
+    width: 100%;
+    max-width: 600px; /* Ajusta al ancho deseado */
+    overflow-y: auto;
+    margin: 0 auto;
+}
+
+/* Estilos para la tabla */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #333333;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+/* Estilos para la scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #888; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #222; 
+}
+
+
+
+
+
+
+
+
+.market-info {
+    width: 25%; /* Reducir el ancho para hacer la tabla más pequeña */
+    margin-top: 8%;
+    margin-left: 60%; /* Aumentar el margen izquierdo para mover la tabla hacia la derecha */
+    padding: 15px;
+    border: 2px solid #ccc; /* Borde sutil */
+    text-align: center; /* Asegura que el texto está centrado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade sombra para mejorar la visibilidad */
+    position: relative; /* Esto es necesario si necesitas más control sobre el posicionamiento */
+}
+
+.market-info h2 {
+    color: #009879; /* Color verde para el título */
+    margin-top: 0; /* Ajusta según sea necesario */
+}
+
+.market-info ul {
+    padding: 0;
+    list-style: none; /* Elimina los marcadores de lista */
+}
+
+.market-info li {
+    background-color: #f0f0f0; /* Fondo más claro para cada ítem */
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px; /* Bordes redondeados para los elementos de la lista */
+    font-size: 14px; /* Tamaño de fuente adecuado para la visibilidad */
+}
+
+
+
+
+
+
+
+
+/* Define la animación slideInFromRight */
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideUp {
+    from { bottom: -100%; }
+    to { bottom: 0; }
+}
+
+@keyframes slideInGlobo {
+    from {
+        left: 0%;
+        opacity: 0;
+    }
+    to {
+        left: 23%; /* Ajusta este valor al deseado para la posición final del globo */
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInTexto {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+

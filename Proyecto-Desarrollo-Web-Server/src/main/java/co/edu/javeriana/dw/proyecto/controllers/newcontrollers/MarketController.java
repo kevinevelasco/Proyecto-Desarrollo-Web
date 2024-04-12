@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -67,6 +68,17 @@ public class MarketController {
     public Market getMarket(@PathVariable Long id) {
         return marketService.getMarketById(id);
     }
+    //Traer market por el id del planeta
+    @GetMapping("/planet/{id}")
+    public ResponseEntity<List<Market>> getMarketByPlanetId(@PathVariable Long id) {
+        List<Market> markets = marketService.getMarketsByPlanetId(id);
+        if(markets.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(markets);
+        }
+    }
+
 
     @PostMapping("/{productId}/{planetId}")
     public Market saveMarket(@PathVariable Long productId, @PathVariable Long planetId, @RequestBody Market market) {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Título de tu página</title>
+</head>
+<body>
+    <!-- Se muestra solo si el usuario NO está logueado -->
+    <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
+
+    <!-- Todo lo siguiente se muestra solo si el usuario está logueado -->
+    <div *ngIf="userLoginOn">
+        <!-- Sección para mostrar los datos del mercado -->
+        <div *ngIf="marketData.length >0" class="market-info">
+            <h2>Mercados en {{ planetData?.name }}</h2>
+           <div *ngFor="let item of marketData">
+                <div class="item">
+                    <p class="PRODUCT">{{ item.product.name }}</p>
+                    <p class="PRICE">{{ item.sellPrice }}</p>
+                    <p class="DEMAND">{{item.demandFactor}}</p>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="babyYoda">
+            <img src="assets/img/sellBuy/baby_yoda.png" alt="babyYoda">
+        </div>
+
+        <div class="globoTexto">
+            <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
+            <div class="textoYoda">
+                <p>En "{{planetData?.name}}", compramos cualquier cosa!!!: </p>
+            </div>
+        </div>
+
+        <div class="botonesAccion">
+            <button class="comprar" (click)="comprar()">COMPRAR</button>
+            <button class="vender" (click)="vender()">VENDER</button>
+        </div>
+</body>
+</html>

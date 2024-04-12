@@ -5,6 +5,7 @@ import { SpaceTravelComponent } from './space-travel/space-travel.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { SellComponent } from './sell/sell.component';
 
 const routes: Routes = [
   { path: 'space-travelling', component: SpaceTravelInterfaceComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'home', component: DashboardComponent},
   { path: 'login', component: LoginComponent},
   { path: 'admin', component: AdminComponent},
+  { path: 'sell', component: SellComponent},
   { path: '', pathMatch: 'full', redirectTo: '/home' },
 ];
 
