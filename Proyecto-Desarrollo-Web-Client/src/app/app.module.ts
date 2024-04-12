@@ -20,6 +20,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AdminComponent } from './pages/admin/admin.component';
     LoginComponent,
     DashboardComponent,
     NavbarComponent,
-    AdminComponent
+    AdminComponent,
+    InventoryComponent
   ],
   imports: [
     BrowserModule,

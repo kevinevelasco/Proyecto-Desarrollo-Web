@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -153,8 +155,16 @@ public class SpaceCraftController {
 
     //Hacemos un get de los productos que tiene la nave
     @GetMapping("{id}/inventory")
-    public List<Inventory> getInventoryList(@PathVariable Long id) {
-        return spaceCraftService.getSpacecraftById(id).getInventories();
+    public ResponseEntity<List<Inventory>> getInventoryList(@PathVariable Long id) {
+        List<Inventory> inventories= spaceCraftService.getSpacecraftById(id).getInventories();
+        if(inventories.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            return ResponseEntity.ok(inventories);
+        }
     }
     //hacemos un set en la base de datos del nuevo planeta en el cuál se encuentra la nave, el cual será uno de los que tenga la star que le llega
+
+
+    
 }
