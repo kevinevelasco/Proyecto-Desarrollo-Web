@@ -6,6 +6,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 
 const routes: Routes = [
   { path: 'space-travelling', component: SpaceTravelInterfaceComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'admin', component: AdminComponent},
   { path: 'inventory', component: InventoryComponent},
+  { path: 'multiplayer', component: MultiplayerComponent},
   { path: '', pathMatch: 'full', redirectTo: '/home' },
 ];
 

@@ -21,6 +21,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { InventoryComponent } from './inventory/inventory.component';
     DashboardComponent,
     NavbarComponent,
     AdminComponent,
-    InventoryComponent
+    InventoryComponent,
+    MultiplayerComponent
   ],
   imports: [
     BrowserModule,

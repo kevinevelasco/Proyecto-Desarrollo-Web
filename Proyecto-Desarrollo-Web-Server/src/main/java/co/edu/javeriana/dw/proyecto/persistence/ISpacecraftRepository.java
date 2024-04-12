@@ -23,4 +23,9 @@ public interface ISpacecraftRepository extends JpaRepository<Spacecraft, Long> {
     @Modifying
     @Query("UPDATE Spacecraft s SET s.name = :name WHERE s.id = :id")
     int updateSpacecraftName(@Param("id") Long id, @Param("name") String name);
+
+
+    @Query("SELECT s FROM Spacecraft s WHERE s.planet.id = :planetId")
+    List<Spacecraft> findSpacecraftsByPlanetId(@Param("planetId") Long planetId);
+
 }

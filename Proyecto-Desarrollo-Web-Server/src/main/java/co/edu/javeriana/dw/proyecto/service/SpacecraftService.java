@@ -2,7 +2,6 @@ package co.edu.javeriana.dw.proyecto.service;
 
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.persistence.ISpacecraftRepository;
-import co.edu.javeriana.dw.proyecto.persistence.IStarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,5 +31,9 @@ public class SpacecraftService {
 
     public int actualizarNombreNave(Long id, String name) {
         return spacecraftRepository.updateSpacecraftName(id, name);
+    }
+
+    public List<Spacecraft> getSpacecraftsByPlanetId(Long planetId) {
+        return spacecraftRepository.findSpacecraftsByPlanetId(planetId);
     }
 }

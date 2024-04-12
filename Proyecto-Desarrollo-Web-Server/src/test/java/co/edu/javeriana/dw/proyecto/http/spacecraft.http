@@ -68,3 +68,6 @@ GET http://localhost:8080/api/spacecraft/2/actualInventory
 
 ### http://localhost:8080/{spacecraftid}/inventory" para obtener los productos
 GET http://localhost:8080/api/spacecraft/2/inventory
+
+### http://localhost:8080/{spacecraftid}/spacecrafts" para obtener los productos
+GET http://localhost:8080/api/spacecraft/1/spacecrafts

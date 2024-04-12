@@ -47,6 +47,11 @@ export class SpacecraftService {
   getPlanetBySpacecraft(spacecraftId: number): Observable<Planet> {
     return this.http.get<Planet>(`${environment.serverUrl}/api/spacecraft/${spacecraftId}/planet`);
   }
+
+  getSpacecraftsByPlanet(planetId: number): Observable<Spacecraft[]> {
+    return this.http.get<Spacecraft[]>(`${environment.serverUrl}/api/spacecraft/${planetId}/spacecrafts`);
+  }
+
 }
 
 

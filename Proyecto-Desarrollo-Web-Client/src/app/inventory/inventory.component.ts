@@ -16,7 +16,6 @@ import { PlayerService } from '../services/player.service';
 
 export class InventoryComponent {
 
-  userLoginOn: boolean = false;
   userData?: Player;
   spaceCraftData?: Spacecraft;
   inventoryData: Inventory[] = [];
@@ -31,7 +30,6 @@ export class InventoryComponent {
     console.log(userData);
     if (userData) {
       this.loginService.currentUserData.next(JSON.parse(userData));
-      this.userLoginOn = true;
     }
     this.loginService.currentUserData.subscribe({
       next: (userData) => {
@@ -39,7 +37,6 @@ export class InventoryComponent {
       }
     });
     this.getSpaceCraftData();
-   this.loadInventory(); 
   }
 
   ngOnDestroy(): void {
