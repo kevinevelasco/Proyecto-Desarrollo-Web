@@ -6,7 +6,6 @@ import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
 import co.edu.javeriana.dw.proyecto.persistence.ISpacecraftRepository;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
-import co.edu.javeriana.dw.proyecto.service.PlayerService;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftModelService;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,19 +14,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +41,6 @@ public class SpaceCraftController {
     @Autowired
     private PlanetService planetService;
     
-    @Autowired
-    private PlayerService playerService;
-
     @Autowired
     private ISpacecraftRepository spaceCraftRepository;
 
@@ -153,8 +144,29 @@ public class SpaceCraftController {
 
     //Hacemos un get de los productos que tiene la nave
     @GetMapping("{id}/inventory")
-    public List<Inventory> getInventoryList(@PathVariable Long id) {
-        return spaceCraftService.getSpacecraftById(id).getInventories();
+    public ResponseEntity<List<Inventory>> getInventoryList(@PathVariable Long id) {
+        List<Inventory> inventories= spaceCraftService.getSpacecraftById(id).getInventories();
+        if(inventories.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            return ResponseEntity.ok(inventories);
+        }
     }
     //hacemos un set en la base de datos del nuevo planeta en el cuál se encuentra la nave, el cual será uno de los que tenga la star que le llega
+
+    //Todas las spacecraft que estan en el mismo planetid
+    @GetMapping("/{planetId}/spacecrafts")
+    public ResponseEntity<List<Spacecraft>> getSpacecraftsByPlanetId(@PathVariable Long planetId) {
+        List<Spacecraft> spacecrafts = spaceCraftService.getSpacecraftsByPlanetId(planetId);
+        if(spacecrafts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            log.info("Naves encontradas: " + spacecrafts);
+            return ResponseEntity.ok(spacecrafts);
+        }
+    }
+
+
+
+    
 }

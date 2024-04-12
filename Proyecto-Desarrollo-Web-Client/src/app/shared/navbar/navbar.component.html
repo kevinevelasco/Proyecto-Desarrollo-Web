@@ -14,7 +14,13 @@
       </li>
       <li *ngIf="userLoginOn">
         <a routerLink="/space-travel" routerLinkActive="active">VIAJAR</a>
-      </li> 
+      </li>
+      <li *ngIf="userLoginOn">
+        <a routerLink="/inventory" routerLinkActive="active">INVENTARIO</a> 
+      </li>
+      <li *ngIf="userLoginOn">
+        <a routerLink="/multiplayer" routerLinkActive="active">MULTIJUGADOR</a>
+      </li>
       <li *ngIf="userLoginOn">
         <a routerLink="/sell" routerLinkActive="active">MERCADO</a>
       </li> 

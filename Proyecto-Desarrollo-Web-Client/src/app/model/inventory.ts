@@ -6,6 +6,6 @@ export class Inventory {
     public id: number,
     public spacecraft: Spacecraft,
     public product: Product,
-    private quantity: number
+    public quantity: number
   ){}
 }

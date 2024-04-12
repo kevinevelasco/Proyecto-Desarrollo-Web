@@ -32,12 +32,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.loginService.currentUserData.next(JSON.parse(userData));
       this.userLoginOn =true;
     }
-    this.loginService.currentUserLoginOn.subscribe({
-      next: (userLoginOn) => {
-        //this.userLoginOn = userLoginOn;
-      }
-    }
-    );
     this.loginService.currentUserData.subscribe({
       next: (userData) => {
         this.userData = userData;

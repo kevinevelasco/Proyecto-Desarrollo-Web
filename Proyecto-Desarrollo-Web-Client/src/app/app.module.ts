@@ -20,6 +20,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { InventoryComponent } from './inventory/inventory.component';
+import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 import { SellComponent } from './sell/sell.component';
 
 @NgModule({
@@ -39,6 +41,9 @@ import { SellComponent } from './sell/sell.component';
     LoginComponent,
     DashboardComponent,
     NavbarComponent,
+    AdminComponent,
+    InventoryComponent,
+    MultiplayerComponent,
     AdminComponent,
     SellComponent
   ],
