@@ -65,6 +65,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.playerService.getPlayerSpacecraft(this.playerData.id).subscribe((spacecraft: Spacecraft) => {
         console.log('La nave es:', spacecraft.name);
         this.spaceCraftData = spacecraft;
+        if (this.userData) {
+          this.userData.spacecraft = spacecraft;
+        }
         this.getPlanetData();
       });
     }
@@ -75,6 +78,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.spaceCraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
         console.log('El planeta es:', planet.name);
         this.planetData = planet;
+        if (this.userData && this.userData.spacecraft) {
+          this.userData.spacecraft.planet = planet;
+        }
       });
     }
   }

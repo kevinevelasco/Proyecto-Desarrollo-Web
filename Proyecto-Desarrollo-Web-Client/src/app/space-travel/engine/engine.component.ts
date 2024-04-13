@@ -42,7 +42,6 @@ export class EngineComponent implements OnInit, OnChanges, OnDestroy{
     console.log(planets);
     console.log(nearestStars);
     if(planets.length > 0){
-      //para aplicar una textura y demás atributos que no cambien cuando cambio de componentes //this.engServ.addPlanets(planets);
       this.engServ.addPlanets(planets);
     }
   }

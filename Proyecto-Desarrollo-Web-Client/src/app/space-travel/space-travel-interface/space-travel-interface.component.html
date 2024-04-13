@@ -1,4 +1,4 @@
-<div class="scene">
+<div *ngIf="userLoginOn" class="scene"> 
   <div class="wrap">
       <div class="wall wall-right"></div>
       <div class="wall wall-left"></div>   
@@ -14,3 +14,4 @@
       <div class="wall wall-back"></div>    
   </div>
 </div>
+<h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>

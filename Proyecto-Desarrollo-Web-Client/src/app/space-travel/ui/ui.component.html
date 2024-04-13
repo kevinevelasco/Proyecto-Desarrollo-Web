@@ -1,24 +1,28 @@
 <div class="ui-wrapper">
   <h1>Ubicación</h1>
+  <h1>Actualmente estás en la estrella: {{currentStar.name}}</h1>
+  <h1>Actualmente estás en el planeta: {{inPlanet.name}}</h1>
   <h2>{{currentStar.name}}</h2>
-  <div *ngIf="starPlanets.length === 0">No hay planetas en esta estrella</div>
+  <div *ngIf="starPlanets.length === 0">Cargando...</div>
   <div *ngIf="starPlanets.length > 0">
-    <ul>
-      <li *ngFor="let planet of starPlanets">
-        <a (click)="onPlanetClick(planet)">{{planet.name}}</a>
-      </li>
-    </ul>
-  </div>
-    <!-- mostramos la columna derecha solo si se le dio click a onPlanetClick-->
-    <div class="right-column" *ngIf="booleanPlanet">
-      <h2>{{currentPlanet.name}}</h2>
-      <p>{{currentPlanet.position}}</p>
-      <p>Te gustaría ir a este planeta? </p>
-      <button (click)="onTravelClick()">Viajar</button>
-      <button (click)="onCancelClick()">Volver</button>
+    <div *ngFor="let planet of starPlanets">
+      <ul>
+        <li>
+          <a (click)="onPlanetClick(planet)">{{planet.name}}</a>
+        </li>
+      </ul>
     </div>
+  </div>
+  <!-- mostramos la columna derecha solo si se le dio click a onPlanetClick-->
+  <div class="right-column" *ngIf="booleanPlanet">
+    <h2>{{currentPlanet.name}}</h2>
+    <p>{{currentPlanet.position}}</p>
+    <p>Te gustaría ir a este planeta? </p>
+    <button (click)="onTravelClick(currentPlanet)">Viajar</button>
+    <button (click)="onCancelClick()">Volver</button>
+  </div>
   <h1>Estrellas cercanas</h1>
-  <div *ngIf="nearestStars.length === 0">No hay estrellas cercanas</div>
+  <div *ngIf="nearestStars.length === 0">Cargando...</div>
   <div class="stars" *ngIf="nearestStars.length > 0">
     <!--imprimimos cada estrella y de cada estrella sus correspondientes planetas-->
     <ul>
@@ -26,9 +30,9 @@
         <h2>{{star.name}}</h2>
         <ul *ngIf="userData!=undefined">
           <li *ngFor="let planet of star.planets">
-            <a (click)="onOtherStarPlanetClick(planet, userData)">{{planet.name}}</a>
+            <a (click)="onOtherStarPlanetClick(planet, userData, false)">{{planet.name}}</a>
           </li>
         </ul>
       </li>
     </ul>
-</div>
+  </div>
