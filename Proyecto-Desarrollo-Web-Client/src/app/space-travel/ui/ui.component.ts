@@ -34,6 +34,12 @@ export class UiComponent implements OnInit, OnDestroy {
     console.log(this.currentStar);
     console.log(this.starPlanets);
     console.log(this.nearestStars);
+    this.engineService.getClicInPlanetObservable().subscribe(planeta => {
+      this.currentPlanet = planeta;
+      console.log("el planeta clickeado fue", this.currentPlanet);
+      this.booleanPlanet = !this.booleanPlanet;
+    });
+
   }
 
   ngOnDestroy(): void {}
