@@ -2,6 +2,7 @@ package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 
 import co.edu.javeriana.dw.proyecto.model.Inventory;
 import co.edu.javeriana.dw.proyecto.model.Planet;
+import co.edu.javeriana.dw.proyecto.model.Player;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
 import co.edu.javeriana.dw.proyecto.persistence.ISpacecraftRepository;
@@ -166,7 +167,14 @@ public class SpaceCraftController {
         }
     }
 
-
-
+    @GetMapping("/{spacecraftId}/players")
+    public ResponseEntity<List<Player>> getPlayersBySpacecraft(@PathVariable Long spacecraftId) {
+        Spacecraft spacecraft = spaceCraftService.getSpacecraftById(spacecraftId);
+        if(spacecraft != null && spacecraft.getPlayers() != null) {
+            return ResponseEntity.ok(spacecraft.getPlayers());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
     
 }

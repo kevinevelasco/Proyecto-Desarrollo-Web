@@ -1,0 +1,13 @@
+<app-background style="pointer-events: none;"></app-background>
+<p>buy works!</p>
+<div class="inventory" *ngIf="inventoryData.length > 0">
+    <h2>Inventario</h2>
+    <div class="items">
+        <div *ngFor="let item of inventoryData" class="inventory-item">
+            <div class="chart">
+            <p class="name">{{item.product.name}}</p>
+            </div>
+            <p class="quantity">{{item.quantity}}</p>
+        </div>
+    </div>
+</div>

@@ -20,7 +20,8 @@ export class MarketService {
         'Content-Type': 'application/json'
       }
   ) 
-    getMarketsByPlanetId(planetId: number): 
+    
+  getMarketsByPlanetId(planetId: number): 
     Observable<Market[]> {
       return this.http.get<Market[]>
       (`${environment.serverUrl}/api/market/planet/${planetId}`

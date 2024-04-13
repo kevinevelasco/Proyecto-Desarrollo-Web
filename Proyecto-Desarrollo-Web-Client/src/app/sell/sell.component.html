@@ -5,13 +5,14 @@
 </head>
 <body>
     <!-- Se muestra solo si el usuario NO está logueado -->
+    <app-background style="pointer-events: none;"></app-background>
     <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
 
     <!-- Todo lo siguiente se muestra solo si el usuario está logueado -->
     <div *ngIf="userLoginOn">
         <!-- Sección para mostrar los datos del mercado -->
         <div *ngIf="marketData.length >0" class="market-info">
-            <h2>Mercados en {{ planetData?.name }}</h2>
+            <h2>Productos en venta del planeta {{ planetData?.name }}:</h2>
            <div *ngFor="let item of marketData">
                 <div class="item">
                     <p class="PRODUCT">{{ item.product.name }}</p>
@@ -29,7 +30,7 @@
         <div class="globoTexto">
             <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
             <div class="textoYoda">
-                <p>En "{{planetData?.name}}", compramos cualquier cosa!!!: </p>
+                <p>Gracias por venir al planeta "{{planetData?.name}}", tenemos estos productos en venta!!: </p>
             </div>
         </div>
 

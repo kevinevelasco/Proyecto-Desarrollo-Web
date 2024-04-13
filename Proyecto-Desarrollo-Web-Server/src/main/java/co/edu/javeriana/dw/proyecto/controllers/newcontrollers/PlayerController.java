@@ -76,9 +76,6 @@ public class PlayerController {
             log.info("Spacecraft not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-    }
-
-    
-    
+    }    
 
 }

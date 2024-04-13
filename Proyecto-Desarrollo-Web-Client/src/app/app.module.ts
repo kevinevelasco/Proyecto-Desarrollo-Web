@@ -24,6 +24,8 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 import { SellComponent } from './sell/sell.component';
 import { BackgroundComponent } from './shared/background/background.component';
+import { BuyComponent } from './buy/buy.component';
+import { SpacecraftModelComponent } from './spacecraft-model/spacecraft-model.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { BackgroundComponent } from './shared/background/background.component';
     MultiplayerComponent,
     AdminComponent,
     SellComponent,
-    BackgroundComponent
+    BackgroundComponent,
+    BuyComponent,
+    SpacecraftModelComponent
   ],
   imports: [
     BrowserModule,

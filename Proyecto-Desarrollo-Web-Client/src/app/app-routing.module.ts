@@ -8,6 +8,8 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 import { SellComponent } from './sell/sell.component';
+import { BuyComponent } from './buy/buy.component';
+import { SpacecraftModelComponent } from './spacecraft-model/spacecraft-model.component';
 
 const routes: Routes = [
   { path: 'space-travelling', component: SpaceTravelInterfaceComponent },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'inventory', component: InventoryComponent},
   { path: 'multiplayer', component: MultiplayerComponent},
   { path: 'sell', component: SellComponent},
+  { path: 'buy', component: BuyComponent},
+  { path: 'spacecraft-model', component: SpacecraftModelComponent},
   { path: '', pathMatch: 'full', redirectTo: '/home' },
 ];
 

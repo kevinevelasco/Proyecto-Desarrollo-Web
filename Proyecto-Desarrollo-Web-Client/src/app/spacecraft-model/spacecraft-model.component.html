@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Nave Espacial</title>
+    <link rel="stylesheet" href="./spacecraft-model.component.css">
+</head>
+<body>
+    <app-background style="pointer-events: none;"></app-background>
+    
+    <!-- Mensaje si el usuario no está logueado -->
+    <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad.</h1>
+
+    <div *ngIf="userLoginOn">
+        <!-- Verificación y muestra de la información del modelo de la nave espacial del usuario -->
+        <div *ngIf="spacecraftModelsData">
+            <h1>Detalles de la Nave Espacial</h1>
+            <p><strong>Modelo:</strong> {{ spacecraftModelsData.modelName }}</p>
+            <p><strong>Capacidad de carga:</strong> {{ spacecraftModelsData.storage }} m³</p>
+            <p><strong>Velocidad máxima:</strong> {{ spacecraftModelsData.maxSpeed }} km/s</p>
+        </div>
+        <div *ngIf="!spacecraftModelsData">
+            <p>No se han podido cargar los datos de la nave.</p>
+        </div>
+    </div>
+
+</body>
+</html>
