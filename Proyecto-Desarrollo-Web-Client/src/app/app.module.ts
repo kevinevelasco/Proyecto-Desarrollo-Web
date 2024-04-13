@@ -23,6 +23,7 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 import { SellComponent } from './sell/sell.component';
+import { BackgroundComponent } from './shared/background/background.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SellComponent } from './sell/sell.component';
     InventoryComponent,
     MultiplayerComponent,
     AdminComponent,
-    SellComponent
+    SellComponent,
+    BackgroundComponent
   ],
   imports: [
     BrowserModule,
