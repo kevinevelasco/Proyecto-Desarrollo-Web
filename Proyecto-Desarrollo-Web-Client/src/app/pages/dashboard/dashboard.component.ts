@@ -90,4 +90,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.userLoginOn = false;
     this.router.navigate(['/login']);
   }
+
+  startGame(): void {
+    this.router.navigate(['/sell']);
+  }
 }

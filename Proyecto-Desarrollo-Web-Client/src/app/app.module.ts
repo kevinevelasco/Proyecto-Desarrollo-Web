@@ -26,6 +26,7 @@ import { SellComponent } from './sell/sell.component';
 import { BackgroundComponent } from './shared/background/background.component';
 import { BuyComponent } from './buy/buy.component';
 import { SpacecraftModelComponent } from './spacecraft-model/spacecraft-model.component';
+import { SummaryBarComponent } from './shared/summary-bar/summary-bar.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SpacecraftModelComponent } from './spacecraft-model/spacecraft-model.co
     SellComponent,
     BackgroundComponent,
     BuyComponent,
-    SpacecraftModelComponent
+    SpacecraftModelComponent,
+    SummaryBarComponent
   ],
   imports: [
     BrowserModule,

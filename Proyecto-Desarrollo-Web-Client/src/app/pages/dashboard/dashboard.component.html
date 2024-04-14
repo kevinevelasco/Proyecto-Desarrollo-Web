@@ -1,4 +1,6 @@
-<app-navbar></app-navbar>
+<app-navbar></app-navbar>\
+<app-summary-bar></app-summary-bar>
+
 <body>
   <div *ngIf="userLoginOn">
     <div class="dialog-chart">
@@ -10,7 +12,7 @@
 
     <div class="buttons">
       <button (click)="logoutAndRedirect()" class="exit">Salir</button>
-      <button class="start">Iniciar el juego</button>
+      <button (click)="startGame()" class="start">Iniciar el juego</button>
 
 
     </div>
