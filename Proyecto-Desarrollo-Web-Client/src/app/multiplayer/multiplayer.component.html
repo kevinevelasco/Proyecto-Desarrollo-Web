@@ -1,3 +1,31 @@
-<div *ngFor="let item of spacecrafts" class="spacecrafts">
-    <p class="name" > {{item.name}}, TIEMPO: {{item.totalTime}}</p>
-</div>
+<body>
+        <h2>En la estrella {{planet?.name}} se encuentran los siguientes equipos: </h2>
+        <div class="multiplayer">
+        <div *ngFor="let item of spacecrafts" class="spacecrafts">
+            <img src="/assets/img/starshipimgaux.png">
+            <p class="name">{{item.name}}</p>
+            <div class="divider"></div>
+            <div class="info">
+                <div class="column">
+                    <ng-container *ngFor="let integrant of item.players; let i = index">
+                        <div *ngIf="i < 5" class="integrants">
+                            <p class="integrant">{{integrant.userName}}</p>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <div class="column">
+                    <ng-container *ngFor="let integrant of item.players; let i = index">
+                        <div *ngIf="i >= 5 && i < 10" class="integrants">
+                            <p class="integrant">{{integrant.userName}}</p>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+            <div class="divider"></div>
+            <p class="time">TIEMPO: {{item.totalTime}}</p>
+        </div>
+    </div>
+
+</body>
