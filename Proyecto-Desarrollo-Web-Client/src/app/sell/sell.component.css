@@ -34,7 +34,6 @@
     height: auto; 
 }
 
-
 .textoYoda {
     position: absolute; 
     top: 20%; 
@@ -46,8 +45,9 @@
     font-size: 14px; 
     animation: fadeInTexto 2s ease-in 1s forwards; 
     opacity: 0; 
-    animation: fadeInTexto 2s ease-in 1s forwards; 
 }
+
+
 
 .product-image-cell img {
     height: 100%; 
@@ -132,9 +132,6 @@ button:hover {
     box-shadow: 0 0 5px #fff, 0 0 10px #fff;
 }
 
-
-
-
 .table-container {
     border-radius: 15px;
     overflow: hidden;
@@ -144,7 +141,7 @@ button:hover {
     margin-left: 700px;
     overflow-y: auto;
     overflow-x: hidden; 
-    height: 475px; 
+    height: 490px; 
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 }
 
@@ -259,4 +256,3 @@ button:hover {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-

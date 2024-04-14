@@ -1,19 +1,16 @@
 <app-background style="pointer-events: none;"></app-background>
-<p>¡La compra funciona!</p>
 <div class="inventory" *ngIf="inventoryData.length > 0">
-    <h2>Lo que te podemos comprar:</h2>
     <div class="items">
         <table class="tablaBuy">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
             <tbody>
-                <tr *ngFor="let item of inventoryData" class="inventory-item">
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.quantity }}</td>
+                <tr *ngFor="let item of inventoryData"  class="inventory-item">
+                    <td class="product-image-cell">
+                        <img src="\assets\img\inventoryaux.png" alt="{{ item.product.name }}">
+                    </td>
+                    <td>Producto: {{ item.product.name }}</td>
+                    <td>Cantidad: {{ item.quantity }}</td>
+                    <td>Precio de compra: mostrar precio</td>
+                    <td><button>Vender producto</button></td>
                 </tr>
             </tbody>
         </table>
@@ -21,4 +18,17 @@
     <div class="yodaComprador">
         <img src="assets/img/sellBuy/yodaComprador.jpg" alt="babyYoda">
     </div>
+
+    <div class="textoGlobo">
+        <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
+        <div class="textoYoda">
+            <p>En "{{planetData?.name}}" Compramos lo que sea!!!</p>
+        </div>
+    </div>
+
+    <div class="botonesAccion">
+        <button class="comprar" (click)="comprar()">COMPRAR</button>
+        <button class="vender" (click)="vender()">VENDER</button>
+    </div>
+
 </div>

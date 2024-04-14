@@ -1,0 +1,190 @@
+/* Posicionamiento y animación del personaje (baby Yoda) */
+.yodaComprador {
+    position: absolute;
+    top: 0px;
+    width: 40%;
+    height: 700px;
+    overflow: hidden;
+    margin-left: 150px;
+    z-index: 1;
+}
+
+.yodaComprador img {
+    position: absolute;
+    bottom: -100%;
+    left: 40%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: auto;
+    animation: slideUp 1s forwards;
+}
+
+.textoGlobo {
+    position: absolute;
+    z-index: 10;
+    width: 20%;
+    height: auto; /* Altura explícita */
+    left: 23%;
+    top: 120px;
+    transform: translateX(-50%);
+    animation: slideInGlobo 1s ease-out forwards; 
+}
+
+.textoGlobo img {
+    width: 100%;
+    height: auto;
+}
+
+.textoYoda {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    text-align: center;
+    color: black;
+    font-size: 14px;
+    opacity: 1; /* Inicia con opacidad completa para asegurarse de que es visible */
+    animation: fadeInTexto 2s ease-in 1s forwards; 
+}
+
+
+/* Estilo del contenedor que hace scroll con la tabla */
+.items {
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    margin-left: 700px;
+    height: 470px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+/* Estilos para la tabla */
+.tablaBuy {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.tablaBuy td {
+    padding: 12px 15px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #5e1b1b;
+}
+
+.tablaBuy tbody tr {
+    background-image: linear-gradient(to right, #0c0c0c, #0c0c0c 40%, #ffd700 200%);
+    color: white;
+    border-bottom: 9px solid #7af705;
+}
+
+.tablaBuy tbody tr:nth-of-type(even) {
+    background-color: #333333;
+}
+
+.tablaBuy tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
+/* Personalización del scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #9e7979;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b3ff02;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #009879;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #007960;
+}
+
+.botonesAccion {
+    position: absolute;
+    top: 80%;
+    left: calc(100% - 450px);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    gap: 1px;
+    animation: slideInFromRight 1.5s ease-out forwards; 
+}
+
+.botonesAccion button {
+    cursor: pointer;
+    padding: 10px 30px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    outline: none;
+    background: transparent;
+    transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
+    font-weight: bold;
+}
+
+.botonesAccion button.comprar {
+    color: limegreen;
+    border-color: limegreen;
+}
+
+
+.botonesAccion button.vender {
+    color: red;
+    border-color: red;
+}
+
+.botonesAccion button.comprar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px limegreen, 0 0 20px limegreen, 0 0 30px limegreen;
+}
+
+.botonesAccion button.vender:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+}
+
+.botonesAccion button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px #fff, 0 0 10px #fff;
+}
+
+
+/* Animaciones utilizadas */
+@keyframes slideUp {
+    from { bottom: -100%; }
+    to { bottom: 0; }
+}
+
+@keyframes slideInGlobo {
+    from {
+        left: 0%;
+        opacity: 0;
+    }
+    to {
+        left: 23%;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}

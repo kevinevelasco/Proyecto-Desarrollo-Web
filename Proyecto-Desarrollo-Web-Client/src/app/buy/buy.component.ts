@@ -6,6 +6,10 @@ import { LoginService } from '../services/auth/login.service';
 import { Spacecraft } from '../model/spacecraft';
 import { Player } from '../model/player';
 import { PlayerService } from '../services/player.service';
+import { Planet } from '../model/planet';
+import { Market } from '../model/market';
+import { MarketService } from '../services/market.service';
+import { SpacecraftService } from '../services/spacecraft.service';
 
 @Component({
   selector: 'app-buy',
@@ -17,11 +21,18 @@ export class BuyComponent {
   userData?: Player;
   spaceCraftData?: Spacecraft;
   inventoryData: Inventory[] = [];
+  planetData?: Planet;
+  marketData: Market[]= [];
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
 
-  constructor(private loginService: LoginService,private playerService: PlayerService, private inventoryService: InventoryService) { }
+  constructor(
+    private loginService: LoginService,
+    private playerService: PlayerService,
+    private inventoryService: InventoryService,
+    private marketService: MarketService,
+    private spaceCraftService: SpacecraftService) { }
 
   ngOnInit(): void {
     const userData = localStorage.getItem('currentUserData');
@@ -65,5 +76,31 @@ export class BuyComponent {
       console.log('Inventario:', this.inventoryData);
     });
     }
+  }
+  getMarketData(): void {
+    if (this.planetData!= null) {
+     this.marketService.getMarketsByPlanetId(this.planetData.id)
+        .subscribe((markets: Market[]) => {
+                this.marketData = markets;
+                console.log("MarketData:", this.marketData);
+          });
+      }              
+  }
+
+  getPlanetData(): void {
+    if (this.spaceCraftData!= null) {
+        this.spaceCraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
+            this.planetData = planet;
+            this.getMarketData();
+        });
+    }
+}
+  
+  comprar() {
+      console.log('Comprar acción iniciada');
+  }
+
+  vender() {
+      console.log('Vender acción iniciada');
   }
 }
