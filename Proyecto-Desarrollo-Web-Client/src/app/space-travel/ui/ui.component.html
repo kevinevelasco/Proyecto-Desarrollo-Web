@@ -1,11 +1,42 @@
 <div class="ui-wrapper">
   <div class="left-column">
+    <div class="current-star">
+      <h1>Estoy en el sistema: {{currentStar.name}}</h1>
+      <table class="star-table">
+        <tbody>
+          <!-- Fila de Ubicación -->
+          <tr>
+            <td>Ubicación</td>
+            <td>{{currentStar.x}}, {{currentStar.y}}, {{currentStar.z}}</td>
+          </tr>
+          <!-- Fila de Planetas -->
+          <tr>
+            <td>Planetas</td>
+            <td>
+              <div *ngIf="starPlanets.length === 0">Cargando...</div>
+              <div *ngIf="starPlanets.length > 0">
+                <table>
+                  <tbody>
+                    <tr>
+                      <!-- Columnas para cada planeta -->
+                      <td *ngFor="let planet of starPlanets" class="seleccion">
+                        <a (click)="onPlanetClick(planet)">{{planet.name}}</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
     <h1>Estrellas cercanas</h1>
     <div *ngIf="nearestStars.length === 0">Cargando...</div>
     <div class="stars" *ngIf="nearestStars.length > 0">
       <!--imprimimos cada estrella y de cada estrella sus correspondientes planetas-->
       <table>
-
         <tbody *ngFor="let star of nearestStars">
          <!--mostramos la estrella, sus coordenadas y sus correspondientes planetas-->
          <tr>
@@ -35,20 +66,6 @@
   </div>
 
   <div class="right-column">
-    <h1>Ubicación</h1>
-    <h1>Actualmente estás en la estrella: {{currentStar.name}}</h1>
-    <h1>Actualmente estás en el planeta: {{inPlanet.name}}</h1>
-    <h2>{{currentStar.name}}</h2>
-    <div *ngIf="starPlanets.length === 0">Cargando...</div>
-    <div *ngIf="starPlanets.length > 0">
-      <div *ngFor="let planet of starPlanets">
-        <ul>
-          <li>
-            <a (click)="onPlanetClick(planet)">{{planet.name}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
     <!-- mostramos la columna derecha solo si se le dio click a onPlanetClick-->
     <div *ngIf="booleanPlanet">
       <h2>{{currentPlanet.name}}</h2>

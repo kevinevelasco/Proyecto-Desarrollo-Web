@@ -4,25 +4,81 @@
 
 .left-column {
   flex: 0 0 auto;
+  position: relative;
 }
 
 .right-column {
   flex: 0 0 auto;
   margin-left: auto;
+  position: absolute;
+  right: 0;
+  z-index: 1;
 }
 
-/* mostramos los planetas de cada estrella como listas desplegables */
+.current-star{
+  padding-left: 10px
+}
+
+.current-star table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 20px;
+}
+
+.current-star td {
+  padding: 10px;
+  border: 1px solid var(--primary);
+  font-family: 'Iceland';
+  color: var(--white);
+  text-align: center;
+}
+
+.current-star td:first-child {
+ 
+  text-align: center;
+  font-family: 'Iceland';
+  color: var(--white);
+}
+.star-table .seleccion {
+  border: none; 
+}
+
+.current-star ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-family: 'Iceland';
+  color: var(--white);
+}
+
+.current-star li {
+  display: inline-block;
+  margin: 0 10px;
+  font-family: 'Iceland';
+}
+
+.current-star a {
+  text-decoration: none;
+  color: var(--white);
+}
+
+.current-star a:hover {
+  color: var(--green); 
+  cursor: pointer;
+}
+
 .stars{
-  /*lo movemos a la parte derecha de la pantalla*/
-  position: absolute;
+ 
+  position:fixed;
   right: 1;
-  /*le damos un tamaño de 300px*/
+ 
   width: 25%;
-  /*le damos un alto de 100%*/
-  height: 85%;
-  /*le damos un overflow para que se pueda hacer scroll*/
+ 
+  height: 55%;
+ 
   overflow: auto;
-  /*está muy a la izquierda*/
+ 
   padding-left: 10px;
   margin-bottom: 20px;
   scrollbar-color: var(--primary) rgba(0, 0, 0, 0.1);
@@ -30,14 +86,14 @@
 }
 
 .stars::-webkit-scrollbar {
-  /* Ajusta el ancho de la barra de desplazamiento */
+ 
   width: 10px;
 }
 
 .stars::-webkit-scrollbar-thumb {
-  /* Ajusta el color del pulgar de la barra de desplazamiento */
+ 
   background-color: var(--primary);
-  /* Ajusta el borde del pulgar de la barra de desplazamiento */
+ 
   border-radius: 5px;
 }
 
@@ -114,7 +170,7 @@ input:focus::placeholder {
   border: 1px solid var(--primary);
   background-color: transparent;
   color: var(--primary);
-  padding: 39px 3px; /* Ajusta el padding vertical para que coincida con el de .star-info */
+  padding: 38.6px 3px;
   font-size: 20px;
   cursor: pointer;
 }
@@ -127,7 +183,7 @@ input:focus::placeholder {
 button:hover {
   background-color: var(--primary);
   color: black;
-  border: 1px solid var(--primary); /* Añadimos el borde al hacer hover */
+  border: 1px solid var(--primary);
 }
 
 .alert-alert-danger {
@@ -139,44 +195,44 @@ button:hover {
 }
 .star-info {
   display: flex;
-  flex-direction: column; /* Alineamos los elementos verticalmente */
+  flex-direction: column;
   padding: 10px;
   border: 1px solid var(--primary);
   background-color: transparent;
   color: var(--primary);
   font-size: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .star-name,
 .star-coordinates {
   color: var(--white);
   font-family: 'Iceland';
-  padding: 10px 20px; /* Ajustamos el padding para ambos elementos */
-  border-bottom: 1px solid var(--primary); /* Añadimos una línea divisoria entre ellos */
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--primary);
 }
 
 .star-coordinates {
-  border-bottom: none; /* Eliminamos la línea divisoria inferior para las coordenadas */
+  border-bottom: none;
 }
 
 .star-info button {
-  width: auto; /* Ajusta el ancho del botón automáticamente según su contenido */
-  margin-left: auto; /* Alinea el botón a la derecha */
+  width: auto;
+  margin-left: auto;
 }
 
 .planet-row {
-  background-color: var(--primary-light); /* Ajusta el color de fondo según tu diseño */
-  width: 100%; /* Ajusta el ancho al 100% */
+  background-color: var(--primary-light);
+  width: 100%;
 }
 
 .planet-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--primary); /* Línea divisoria entre planetas */
-  padding: 10px 0; /* Ajusta el espaciado interno según sea necesario */
+  border-bottom: 1px solid var(--primary);
+  padding: 10px 0;
 }
 
 .planet-name {
@@ -192,14 +248,26 @@ button:hover {
   border: 1px solid var(--primary);
   background-color: transparent;
   color: var(--primary);
-  padding: 5px 10px; /* Reduzco el padding del botón */
-  font-size: 16px; /* Ajusta el tamaño de la fuente del botón según sea necesario */
+  padding: 5px 10px;
+  font-size: 16px;
   cursor: pointer;
-  max-width: 150px; /* Ajusto el ancho máximo del botón */
-  white-space: nowrap; /* Evita que el texto del botón se divida en varias líneas */
+  max-width: 150px;
+  white-space: nowrap;
 }
 
 .planet-button:hover {
   background-color: var(--green);
   color: black;
+}
+
+.planet-list-inline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.planet-list-inline li {
+  display: inline-block;
+  margin: 0 10px;
 }
