@@ -57,7 +57,7 @@ export class BackgroundService {
       1000
     );
 
-    this.camera.position.set(60, 0, 120); // Cambiamos la posición de la cámara para que mire hacia el cubo y el sol
+    this.camera.position.set(0, 0, 150); // Cambiamos la posición de la cámara para que mire hacia el cubo y el sol
     this.scene.add(this.camera);
 
     // soft white light

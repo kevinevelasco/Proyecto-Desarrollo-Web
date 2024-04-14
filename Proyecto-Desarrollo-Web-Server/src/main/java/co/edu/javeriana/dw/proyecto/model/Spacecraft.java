@@ -34,7 +34,6 @@ public class Spacecraft {
     @Positive(message = "Total time should not be less than 1")
     private Double totalTime;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "spacecraft")
     private List<Player> players;
 

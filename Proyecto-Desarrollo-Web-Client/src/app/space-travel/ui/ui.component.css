@@ -1,0 +1,205 @@
+.ui-wrapper {
+  display: flex;
+}
+
+.left-column {
+  flex: 0 0 auto;
+}
+
+.right-column {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+/* mostramos los planetas de cada estrella como listas desplegables */
+.stars{
+  /*lo movemos a la parte derecha de la pantalla*/
+  position: absolute;
+  right: 1;
+  /*le damos un tamaño de 300px*/
+  width: 25%;
+  /*le damos un alto de 100%*/
+  height: 85%;
+  /*le damos un overflow para que se pueda hacer scroll*/
+  overflow: auto;
+  /*está muy a la izquierda*/
+  padding-left: 10px;
+  margin-bottom: 20px;
+  scrollbar-color: var(--primary) rgba(0, 0, 0, 0.1);
+
+}
+
+.stars::-webkit-scrollbar {
+  /* Ajusta el ancho de la barra de desplazamiento */
+  width: 10px;
+}
+
+.stars::-webkit-scrollbar-thumb {
+  /* Ajusta el color del pulgar de la barra de desplazamiento */
+  background-color: var(--primary);
+  /* Ajusta el borde del pulgar de la barra de desplazamiento */
+  border-radius: 5px;
+}
+
+.stars::-moz-scrollbar {
+  width: 10px;
+}
+
+.stars::-moz-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 5px;
+}
+
+form {
+  font-family: 'Big Shoulders Display';
+}
+
+h1 {
+  font-weight: 800;
+  color: var(--primary);
+  text-transform: uppercase;
+  font-size: 30px;
+  text-align: center;
+  margin: 12px;
+  font-family:'Big Shoulders Display';
+}
+
+p {
+  font-family: 'Iceland';
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="password"] {
+  font-family: 'Big Shoulders Display';
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  width: 250px;
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  font-family: 'Big Shoulders Display';
+  font-weight: bold;
+  color: var(--primary);
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+.button {
+  text-align: center;
+}
+
+.show-planets-button {
+  font-family: 'Big Shoulders Display';
+  text-transform: uppercase;
+  font-weight: bold;
+  border: 1px solid var(--primary);
+  background-color: transparent;
+  color: var(--primary);
+  padding: 39px 3px; /* Ajusta el padding vertical para que coincida con el de .star-info */
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.show-planets-button:hover {
+  background-color: var(--primary);
+  color: black;
+}
+
+button:hover {
+  background-color: var(--primary);
+  color: black;
+  border: 1px solid var(--primary); /* Añadimos el borde al hacer hover */
+}
+
+.alert-alert-danger {
+  font-weight: lighter;
+  font-size: 20px;
+  padding: 0px;
+  color: red;
+  text-align: center;
+}
+.star-info {
+  display: flex;
+  flex-direction: column; /* Alineamos los elementos verticalmente */
+  padding: 10px;
+  border: 1px solid var(--primary);
+  background-color: transparent;
+  color: var(--primary);
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.star-name,
+.star-coordinates {
+  color: var(--white);
+  font-family: 'Iceland';
+  padding: 10px 20px; /* Ajustamos el padding para ambos elementos */
+  border-bottom: 1px solid var(--primary); /* Añadimos una línea divisoria entre ellos */
+}
+
+.star-coordinates {
+  border-bottom: none; /* Eliminamos la línea divisoria inferior para las coordenadas */
+}
+
+.star-info button {
+  width: auto; /* Ajusta el ancho del botón automáticamente según su contenido */
+  margin-left: auto; /* Alinea el botón a la derecha */
+}
+
+.planet-row {
+  background-color: var(--primary-light); /* Ajusta el color de fondo según tu diseño */
+  width: 100%; /* Ajusta el ancho al 100% */
+}
+
+.planet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--primary); /* Línea divisoria entre planetas */
+  padding: 10px 0; /* Ajusta el espaciado interno según sea necesario */
+}
+
+.planet-name {
+  color: var(--white);
+  font-family: 'Iceland';
+  font-size: 20px;
+}
+
+.planet-button {
+  font-family: 'Big Shoulders Display';
+  text-transform: uppercase;
+  font-weight: bold;
+  border: 1px solid var(--primary);
+  background-color: transparent;
+  color: var(--primary);
+  padding: 5px 10px; /* Reduzco el padding del botón */
+  font-size: 16px; /* Ajusta el tamaño de la fuente del botón según sea necesario */
+  cursor: pointer;
+  max-width: 150px; /* Ajusto el ancho máximo del botón */
+  white-space: nowrap; /* Evita que el texto del botón se divida en varias líneas */
+}
+
+.planet-button:hover {
+  background-color: var(--green);
+  color: black;
+}
