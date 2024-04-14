@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { Planet } from '../../model/planet';
-import { InteractionManager } from 'three.interactive';
-import { Subject } from 'rxjs';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
 
 
 @Injectable({
@@ -20,8 +19,16 @@ export class BackgroundService {
 
   private sun: THREE.Mesh;
   private stars: THREE.Mesh[] = []; //creamos una lista de estrellas
+  private mixers: THREE.AnimationMixer[] = [];
+  previousRAF: number = 0;
+  model: THREE.Group<THREE.Object3DEventMap>;
 
   public constructor(private ngZone: NgZone) {}
+
+  public mouseX = window.innerWidth / 2;
+  public mouseY = window.innerHeight / 2;
+
+  public controls: OrbitControls;
 
   public ngOnDestroy(): void {
     console.log('ngOnDestroy');
@@ -88,14 +95,39 @@ export class BackgroundService {
       this.stars.push(sphere);
     }
 
-    const sunTexture = new THREE.TextureLoader().load('assets/img/sun/sun.jpg');
-    const sunGeo = new THREE.SphereGeometry(16, 32, 32);
-    const sunMat = new THREE.MeshBasicMaterial({ map: sunTexture });
-    this.sun = new THREE.Mesh(sunGeo, sunMat);
-    this.scene.add(this.sun);
+    // const sunTexture = new THREE.TextureLoader().load('assets/img/sun/sun.jpg');
+    // const sunGeo = new THREE.SphereGeometry(16, 32, 32);
+    // const sunMat = new THREE.MeshBasicMaterial({ map: sunTexture });
+    // this.sun = new THREE.Mesh(sunGeo, sunMat);
+    // this.scene.add(this.sun);
 
-    const pointLight = new THREE.PointLight(0xffffff, 3000, 300);
-    this.scene.add(pointLight);
+    const loader = new FBXLoader();
+    loader.setPath('assets/3d/models/');
+    loader.load('Vanguard By T. Choonyung.fbx', (fbx) => {
+      fbx.scale.setScalar(0.4);
+      fbx.position.set(-80, -40, 0);
+      fbx.rotation.set(0, 0, 0);
+      fbx.traverse(c => {
+        c.castShadow = true;
+        c.receiveShadow = true;
+      });
+      const anim = new FBXLoader();
+      anim.setPath('assets/3d/animations/');
+      anim.load('Praying.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this.mixers.push(m); // Save mixer for later updates
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this.scene.add(fbx);
+      this.model = fbx;
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    })
+
+    //agregamos iluminación
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(0, 0, 1);
+    this.scene.add(light);
   }
 
   public animate(): void {
@@ -113,13 +145,22 @@ export class BackgroundService {
       window.addEventListener('resize', () => {
         this.resize();
       });
+      window.addEventListener('mousemove', (event) => {
+        this.mouseX = event.clientX;
+        this.mouseY = event.clientY;
+      });
     });
   }
 
   public render(): void {
-    this.frameId = requestAnimationFrame(() => {
+
+    this.frameId = requestAnimationFrame((t) => {
       this.render();
-    });
+
+      if (this.previousRAF === null) {
+        this.previousRAF = t;
+      }
+    
 
     for (var i = 0; i < this.stars.length; i++) {
       const star = this.stars[i];
@@ -130,8 +171,27 @@ export class BackgroundService {
       // if the particle is too close move it to the back
       if (star.position.z > 1000) star.position.z -= 2000;
     }
-    this.sun.rotateY(0.004);
+    
+    // Calculamos la orientación del modelo en función de la posición del ratón
+    const mouseXNorm = (this.mouseX / window.innerWidth) ; // Normalizamos la posición del ratón en el eje X
+    const mouseYNorm = (this.mouseY / window.innerHeight) ; // Normalizamos la posición del ratón en el eje Y
+
+    const maxRotationX = Math.PI / 6; // Máxima rotación permitida en el eje X
+    const maxRotationY = Math.PI / 6; // Máxima rotación permitida en el eje Y
+
+    const targetRotationX = maxRotationX * mouseYNorm; // Calculamos la rotación en el eje X en función de la posición del ratón
+    const targetRotationY = maxRotationY * mouseXNorm; // Calculamos la rotación en el eje Y en función de la posición del ratón
+
+    // Aplicamos la rotación al modelo
+    this.model.rotation.x = targetRotationX;
+    this.model.rotation.y = targetRotationY;
+
+    // Aplicamos la rotación al modelo solo en el eje X
+    this.model.rotation.x = targetRotationX;
     this.renderer.render(this.scene, this.camera);
+    this.step(t - this.previousRAF);
+    this.previousRAF = t;
+  });
   }
 
   public resize(): void {
@@ -143,4 +203,12 @@ export class BackgroundService {
 
     this.renderer.setSize(width, height);
   }
+
+  public step(timeElapsed: number) {
+    const timeElapsedS = timeElapsed * 0.001;
+    if (this.mixers) {
+      this.mixers.map(m => m.update(timeElapsedS));
+    }
+  }
 }
+
