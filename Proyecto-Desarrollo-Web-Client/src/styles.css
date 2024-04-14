@@ -17,6 +17,7 @@
 :root {
   --primary : #D4A944;
   --green : #7DFF68;
+  --white : #fff;
 
 }
 
@@ -53,30 +54,6 @@ body {
 #renderCanvas:focus {
   outline: none;
 }
-
-.ui-wrapper {
-  position: absolute;
-}
-
-.ui-wrapper * {
-  z-index: 1;
-}
-/* mostramos los planetas de cada estrella como listas desplegables */
-.stars{
-  /*lo movemos a la parte derecha de la pantalla*/
-  position: absolute;
-  right: 1;
-  /*le damos un tamaño de 300px*/
-  width: 300px;
-  /*le damos un alto de 100%*/
-  height: 100%;
-  /*le damos un overflow para que se pueda hacer scroll*/
-  overflow: auto;
-  /*está muy a la izquierda*/
-  padding-left: 10px;
-
-}
-
 
 .ng-valid:not(form).ng-touched {
   border-color: #42A948;

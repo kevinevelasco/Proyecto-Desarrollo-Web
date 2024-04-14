@@ -29,6 +29,8 @@ export class UiComponent implements OnInit, OnDestroy {
   booleanPlanet: boolean = false;
   inPlanet: Planet;
   currentPlanet: Planet;
+  deployPlanetList: boolean = false;
+  starClicked: Star;
 
   ngOnInit(): void {
     console.log('user info', this.userData);
@@ -92,6 +94,14 @@ export class UiComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   
+  onStarClick(star: Star) {
+    console.log('star clickeada', star);
+    if (this.starClicked === star) {
+      this.deployPlanetList = !this.deployPlanetList; // Toggle para cerrar o abrir la lista de planetas
+    } else {
+      this.starClicked = star; // Almacena la estrella clicada
+      this.deployPlanetList = true; // Abre la lista de planetas para la nueva estrella
+    }
+    }
 }
