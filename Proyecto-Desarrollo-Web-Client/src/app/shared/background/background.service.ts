@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { MathUtils } from 'three';
 
 
 
@@ -195,11 +196,23 @@ export class BackgroundService {
   }
 
   public resize(): void {
+    const fov = 50;
+    const planeAspectRatio = 16 / 9;
     const width = window.innerWidth;
     const height = window.innerHeight;
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
+
+    if (this.camera.aspect > planeAspectRatio) {
+      // window too large
+      this.camera.fov = fov;
+    } else {
+      const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
+      const ratio = this.camera.aspect / planeAspectRatio;
+      const newCameraHeight = cameraHeight / ratio;
+      this.camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
+    }
 
     this.renderer.setSize(width, height);
   }
