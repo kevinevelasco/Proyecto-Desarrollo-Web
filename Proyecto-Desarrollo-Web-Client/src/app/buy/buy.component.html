@@ -1,13 +1,24 @@
 <app-background style="pointer-events: none;"></app-background>
-<p>buy works!</p>
+<p>¡La compra funciona!</p>
 <div class="inventory" *ngIf="inventoryData.length > 0">
-    <h2>Inventario</h2>
+    <h2>Lo que te podemos comprar:</h2>
     <div class="items">
-        <div *ngFor="let item of inventoryData" class="inventory-item">
-            <div class="chart">
-            <p class="name">{{item.product.name}}</p>
-            </div>
-            <p class="quantity">{{item.quantity}}</p>
-        </div>
+        <table class="tablaBuy">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of inventoryData" class="inventory-item">
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="yodaComprador">
+        <img src="assets/img/sellBuy/yodaComprador.jpg" alt="babyYoda">
     </div>
 </div>

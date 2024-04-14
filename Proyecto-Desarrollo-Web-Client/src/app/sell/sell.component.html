@@ -11,32 +11,42 @@
     <!-- Todo lo siguiente se muestra solo si el usuario está logueado -->
     <div *ngIf="userLoginOn">
         <!-- Sección para mostrar los datos del mercado -->
-        <div *ngIf="marketData.length >0" class="market-info">
-            <h2>Productos en venta del planeta {{ planetData?.name }}:</h2>
-           <div *ngFor="let item of marketData">
-                <div class="item">
-                    <p class="PRODUCT">{{ item.product.name }}</p>
-                    <p class="PRICE">{{ item.sellPrice }}</p>
-                    <p class="DEMAND">{{item.demandFactor}}</p>
-                </div>
-            </div>
+        <div class="table-container">
+            <table class="styled-table">
+                <tbody>
+                    <tr *ngFor="let item of marketData">
+                        <td class="product-image-cell">
+                            <img src="\assets\img\inventoryaux.png" alt="{{ item.product.name }}">
+                        </td>
+                        <td class="product-info-cell">
+                            <div class="product-name">Producto: {{ item.product.name }}</div>
+                            <div class="product-details">
+                                Precio: {{ item.sellPrice }}
+                                Stock: {{ item.stock }}
+                                Tamaño: {{ item.product.size }}
+                            </div>
+                            <button>Comprar Producto</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>            
         </div>
-        </div>
+    </div>
 
-        <div class="babyYoda">
-            <img src="assets/img/sellBuy/baby_yoda.png" alt="babyYoda">
-        </div>
+    <div class="babyYoda">
+        <img src="assets/img/sellBuy/baby_yoda.png" alt="babyYoda">
+    </div>
 
-        <div class="globoTexto">
-            <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
-            <div class="textoYoda">
-                <p>Gracias por venir al planeta "{{planetData?.name}}", tenemos estos productos en venta!!: </p>
-            </div>
+    <div class="globoTexto">
+        <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
+        <div class="textoYoda">
+            <p>Gracias por venir al planeta "{{planetData?.name}}", tenemos estos productos en venta!!:</p>
         </div>
+    </div>
 
-        <div class="botonesAccion">
-            <button class="comprar" (click)="comprar()">COMPRAR</button>
-            <button class="vender" (click)="vender()">VENDER</button>
-        </div>
+    <div class="botonesAccion">
+        <button class="comprar" (click)="comprar()">COMPRAR</button>
+        <button class="vender" (click)="vender()">VENDER</button>
+    </div>
 </body>
 </html>

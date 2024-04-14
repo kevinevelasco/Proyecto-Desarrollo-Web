@@ -1,9 +1,9 @@
-/* Estilos existentes para babyYoda */
 .babyYoda {
+    position: absolute;
+    top: 0px;
     width: 20%;
     height: 700px;
     overflow: hidden;
-    position: relative;
     margin-left: 250px;
     z-index: 1;
 }
@@ -20,40 +20,69 @@
 
 .globoTexto {
     position: absolute;
-    z-index: 10; /* Asegura que aparezca encima */
-    width: 20%; /* Ancho inicial, ajusta según necesites */
-    height: auto; /* Esto mantiene la proporción de la imagen */
-    left: 23%; /* Posición inicial, ajusta según necesites */
-    top: 120px; /* Distancia desde el top, ajusta según necesites */
-    transform: translateX(-50%); /* Centra el elemento horizontalmente */
-    animation: slideInGlobo 1s ease-out forwards; /* Añade animación para que aparezca */
+    z-index: 10; 
+    width: 20%; 
+    height: auto; 
+    left: 23%; 
+    top: 120px;
+    transform: translateX(-50%); 
+    animation: slideInGlobo 1s ease-out forwards; 
 }
 
 .globoTexto img {
-    width: 100%; /* La imagen ocupa todo el ancho de su contenedor */
-    height: auto; /* Mantiene la proporción de la imagen */
+    width: 100%; 
+    height: auto; 
 }
 
-/* Añade estilos para textoYoda */
+
 .textoYoda {
-    position: absolute; /* Posicionamiento absoluto dentro de globoTexto */
-    top: 20%; /* Ajusta esto según donde quieras que el texto aparezca dentro del globo */
-    left: 50%; /* Centra el texto dentro del globo */
-    transform: translateX(-50%); /* Ajuste fino para centrar el texto */
-    width: 80%; /* Ancho del texto; ajusta según sea necesario */
-    text-align: center; /* Centra el texto horizontalmente */
-    color: black; /* Color del texto, cambia según necesites */
-    font-size: 14px; /* Tamaño de la fuente, ajusta según necesites */
-    animation: fadeInTexto 2s ease-in 1s forwards; /* Comienza después de que termina la animación del globo */
-    opacity: 0; /* Establece la opacidad inicial a 0 para asegurar el efecto deseado. */
-    animation: fadeInTexto 2s ease-in 1s forwards; /* Ajusta para cambiar la opacidad a 1 de forma permanente. */
+    position: absolute; 
+    top: 20%; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 80%; 
+    text-align: center; 
+    color: black; 
+    font-size: 14px; 
+    animation: fadeInTexto 2s ease-in 1s forwards; 
+    opacity: 0; 
+    animation: fadeInTexto 2s ease-in 1s forwards; 
 }
 
+.product-image-cell img {
+    height: 100%; 
+    width: auto;
+    display: block;
+}
 
+.product-info-cell {
+    text-align: left;
+}
 
+.product-name {
+    font-weight: bold;
+    font-size: 16px;
+}
 
+.product-details {
+    font-size: 14px;
+    padding-top: 8px;
+    line-height: 1.5;
+}
 
+button {
+    padding: 8px 16px;
+    background-color: #009879;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
 
+button:hover {
+    background-color: #007960;
+}
 
 .botonesAccion {
     position: absolute;
@@ -63,10 +92,9 @@
     display: flex;
     flex-direction: row;
     gap: 1px;
-    animation: slideInFromRight 1.5s ease-out forwards; /* Duración de la animación ajustada a 1.5 segundos */
+    animation: slideInFromRight 1.5s ease-out forwards; 
 }
 
-/* Estilo general para los botones */
 .botonesAccion button {
     cursor: pointer;
     padding: 10px 30px;
@@ -78,13 +106,12 @@
     font-weight: bold;
 }
 
-/* Estilo específico para el botón COMPRAR con texto en verde */
 .botonesAccion button.comprar {
     color: limegreen;
     border-color: limegreen;
 }
 
-/* Estilo específico para el botón VENDER con texto en rojo */
+
 .botonesAccion button.vender {
     color: red;
     border-color: red;
@@ -109,31 +136,36 @@
 
 
 .table-container {
-    width: 100%;
-    max-width: 600px; /* Ajusta al ancho deseado */
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%; 
+    max-width: 500px; 
+    margin: 20px auto; 
+    margin-left: 700px;
     overflow-y: auto;
-    margin: 0 auto;
+    overflow-x: hidden; 
+    height: 475px; 
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 }
 
-/* Estilos para la tabla */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
+    border-spacing: 0;
 }
 
-.styled-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
-    text-align: left;
-}
-
-.styled-table th,
 .styled-table td {
     padding: 12px 15px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #5e1b1b;
 }
 
 .styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
+    background-image: linear-gradient(to right, #0c0c0c, #0c0c0c 40%, #ffd700 200%);
+    color: white; 
+    border-bottom: 9px solid #7af705;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
@@ -144,67 +176,51 @@
     border-bottom: 2px solid #009879;
 }
 
-/* Estilos para la scrollbar */
+
 ::-webkit-scrollbar {
     width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #888; 
+    background: #9e7979; 
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #555; 
+    background: #b3ff02; 
 }
-
-::-webkit-scrollbar-thumb:hover {
-    background: #222; 
-}
-
-
-
-
-
-
-
 
 .market-info {
-    width: 25%; /* Reducir el ancho para hacer la tabla más pequeña */
+    width: 25%; 
     margin-top: 8%;
-    margin-left: 60%; /* Aumentar el margen izquierdo para mover la tabla hacia la derecha */
+    margin-left: 60%; 
     padding: 15px;
-    border: 2px solid #ccc; /* Borde sutil */
-    text-align: center; /* Asegura que el texto está centrado */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade sombra para mejorar la visibilidad */
-    position: relative; /* Esto es necesario si necesitas más control sobre el posicionamiento */
+    border: 2px solid #ccc; 
+    text-align: center; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    position: relative; 
 }
 
 .market-info h2 {
-    color: #009879; /* Color verde para el título */
-    margin-top: 0; /* Ajusta según sea necesario */
+    color: #009879; 
+    margin-top: 0; 
 }
 
 .market-info ul {
     padding: 0;
-    list-style: none; /* Elimina los marcadores de lista */
+    list-style: none;
 }
 
 .market-info li {
-    background-color: #f0f0f0; /* Fondo más claro para cada ítem */
+    background-color: #f0f0f0; 
     margin-bottom: 10px;
     padding: 10px;
-    border-radius: 5px; /* Bordes redondeados para los elementos de la lista */
-    font-size: 14px; /* Tamaño de fuente adecuado para la visibilidad */
+    border-radius: 5px; 
+    font-size: 14px; 
 }
 
 
 
 
-
-
-
-
-/* Define la animación slideInFromRight */
 @keyframes slideInFromRight {
     from {
         transform: translateX(100%);
@@ -225,7 +241,7 @@
         opacity: 0;
     }
     to {
-        left: 23%; /* Ajusta este valor al deseado para la posición final del globo */
+        left: 23%; 
         opacity: 1;
     }
 }
