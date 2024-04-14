@@ -2,6 +2,7 @@
   <div class="left-column">
     <div class="current-star">
       <h1>Estoy en el sistema: {{currentStar.name}}</h1>
+      <h1>En el planeta: {{inPlanet.name}} </h1>
       <table class="star-table">
         <tbody>
           <!-- Fila de Ubicación -->
@@ -31,35 +32,36 @@
         </tbody>
       </table>
     </div>
-  
+
     <h1>Estrellas cercanas</h1>
     <div *ngIf="nearestStars.length === 0">Cargando...</div>
     <div class="stars" *ngIf="nearestStars.length > 0">
       <!--imprimimos cada estrella y de cada estrella sus correspondientes planetas-->
       <table>
         <tbody *ngFor="let star of nearestStars">
-         <!--mostramos la estrella, sus coordenadas y sus correspondientes planetas-->
-         <tr>
-          <td>
-            <div class="star-info">
-              <span class="star-name">{{star.name}}</span>
-              <span class="star-coordinates">{{star.x}}, {{star.y}}, {{star.z}} </span>
-            </div>
-          </td>
-          <td>
-            <button class="show-planets-button" (click)="onStarClick(star)">Ver planetas</button>
-          </td>
-        </tr>
-        <tr *ngIf="starClicked == star && deployPlanetList" class="planet-row">
-          <td colspan="5">
-            <div class="planet-list">
-              <div class="planet-item" *ngFor="let planet of star.planets" >
-                <span class="planet-name">{{planet.name}}</span>
-                <button class="planet-button" *ngIf="userData!=undefined" (click)="onOtherStarPlanetClick(planet, userData, false)">Ir</button>
+          <!--mostramos la estrella, sus coordenadas y sus correspondientes planetas-->
+          <tr>
+            <td>
+              <div class="star-info">
+                <span class="star-name">{{star.name}}</span>
+                <span class="star-coordinates">{{star.x}}, {{star.y}}, {{star.z}} </span>
               </div>
-            </div>
-          </td>
-        </tr>
+            </td>
+            <td>
+              <button class="show-planets-button" (click)="onStarClick(star)">Ver planetas</button>
+            </td>
+          </tr>
+          <tr *ngIf="starClicked == star && deployPlanetList" class="planet-row">
+            <td colspan="5">
+              <div class="planet-list">
+                <div class="planet-item" *ngFor="let planet of star.planets">
+                  <span class="planet-name">{{planet.name}}</span>
+                  <button class="planet-button" *ngIf="userData!=undefined"
+                    (click)="onOtherStarPlanetClick(planet, userData, false)">Ir</button>
+                </div>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -68,11 +70,69 @@
   <div class="right-column">
     <!-- mostramos la columna derecha solo si se le dio click a onPlanetClick-->
     <div *ngIf="booleanPlanet">
-      <h2>{{currentPlanet.name}}</h2>
-      <p>{{currentPlanet.position}}</p>
-      <p>Te gustaría ir a este planeta? </p>
-      <button (click)="onTravelClick(currentPlanet)">Viajar</button>
-      <button (click)="onCancelClick()">Volver</button>
+      <div class="planet-product-table">
+        <div class="left">
+          <!-- Mostramos la columna izquierda solo si se le dio click a onPlanetClick-->
+          <div *ngIf="booleanPlanet">
+            <!-- Tabla de productos -->
+            <table class="product-table">
+              <thead>
+                <tr>
+                  <th>Algunos productos que vende</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Por cada producto, creamos una fila -->
+                <tr *ngFor="let product of currentPlanet.products.slice(0, 6)">
+                  <td>{{ product.name }}</td>
+                </tr>
+                <tr *ngIf="currentPlanet.products.length > 6">
+                  <td>...</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="right">
+          <!-- Mostramos la columna derecha solo si se le dio click a onPlanetClick-->
+          <div class="if" *ngIf="booleanPlanet">
+            <!-- Tabla de información del planeta -->
+            <table class="planet-info-table">
+              <thead>
+                <tr>
+                  <th>{{ currentPlanet.name }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="inPlanet.name != currentPlanet.name">
+                  <td>¿Tienes curiosidad de conocer el misterioso mercado de productos que ofrece este planeta?</td>
+                </tr>
+                <tr *ngIf="inPlanet.name != currentPlanet.name">
+                  <td>¡Haz click abajo y conoce su variedad de productos para compra/venta ahora mismo!</td>
+                </tr>
+                <tr *ngIf="inPlanet.name == currentPlanet.name">
+                  <td>Veo que aún sigues en el planeta {{inPlanet.name}}, ¿planeas ir a algún otro planeta?</td>
+                </tr>
+                <tr *ngIf="inPlanet.name == currentPlanet.name">
+                  <td>¡Mejor vuelve que te haremos los mejores descuentos en este mismo instante!</td>
+                </tr>
+                <tr>
+                  <td *ngIf="inPlanet.name != currentPlanet.name">
+                    <button (click)="onTravelClick(currentPlanet)" class="go">Viajar</button>
+                    <button (click)="onCancelClick()" class="exit">Salir</button>
+                  </td>
+                  <td *ngIf="inPlanet.name === currentPlanet.name">
+                    <button (click)="onTravelClick(currentPlanet)" class="go">Volver al planeta</button>
+                    <button (click)="onCancelClick()" class="exit">Salir</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

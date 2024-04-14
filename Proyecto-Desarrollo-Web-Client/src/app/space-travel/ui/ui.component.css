@@ -124,8 +124,7 @@ p {
   font-family: 'Iceland';
   font-weight: normal;
   text-transform: uppercase;
-  font-size: 20px;
-  text-align: center;
+  font-size: 15px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -223,7 +222,9 @@ button:hover {
 }
 
 .planet-row {
-  background-color: var(--primary-light);
+  background-color: var(--gray-light);
+  /*le añadimos una opacidad*/
+  opacity: 0.8;
   width: 100%;
 }
 
@@ -242,22 +243,23 @@ button:hover {
 }
 
 .planet-button {
-  font-family: 'Big Shoulders Display';
-  text-transform: uppercase;
-  font-weight: bold;
-  border: 1px solid var(--primary);
-  background-color: transparent;
-  color: var(--primary);
-  padding: 5px 10px;
-  font-size: 16px;
-  cursor: pointer;
-  max-width: 150px;
-  white-space: nowrap;
+  font-family: "Big Shoulders Display";
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 1px solid var(--green);
+    background-color: black;
+    color: var(--green);
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    max-width: 150px;
+    white-space: nowrap;
 }
 
 .planet-button:hover {
   background-color: var(--green);
   color: black;
+  border: var(--green);
 }
 
 .planet-list-inline {
@@ -270,4 +272,192 @@ button:hover {
 .planet-list-inline li {
   display: inline-block;
   margin: 0 10px;
+}
+
+.planet-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.planet-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.planet-product-table {
+  display: flex;
+}
+
+.left,
+.right {
+  flex: 1; /* Ocupa todo el espacio disponible */
+}
+
+.left {
+  width: 50%; /* Ancho de la columna izquierda */
+}
+
+.right {
+  width: 50%; /* Ancho de la columna derecha */
+}
+
+.product-table {
+  width: 50%; /* Ancho de la tabla de productos */
+  float: right;
+  border: 1px solid var(--darkgreen); /* Añade borde a las celdas */
+  font-family: 'Iceland';
+}
+
+.planet-info-table {
+  width: 100%; /* Ancho completo para la tabla de información del planeta */
+  border: 1px solid var(--darkgreen); /* Añade borde a las celdas */
+  height: 100%;
+}
+
+.product-table,
+.planet-info-table {
+  border-collapse: collapse; /* Combina los bordes de las celdas */
+}
+
+.product-table th,
+.product-table td,
+.planet-info-table th,
+.planet-info-table td {
+  padding: 8px; /* Añade espacio interno */
+}
+
+.product-table th,
+.planet-info-table th {
+  background-color: var(--primary-light); /* Color de fondo para el encabezado */ 
+  font-weight: bold; /* Texto en negrita */
+}
+
+.product-table tbody tr:nth-child(even),
+.planet-info-table tbody tr:nth-child(even) {
+  background-color: var(--primary-lighter); /* Color de fondo para filas pares */
+}
+
+.left thead {
+  font-size: 15px; /* Tamaño de fuente más pequeño para la primera columna */
+  border: 1px solid var(--darkgreen); /* Añade borde a las celdas */
+  font-family: 'Iceland';
+  text-align: justify;
+  color: black;
+  background-color: var(--darkgreen);
+}
+
+.right thead {
+  font-size: 24px; /* Tamaño de fuente más grande para la segunda columna */
+  border: 1px solid var(--darkgreen); /* Añade borde a las celdas */
+  font-family: 'Big Shoulders Display' !important; 
+  color: var(--darkgreen);
+}
+
+
+.planet-info-table tbody{
+  display: block; /* Establecemos un contexto de bloque para el tbody */
+  font-family: 'Iceland';
+  overflow-y: auto; /* Agregamos una barra de desplazamiento vertical si es necesario */
+  font-size: 15px;
+  color: var(--white);
+}
+
+.product-table tbody{
+  font-size: 15px;
+  color: var(--white);
+}
+
+.if{
+  height: 100%;
+}
+
+.planet-info-table tbody tr:last-child {
+  position: absolute; /* Posición absoluta para los botones */
+  bottom: 0; /* Los botones estarán al final del tbody */
+}
+
+/* Estilos para los botones */
+
+.go {
+  font-size: 20px;
+  border: 1px solid;
+  margin-right: 30px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  position: relative; /* Para ajustar el z-index y asegurar que estén sobre el contenido */
+  font-family: 'Big Shoulders Display';
+  background-color: black;;
+}
+
+.go:hover {
+  background-color: var(--green);
+  color: black;
+  border: var(--green);
+  cursor: pointer;
+}
+
+.exit{
+  font-size: 20px;
+  border: 1px solid;
+  border: 1px solid red;
+  color: red;
+  margin-right: 30px;
+  position: relative; /* Para ajustar el z-index y asegurar que estén sobre el contenido */
+  font-family: 'Big Shoulders Display';
+  background-color: black;
+}
+
+.exit:hover{
+  background-color: red;
+  color: black;
+  border: red;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .ui-wrapper {
+    flex-direction: column; /* Cambia la dirección del contenedor principal a columna */
+  }
+
+  .left-column,
+  .right-column {
+    width: 100%; /* Establece el ancho completo para las columnas */
+    margin-left: 0; /* Elimina el margen izquierdo */
+  }
+
+  .right-column {
+    position: relative; /* Elimina la posición absoluta */
+    margin-top: 20px; /* Agrega un margen superior para separar de la izquierda */
+  }
+
+  .exit,
+  .go {
+    margin-right: 0; /* Elimina el margen derecho */
+    margin-bottom: 10px; /* Agrega un margen inferior para separar los botones */
+    width: calc(50% - 15px); /* Ancho del 50% menos el margen derecho */
+  }
+
+  .exit,
+  .go,
+  .show-planets-button {
+    display: block; /* Cambia los botones a bloque para que ocupen todo el ancho */
+  }
+
+  .exit {
+    margin-right: 0; /* Elimina el margen derecho */
+  }
+
+  .right-column {
+    position: fixed; /* Cambia el posicionamiento a fijo */
+    top: 0; /* Asegura que la columna derecha esté siempre pegada arriba */
+    right: 0; /* Asegura que la columna derecha esté siempre pegada a la derecha */
+    bottom: 0; /* Ajusta la altura de la columna derecha al alto de la ventana */
+    width: 50%; /* Ancho del 50% de la pantalla */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+    z-index: 2; /* Asegura que la columna derecha esté por encima de la columna izquierda */
+  }
+
+  .right thead {
+    font-size: 18px; /* Reducción del tamaño de fuente para mejor legibilidad en pantallas pequeñas */
+  }
 }
