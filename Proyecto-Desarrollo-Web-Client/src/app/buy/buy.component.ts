@@ -10,7 +10,7 @@ import { Planet } from '../model/planet';
 import { Market } from '../model/market';
 import { MarketService } from '../services/market.service';
 import { SpacecraftService } from '../services/spacecraft.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-buy',
   templateUrl: './buy.component.html',
@@ -32,7 +32,8 @@ export class BuyComponent {
     private playerService: PlayerService,
     private inventoryService: InventoryService,
     private marketService: MarketService,
-    private spaceCraftService: SpacecraftService) { }
+    private spaceCraftService: SpacecraftService,
+    private router: Router) { }
 
   ngOnInit(): void {
     const userData = localStorage.getItem('currentUserData');
@@ -97,10 +98,12 @@ export class BuyComponent {
 }
   
   comprar() {
-      console.log('Comprar acción iniciada');
+    console.log('Comprar acción iniciada');
+    this.router.navigate(['/buy']);
   }
 
   vender() {
-      console.log('Vender acción iniciada');
+    console.log('Vender acción iniciada');
+    this.router.navigate(['/sell']);
   }
 }

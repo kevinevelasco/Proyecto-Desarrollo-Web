@@ -8,6 +8,7 @@ import { Planet } from '../model/planet';
 import { PlayerService } from '../services/player.service';
 import { MarketService } from '../services/market.service';
 import { Market } from '../model/market';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sell',
@@ -22,6 +23,7 @@ export class SellComponent implements OnInit, OnDestroy {
     marketData: Market[]= [];
   
     constructor(
+        private router: Router,
         private loginService: LoginService,
         private playerService: PlayerService,
         private marketService: MarketService,
@@ -77,9 +79,11 @@ export class SellComponent implements OnInit, OnDestroy {
     }
     comprar() {
         console.log('Comprar acción iniciada');
+        this.router.navigate(['/buy']);
     }
 
     vender() {
         console.log('Vender acción iniciada');
+        this.router.navigate(['/sell']);
     }
 }
