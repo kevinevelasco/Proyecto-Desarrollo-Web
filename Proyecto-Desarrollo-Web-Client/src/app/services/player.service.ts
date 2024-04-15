@@ -25,4 +25,8 @@ export class PlayerService {
     return this.http.get<Spacecraft>(`${environment.serverUrl}/api/player/${playerId}/spacecraft`);
   }
 
+  getPlayersBySpacecraft(spacecraftId: number): Observable<Player[]> {
+    return this.http.get<Player[]>(`${environment.serverUrl}/api/spacecraft/${spacecraftId}/players`, { headers: this.headers });
+  }
+
 }

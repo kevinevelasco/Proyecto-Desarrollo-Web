@@ -8,22 +8,46 @@
 </head>
 <body>
     <app-background style="pointer-events: none;"></app-background>
-    
-    <!-- Mensaje si el usuario no está logueado -->
+
     <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad.</h1>
 
-    <div *ngIf="userLoginOn">
-        <!-- Verificación y muestra de la información del modelo de la nave espacial del usuario -->
-        <div *ngIf="spacecraftModelsData">
-            <h1>Detalles de la Nave Espacial</h1>
-            <p><strong>Modelo:</strong> {{ spacecraftModelsData.modelName }}</p>
-            <p><strong>Capacidad de carga:</strong> {{ spacecraftModelsData.storage }} m³</p>
-            <p><strong>Velocidad máxima:</strong> {{ spacecraftModelsData.maxSpeed }} km/s</p>
+    <div *ngIf="userLoginOn" class="user-section">
+        <!-- Sección de integrantes de la nave -->
+    <div class="nombre nave">
+        <h2>Nombre del equipo: {{spaceCraftData?.name}}</h2>
+    </div>
+        <div *ngIf="planet && playersInSpacecraft.length > 0" class="planet-info">
+            
+            <h2>Integrantes de la nave:</h2>
+            <div class="integrants-list">
+                <div *ngFor="let player of playersInSpacecraft" class="integrant">
+                    {{ player.userName }}
+                </div>
+            </div>
         </div>
+
+        <!-- Imagen de la nave -->
+        <img src="/assets/img/starshipimgaux.png" class="spacecraft-image">
+
+        <!-- Detalles de la nave -->
+        <div class="details-container" *ngIf="spacecraftModelsData">
+            <div class="detail-box">
+                <strong>Modelo:</strong>
+                <p>{{ spacecraftModelsData.modelName }}</p>
+            </div>
+            <div class="detail-box">
+                <strong>Capacidad de carga:</strong>
+                <p>{{ spacecraftModelsData.storage }} m³</p>
+            </div>
+            <div class="detail-box">
+                <strong>Velocidad máxima:</strong>
+                <p>{{ spacecraftModelsData.maxSpeed }} km/s</p>
+            </div>
+        </div>
+        <!-- Mensaje de error si no se cargan los datos del modelo de la nave -->
         <div *ngIf="!spacecraftModelsData">
             <p>No se han podido cargar los datos de la nave.</p>
         </div>
     </div>
-
 </body>
 </html>

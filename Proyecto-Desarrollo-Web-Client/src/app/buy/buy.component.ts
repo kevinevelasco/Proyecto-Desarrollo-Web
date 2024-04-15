@@ -11,6 +11,7 @@ import { Market } from '../model/market';
 import { MarketService } from '../services/market.service';
 import { SpacecraftService } from '../services/spacecraft.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-buy',
   templateUrl: './buy.component.html',
@@ -65,6 +66,7 @@ export class BuyComponent {
         console.log('La nave es:', spacecraft.name);
         this.spaceCraftData = spacecraft;
         this.loadInventory();
+        this.getPlanetData();
       });
     }
   }
@@ -78,6 +80,7 @@ export class BuyComponent {
     });
     }
   }
+  
   getMarketData(): void {
     if (this.planetData!= null) {
      this.marketService.getMarketsByPlanetId(this.planetData.id)
@@ -93,6 +96,7 @@ export class BuyComponent {
         this.spaceCraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
             this.planetData = planet;
             this.getMarketData();
+            console.log('Planeta:', this.planetData);
         });
     }
 }

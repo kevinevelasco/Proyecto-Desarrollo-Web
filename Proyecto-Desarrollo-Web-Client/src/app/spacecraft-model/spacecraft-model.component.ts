@@ -7,6 +7,7 @@ import { PlayerService } from '../services/player.service';
 import { SpacecraftModel } from '../model/spacecraft-model';
 import { SpacecraftModelService } from '../services/spacecraft-model.service';
 import { SpacecraftService } from '../services/spacecraft.service';
+import { Planet } from '../model/planet';
 
 @Component({
   selector: 'app-spacecraft-model',
@@ -19,6 +20,7 @@ export class SpacecraftModelComponent implements OnInit, OnDestroy {
   spaceCraftData?: Spacecraft;
   spacecraftModelsData?: SpacecraftModel;
   playersInSpacecraft: Player[] = [];
+  planet?: Planet;
 
 
   constructor(
@@ -47,14 +49,33 @@ export class SpacecraftModelComponent implements OnInit, OnDestroy {
   }
 
   getSpaceCraftData(): void {
-    if (this.userData!=null) {
-        this.playerService.getPlayerSpacecraft(this.userData.id).subscribe((spacecraft: Spacecraft) => {
-            console.log('Spacecraft data:', spacecraft);
-            this.spaceCraftData = spacecraft;
-            this.getSpacecraftModelsData();
+    if (this.userData != null) {
+        this.playerService.getPlayerSpacecraft(this.userData.id).subscribe({
+            next: (spacecraft: Spacecraft) => {
+                console.log('Spacecraft data:', spacecraft);
+                this.spaceCraftData = spacecraft;
+                this.getSpacecraftModelsData();
+                this.loadPlayers();  // Cargar jugadores
+            },
+            error: (error) => {
+                console.log('Error fetching spacecraft data:', error);
+            }
         });
     }
+}
+
+loadPlayers(): void {
+  if (this.spaceCraftData) {
+      this.playerService.getPlayersBySpacecraft(this.spaceCraftData.id).subscribe({
+          next: (players: Player[]) => {
+              this.playersInSpacecraft = players;
+          },
+          error: (error) => {
+              console.log('Error fetching players:', error);
+          }
+      });
   }
+}
 
   getSpacecraftModelsData(): void {
     if (this.spaceCraftData) {
@@ -62,8 +83,18 @@ export class SpacecraftModelComponent implements OnInit, OnDestroy {
         .subscribe((spacecraftModel: SpacecraftModel) => {
           this.spacecraftModelsData = spacecraftModel;
           console.log('Spacecraft model:', this.spacecraftModelsData);
+          this.loadPlanet();
         });
     }
+  }
+
+  loadPlanet(): void {
+    if(this.spaceCraftData != null) {
+    this.spacecraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
+      console.log('El planeta es:', planet.name);
+      this.planet = planet;
+    });
+  }
   }
   
 }

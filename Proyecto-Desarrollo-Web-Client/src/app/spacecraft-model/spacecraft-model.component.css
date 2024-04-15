@@ -1,0 +1,138 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000;
+    position: relative;
+}
+
+.user-section {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    font-size: 1.2em; /* Aumentado para mejorar la legibilidad */
+}
+
+.nombre.nave {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #B2B7BA;
+    padding: 15px 20px; /* Aumentado para más visibilidad */
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.integrant {
+    color: #D4A944;
+    text-align: center;
+    width: 100%;
+    font-size: 1.3em; /* Aumentado */
+}
+
+.multiplayer, .spacecrafts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.planet-info {
+    flex: 1;
+    color: white;
+    margin-right: 20px; /* Ajustado desde 30px */
+    position: relative;
+    z-index: 1;
+    padding: 10px; /* Reducido desde un valor no especificado para un menor relleno */
+    font-size: 0.9em; /* Reducir el tamaño de la fuente para que todo sea más pequeño */
+}
+
+.planet-info h2 {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    font-size: 1.2em; /* Reducido desde 1.5em */
+}
+
+
+.spacecraft-image {
+    width: auto;
+    max-width: 60%; /* Aumentado */
+    height: auto;
+    position: relative; /* Importante para el posicionamiento del pseudo-elemento */
+    margin-top: 5%;
+    display: block; /* Asegura que la imagen no esté en línea */
+    border: 3px solid transparent; /* Establece un borde transparente inicialmente */
+    box-shadow: 0 0 0 1px #242425; /* Crea un 'borde' externo con sombra de caja */
+}
+
+.spacecraft-image:hover::after {
+    content: "";
+    position: absolute;
+    top: -5px; /* Extiende hacia afuera desde la imagen */
+    left: -5px; /* Extiende hacia afuera desde la imagen */
+    right: -5px; /* Extiende hacia afuera desde la imagen */
+    bottom: -5px; /* Extiende hacia afuera desde la imagen */
+    border: 2px solid rgba(255, 255, 255, 0.75); /* Borde blanco semi-transparente más grueso */
+    box-sizing: border-box;
+    pointer-events: none; /* Asegura que el pseudo-elemento no interfiera con la interacción del usuario */
+}
+
+.details-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin-left: 30px; /* Aumentado */
+    position: relative;
+    z-index: 1;
+}
+
+.detail-box {
+    position: relative;
+    background: #242425;
+    border: 1px solid #444;
+    border-bottom: 0.5px solid #444;
+    box-shadow: 5px 5px 10px rgba(112, 89, 89, 0.5);
+    padding: 25px; /* Aumentado */
+    margin-bottom: 25px; /* Aumentado */
+    color: white;
+}
+
+.detail-box p {
+    font-size: 1.4em; /* Aumentado */
+    color: #9b9491;
+    margin: 0;
+    padding: 0.75em 0; /* Ajustado */
+    background: #1a1010;
+    padding-left: 10px;
+    border: 1px solid #555;
+}
+
+@media (max-width: 768px) {
+    .user-section {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .planet-info, .details-container {
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .spacecraft-image {
+        max-width: 100%;
+        height: auto;
+    }
+}
