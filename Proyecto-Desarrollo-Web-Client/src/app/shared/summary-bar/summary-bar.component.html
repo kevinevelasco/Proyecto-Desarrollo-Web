@@ -1,0 +1,24 @@
+<div class="summary-bar">
+    <div class="summary-bar-container">
+      <div class="time">
+       <p class="counter">{{time}}</p>
+        <p>Tiempo</p>
+      </div>
+        <div class="credit">
+            <img src="assets\img\summaryBar\credit.png" alt="">
+            <p>Créditos</p>
+        </div>     
+        <div class="inventory" (click)="openInventoryDialog()">
+            <img src="assets\img\summaryBar\inventory.png" alt="">
+            <p>Inventario</p>
+        </div>    
+        <div class="multiplayer" (click)="openMultiplayerDialog()">
+            <img src="assets\img\summaryBar\multiplayer.png" alt="">
+            <p>Multijugador</p>
+        </div> 
+        <div class="starship" (click)="openSpacecraftDialog()">
+            <img src="assets\img\summaryBar\starship.png" alt="">
+            <p>Info nave</p>
+        </div>       
+    </div>
+</div>

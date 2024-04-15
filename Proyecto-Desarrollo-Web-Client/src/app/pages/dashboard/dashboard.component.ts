@@ -75,6 +75,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getPlanetData(): void {
     console.log(this.spaceCraftData);
     if (this.spaceCraftData != null) {
+      localStorage.setItem('time', this.spaceCraftData.totalTime.toString());
       this.spaceCraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
         console.log('El planeta es:', planet.name);
         this.planetData = planet;
@@ -89,5 +90,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loginService.logout();
     this.userLoginOn = false;
     this.router.navigate(['/login']);
+  }
+
+  startGame(): void {
+    this.router.navigate(['/sell']);
   }
 }

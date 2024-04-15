@@ -1,3 +1,11 @@
+.container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 form{
     font-family: 'Big Shoulders Display';
 }
@@ -89,4 +97,16 @@ input[type="password"] {
     padding: 0px;
     color: red;
     text-align: center;
+  }
+
+  @media screen and (max-width: 768px) {
+    .login-form {
+      width: 80%; /* Reducir el ancho del formulario */
+    }
+  }
+  
+  @media screen and (max-width: 576px) {
+    .login-form {
+      width: 90%; /* Reducir aún más el ancho del formulario */
+    }
   }
