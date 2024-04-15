@@ -64,3 +64,12 @@ body {
 .ng-invalid:not(form).ng-touched {
   border-color: #a94442;
 }
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+
+}
+
+.cdk-overlay-pane {
+  z-index: 1050;
+}

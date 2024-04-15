@@ -3,9 +3,13 @@
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 999;
 }
-
+.counter{
+    padding-top: 29px;
+    color: white;
+    font-size: 40px;
+}
 
 .summary-bar-container {
     display: flex;

@@ -27,6 +27,9 @@ import { BackgroundComponent } from './shared/background/background.component';
 import { BuyComponent } from './buy/buy.component';
 import { SpacecraftModelComponent } from './spacecraft-model/spacecraft-model.component';
 import { SummaryBarComponent } from './shared/summary-bar/summary-bar.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -60,8 +63,12 @@ import { SummaryBarComponent } from './shared/summary-bar/summary-bar.component'
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

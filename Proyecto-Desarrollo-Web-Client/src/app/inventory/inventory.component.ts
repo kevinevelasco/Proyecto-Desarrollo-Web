@@ -6,6 +6,7 @@ import { LoginService } from '../services/auth/login.service';
 import { Spacecraft } from '../model/spacecraft';
 import { Player } from '../model/player';
 import { PlayerService } from '../services/player.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-inventory',
@@ -23,7 +24,7 @@ export class InventoryComponent {
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
 
-  constructor(private loginService: LoginService,private playerService: PlayerService, private inventoryService: InventoryService) { }
+  constructor(private loginService: LoginService,private playerService: PlayerService, private inventoryService: InventoryService, public dialogRef : MatDialogRef<InventoryComponent>) { }
 
   ngOnInit(): void {
     const userData = localStorage.getItem('currentUserData');
@@ -66,6 +67,10 @@ export class InventoryComponent {
       
     });
     }
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
 }
