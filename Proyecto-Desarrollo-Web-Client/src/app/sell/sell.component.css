@@ -1,149 +1,97 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
 .babyYoda {
     position: absolute;
-    top: 0px;
-    width: 20%;
-    height: 700px;
+    top: 0;
+    height: 100%;
+    width: 80%;
+    transform: translateX(-50%);
     overflow: hidden;
-    margin-left: 250px;
     z-index: 1;
+    animation: slideUp 1s forwards;
 }
+
 
 .babyYoda img {
     position: absolute;
-    bottom: -100%;
-    left: 40%;
+    bottom: 0; /* Cambiado desde -100% */
     transform: translateX(-50%);
-    width: 100%;
+    width: 35%;
+    left: 20%; /* Ajustado desde 10% */
     height: auto;
-    animation: slideUp 1s forwards;
 }
+
+
 
 .globoTexto {
     position: absolute;
     z-index: 10; 
-    width: 20%; 
-    height: auto; 
-    left: 23%; 
-    top: 120px;
+    width: 80%; 
+    left: 50%; 
+    top: 500px; /* Ajustado para moverlo más abajo */
     transform: translateX(-50%); 
     animation: slideInGlobo 1s ease-out forwards; 
 }
 
+
 .globoTexto img {
-    width: 100%; 
-    height: auto; 
+    width: 50%; 
+    height: auto;
 }
 
 .textoYoda {
     position: absolute; 
-    top: 20%; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    width: 80%; 
+    top: 40%; /* Ajustado para centrarlo verticalmente en el globo */
+    left: 25%; 
+    transform: translate(-50%, -50%); /* Centrar horizontal y verticalmente */
+    width: 40%; 
     text-align: center; 
-    color: black; 
-    font-size: 14px; 
+    color: rgb(0, 0, 0); 
+    font-size: 1rem; 
     animation: fadeInTexto 2s ease-in 1s forwards; 
-    opacity: 0; 
+    opacity: 1; 
 }
 
-
-
-.product-image-cell img {
-    height: 100%; 
-    width: auto;
-    display: block;
-}
-
-.product-info-cell {
-    text-align: left;
-}
-
-.product-name {
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.product-details {
-    font-size: 14px;
-    padding-top: 8px;
-    line-height: 1.5;
-}
-
-button {
-    padding: 8px 16px;
-    background-color: #009879;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-
-button:hover {
-    background-color: #007960;
-}
-
-.botonesAccion {
-    position: absolute;
-    top: 80%;
-    left: calc(100% - 450px);
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: row;
-    gap: 1px;
-    animation: slideInFromRight 1.5s ease-out forwards; 
-}
-
-.botonesAccion button {
-    cursor: pointer;
-    padding: 10px 30px;
-    font-size: 16px;
-    border: 2px solid transparent;
-    outline: none;
-    background: transparent;
-    transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
-    font-weight: bold;
-}
-
-.botonesAccion button.comprar {
-    color: limegreen;
-    border-color: limegreen;
-}
-
-
-.botonesAccion button.vender {
-    color: red;
-    border-color: red;
-}
-
-.botonesAccion button.comprar:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px limegreen, 0 0 20px limegreen, 0 0 30px limegreen;
-}
-
-.botonesAccion button.vender:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
-}
-
-.botonesAccion button:active {
-    transform: scale(0.95);
-    box-shadow: 0 0 5px #fff, 0 0 10px #fff;
-}
 
 .table-container {
     border-radius: 15px;
     overflow: hidden;
-    width: 100%; 
-    max-width: 500px; 
-    margin: 20px auto; 
-    margin-left: 700px;
-    overflow-y: auto;
-    overflow-x: hidden; 
-    height: 490px; 
+    width: 40%;  /* Ajustable según la necesidad */
+    max-width: 500px;  /* Ancho máximo ajustable según necesidad */
+    right: 50px;  /* Distancia fija del borde derecho */
+    position: absolute;  /* Posicionamiento absoluto necesario para usar 'top' y 'right' */
+    overflow-y: auto;  /* Muestra el scrollbar si el contenido es mayor que la altura */
+    overflow-x: hidden;
+    height: 500px;  /* Altura fija ajustable según necesidades */
+    top: 50px;  /* Ajuste la distancia desde la parte superior de la página */
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 }
+
+/* Personalizar la barra de desplazamiento para navegadores que usen WebKit */
+.table-container::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+    background-color: #ffffff; /* Color de fondo de la barra */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #D4A944; /* Color del 'thumb' de la barra de desplazamiento */
+    border: 2px solid #D4A944; /* Borde opcional para el thumb */
+}
+
+.table-container::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #ccbe9a; /* Color del track de la barra */
+}
+
+
+
 
 .styled-table {
     width: 100%;
@@ -165,94 +113,93 @@ button:hover {
     border-bottom: 9px solid #7af705;
 }
 
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #333333;
+.botonesAccion {
+    position: absolute;
+    bottom: 20px; /* Cambiado a 'bottom' para que estén abajo */
+    right: 50px; /* Ajustado para que estén a la misma distancia del borde derecho que la tabla */
+    transform: translateX(0); /* Resetear transformación para que la ubicación sea relativa a la posición original */
+    display: flex; /* Permitir el uso de 'justify-content' */
+    justify-content: flex-end; /* Alinear los botones al extremo derecho */
 }
 
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+.botonesAccion button {
+    cursor: pointer;
+    padding: 20px 120px; /* Ajusta este valor según la altura deseada */
+    min-width: 120px; /* Establecer un ancho mínimo para asegurar que los botones no sean demasiado pequeños */
+    font-size: 1rem;
+    margin-left: 1px;
+    text-align: center;
+    border: 2px solid transparent;
+    outline: none;
+    background: transparent;
+    transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
+    font-weight: bold;
+    text-align: center; /* Centrar el texto dentro del botón */
+}
+
+.botonesAccion button.comprar {
+    color: limegreen;
+    border-color: limegreen;
+}
+
+.botonesAccion button.vender {
+    color: red;
+    border-color: red;
+}
+
+.botonesAccion button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px limegreen, 0 0 20px limegreen, 0 0 30px limegreen;
+}
+
+.botonesAccion button.vender:hover {
+    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+}
+
+.botonesAccion button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px #fff, 0 0 10px #fff;
 }
 
 
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: #9e7979; 
-}
-
-::-webkit-scrollbar-thumb {
-    background: #b3ff02; 
-}
-
-.market-info {
-    width: 25%; 
-    margin-top: 8%;
-    margin-left: 60%; 
-    padding: 15px;
-    border: 2px solid #ccc; 
-    text-align: center; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    position: relative; 
-}
-
-.market-info h2 {
-    color: #009879; 
-    margin-top: 0; 
-}
-
-.market-info ul {
-    padding: 0;
-    list-style: none;
-}
-
-.market-info li {
-    background-color: #f0f0f0; 
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px; 
-    font-size: 14px; 
-}
-
-
-
-
-@keyframes slideInFromRight {
-    from {
-        transform: translateX(100%);
-    }
-    to {
+@media (min-width: 768px) {
+    .babyYoda {
+        width: 40%;
+        left: 5%;
         transform: translateX(0);
     }
-}
 
-@keyframes slideUp {
-    from { bottom: -100%; }
-    to { bottom: 0; }
-}
-
-@keyframes slideInGlobo {
-    from {
-        left: 0%;
-        opacity: 0;
+    .globoTexto {
+        width: 40%;
+        left: 35%;
+        top: 150px; /* Ajustado para moverlo más abajo */
+        transform: translateX(-50%);
     }
-    to {
-        left: 23%; 
-        opacity: 1;
+    .table-container {
+        width: 50%; /* Ajusta este porcentaje según el diseño deseado */
+        max-width: 500px; /* Ajusta el ancho máximo según necesidad */
+        right: 50px; 
     }
 }
 
-@keyframes fadeInTexto {
-    0% {
-        opacity: 0;
+@media (min-width: 1024px) {
+    .babyYoda {
+        width: 50%;
+        left: 250px;
+        transform: translateX(0);
     }
-    100% {
-        opacity: 1;
-    }
-}
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    .table-container {
+        width: 50%;
+        max-width: 500px;
+        right: 50px; 
+    }
+
+    .botonesAccion {
+        top: 90%;
+        width: 50%;
+        height: 65px;
+        right: 50px;
+        transform: translateY(-50%);
+    }
 }

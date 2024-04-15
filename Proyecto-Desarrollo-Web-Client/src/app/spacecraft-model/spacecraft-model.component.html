@@ -7,43 +7,55 @@
     <link rel="stylesheet" href="./spacecraft-model.component.css">
 </head>
 <body>
+    <!-- Componente de fondo que parece ser estático -->
     <app-background style="pointer-events: none;"></app-background>
 
+    <!-- Mensaje de acceso no autorizado -->
     <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad.</h1>
 
+    <!-- Contenedor principal solo visible si el usuario está logueado -->
     <div *ngIf="userLoginOn" class="user-section">
-        <!-- Sección de integrantes de la nave -->
-    <div class="nombre nave">
-        <h2>Nombre del equipo: {{spaceCraftData?.name}}</h2>
-    </div>
+        <!-- Sección de nombre de la nave -->
+        <div class="nombre nave">
+            <h2>Nombre del equipo: {{ spaceCraftData?.name }}</h2>
+        </div>
+        
+        <!-- Sección de integrantes de la nave, visible solo si hay un planeta y jugadores en la nave -->
         <div *ngIf="planet && playersInSpacecraft.length > 0" class="planet-info">
-            
-            <h2>Integrantes de la nave:</h2>
+            <h2>Integrantes de la nave</h2>
             <div class="integrants-list">
+                <!-- Listado de integrantes generados dinámicamente -->
                 <div *ngFor="let player of playersInSpacecraft" class="integrant">
                     {{ player.userName }}
                 </div>
             </div>
         </div>
 
-        <!-- Imagen de la nave -->
+        <!-- Imagen de la nave espacial -->
         <img src="/assets/img/starshipimgaux.png" class="spacecraft-image">
 
-        <!-- Detalles de la nave -->
-        <div class="details-container" *ngIf="spacecraftModelsData">
+        <!-- Detalles de la nave, visibles solo si hay datos del modelo -->
+        <div *ngIf="spacecraftModelsData" class="details-container">
             <div class="detail-box">
-                <strong>Modelo:</strong>
+                <div class="titulo">
+                    <strong>Modelo:</strong>
+                </div>
                 <p>{{ spacecraftModelsData.modelName }}</p>
             </div>
             <div class="detail-box">
-                <strong>Capacidad de carga:</strong>
+                <div class="titulo">
+                    <strong>Capacidad de carga:</strong>
+                </div>
                 <p>{{ spacecraftModelsData.storage }} m³</p>
             </div>
             <div class="detail-box">
-                <strong>Velocidad máxima:</strong>
+                <div class="titulo">
+                    <strong>Velocidad máxima:</strong>
+                </div>
                 <p>{{ spacecraftModelsData.maxSpeed }} km/s</p>
             </div>
         </div>
+        
         <!-- Mensaje de error si no se cargan los datos del modelo de la nave -->
         <div *ngIf="!spacecraftModelsData">
             <p>No se han podido cargar los datos de la nave.</p>

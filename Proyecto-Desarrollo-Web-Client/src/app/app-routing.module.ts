@@ -5,6 +5,7 @@ import { SpaceTravelComponent } from './space-travel/space-travel.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { InventoryComponent } from './inventory/inventory.component';
 import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 import { SellComponent } from './sell/sell.component';
 import { BuyComponent } from './buy/buy.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'sell', component: SellComponent},
   { path: 'buy', component: BuyComponent},
   { path: 'spacecraft-model', component: SpacecraftModelComponent},
+  { path: 'inventory', component: InventoryComponent},
   { path: '', pathMatch: 'full', redirectTo: '/home' },
 ];
 
