@@ -12,6 +12,7 @@ export class TimeService {
 
   userData: Player;
   spaceCraftData?: Spacecraft;
+  started: boolean = false;
   private counterSubject = new BehaviorSubject<number>(0);
   public counter$ = this.counterSubject.asObservable();
 
@@ -19,7 +20,11 @@ export class TimeService {
   }
 
   public loadTime( time:number): void {
+    if(this.started){
+      return
+    }
       console.log('Tiempo:', time);
+      this.started = true;
       if (time) {
         this.counterSubject.next(time);
       }
