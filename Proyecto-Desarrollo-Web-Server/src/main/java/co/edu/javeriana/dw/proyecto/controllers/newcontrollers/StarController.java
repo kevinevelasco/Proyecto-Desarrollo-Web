@@ -106,4 +106,10 @@ public class StarController {
     public Star getStarByPlayer(@PathVariable Long id) {
         return starService.getStarByPlayer(id);
     }
+
+    //hallamos la distancia euclidiana entre dos estrellas
+    @GetMapping("/distance/{id1}/{id2}")
+    public double getDistanceBetweenStars(@PathVariable Long id1, @PathVariable Long id2) {
+        return starService.getDistanceBetweenStars(id1, id2);
+    }
 }

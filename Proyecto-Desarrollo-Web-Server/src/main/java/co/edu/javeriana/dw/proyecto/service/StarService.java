@@ -88,4 +88,11 @@ public class StarService {
         System.out.println("la estrella es: " + planet.getStar());
         return planet.getStar();
     }
+
+    public double getDistanceBetweenStars(Long id1, Long id2) {
+        Star star1 = starRepository.findById(id1).orElseThrow(() -> new RuntimeException("Estrella no encontrada"));
+        Star star2 = starRepository.findById(id2).orElseThrow(() -> new RuntimeException("Estrella no encontrada"));
+
+        return calculateDistance(star1, star2);
+    }
 }
