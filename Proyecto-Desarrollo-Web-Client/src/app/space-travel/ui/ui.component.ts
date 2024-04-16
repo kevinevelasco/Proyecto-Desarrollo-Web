@@ -11,6 +11,9 @@ import { SpacecraftPlanet } from './spacecraftPlanet';
 import { delay } from 'rxjs/operators';
 import { MarketService } from '../../services/market.service';
 import { Market } from '../../model/market';
+import { SpacecraftModelService } from '../../services/spacecraft-model.service';
+import { SpacecraftModel } from '../../model/spacecraft-model';
+import { TimeService } from '../../services/time.service';
 
 @Component({
   selector: 'app-ui',
@@ -22,7 +25,10 @@ export class UiComponent implements OnInit, OnDestroy {
     private engineService: EngineService,
     private router: Router,
     private spacecraftService: SpacecraftService,
-    private marketService: MarketService
+    private marketService: MarketService,
+    private starService: StarService,
+    private spacecraftModelService: SpacecraftModelService,
+    private timeService: TimeService
   ) {}
 
   @Input() userData?: Player;
@@ -32,9 +38,11 @@ export class UiComponent implements OnInit, OnDestroy {
   booleanPlanet: boolean = false;
   inPlanet: Planet;
   currentPlanet: Planet;
+  currentSpacecraftModel: SpacecraftModel;
   deployPlanetList: boolean = false;
   starClicked: Star;
   marketData: Market[]= [];
+  distance: number;
 
   ngOnInit(): void {
     console.log('user info', this.userData);
@@ -53,7 +61,15 @@ export class UiComponent implements OnInit, OnDestroy {
           console.log('El planeta es:', planet.name);
           this.inPlanet = planet;
         });
-      this.userData.spacecraft.planet = this.inPlanet;
+
+        this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.userData.spacecraft.id).subscribe(
+          (spacecraftModel) => {
+            console.log('SpacecraftModel:', spacecraftModel);
+            this.currentSpacecraftModel = spacecraftModel;
+          });
+      this.userData.spacecraft.planet = this.inPlanet;7
+      
+      console.log('Spacecraft:', this.userData);
     }
   }
 
@@ -91,6 +107,13 @@ export class UiComponent implements OnInit, OnDestroy {
       idUser: userData.id,
     };
 
+    this.starService.getDistanceBetweenStars(planet.star.id, this.currentStar.id).subscribe((distance) => {
+      console.log('Distancia entre estrellas:', distance);
+      this.distance = distance;
+      var tiempo = distance / this.currentSpacecraftModel.maxSpeed;
+      console.log('Tiempo gastado:', tiempo);
+      this.timeService.decrementTimeBy(tiempo);
+    });
     this.spacecraftService
       .setPlanet(spacecraftPlanet)
       .pipe

@@ -133,7 +133,7 @@ public class DbInitializer implements CommandLineRunner {
                     break;
                 } finally {
                     spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
-                    spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 100, 1000));
+                    spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 10, 100));
                     spacecraftModelRepository.save(spacecraftModel);
                 }
             }
