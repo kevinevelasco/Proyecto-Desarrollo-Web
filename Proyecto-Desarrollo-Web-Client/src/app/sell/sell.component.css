@@ -115,7 +115,8 @@ body, html {
 
 .botonesAccion {
     position: absolute;
-    bottom: 20px; /* Cambiado a 'bottom' para que estén abajo */
+    margin-top: 20px;
+    bottom: 30px; /* Cambiado a 'bottom' para que estén abajo */
     right: 50px; /* Ajustado para que estén a la misma distancia del borde derecho que la tabla */
     transform: translateX(0); /* Resetear transformación para que la ubicación sea relativa a la posición original */
     display: flex; /* Permitir el uso de 'justify-content' */
@@ -124,7 +125,8 @@ body, html {
 
 .botonesAccion button {
     cursor: pointer;
-    padding: 20px 120px; /* Ajusta este valor según la altura deseada */
+    padding: 10px 40px; /* Ajusta el valor del relleno según lo que prefieras */
+    height: 50px;
     min-width: 120px; /* Establecer un ancho mínimo para asegurar que los botones no sean demasiado pequeños */
     font-size: 1rem;
     margin-left: 1px;
@@ -142,21 +144,12 @@ body, html {
     border-color: limegreen;
 }
 
-.botonesAccion button.vender {
-    color: red;
-    border-color: red;
-}
-
-.botonesAccion button:hover {
+.botonesAccion button.comprar:hover {
     transform: scale(1.05);
     box-shadow: 0 0 10px limegreen, 0 0 20px limegreen, 0 0 30px limegreen;
 }
 
-.botonesAccion button.vender:hover {
-    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
-}
-
-.botonesAccion button:active {
+.botonesAccion button.comprar:active {
     transform: scale(0.95);
     box-shadow: 0 0 5px #fff, 0 0 10px #fff;
 }

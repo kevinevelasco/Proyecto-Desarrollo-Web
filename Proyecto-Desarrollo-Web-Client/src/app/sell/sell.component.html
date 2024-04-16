@@ -27,11 +27,11 @@
                                 Stock: {{ item.stock }}
                                 Tamaño: {{ item.product.size }}
                             </div>
-                            <button>Comprar Producto</button>
+                            <button class="comprarProducto" *ngIf="spaceCraftData && spacecraftModelsData" (click)="comprarProducto(item.product, item, spaceCraftData, spacecraftModelsData)">Comprar Producto</button>
                         </td>
                     </tr>
                 </tbody>
-            </table>            
+            </table>      
         </div>
     </div>
 
@@ -47,8 +47,7 @@
     </div>
 
     <div class="botonesAccion">
-        <button class="comprar" (click)="comprar()">COMPRAR</button>
-        <button class="vender" (click)="vender()">VENDER</button>
+        <button class="comprar" (click)="comprar()">IR A COMPRAR</button>
     </div>
 </body>
 </html>

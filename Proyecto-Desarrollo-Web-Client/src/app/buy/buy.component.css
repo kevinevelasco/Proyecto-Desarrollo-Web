@@ -1,68 +1,86 @@
-/* Posicionamiento y animación del personaje (baby Yoda) */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
 .yodaComprador {
     position: absolute;
-    top: 0px;
-    width: 40%;
-    height: 700px;
+    top: 0;
+    height: 100%;
+    width: 80%;
+    transform: translateX(-50%);
     overflow: hidden;
-    margin-left: 150px;
     z-index: 1;
+    animation: slideUp 1s forwards;
 }
 
 .yodaComprador img {
     position: absolute;
-    bottom: -100%;
-    left: 40%;
+    bottom: 0;
     transform: translateX(-50%);
-    width: 100%;
+    width: 35%;
+    left: 80%;
     height: auto;
-    animation: slideUp 1s forwards;
 }
 
 .textoGlobo {
     position: absolute;
     z-index: 10;
-    width: 20%;
-    height: auto; /* Altura explícita */
-    left: 23%;
-    top: 120px;
-    transform: translateX(-50%);
-    animation: slideInGlobo 1s ease-out forwards; 
+    width: 50%;
+    left: 10%;  /* Movido más hacia la izquierda */
+    top: 175px;
+    transform: translateX(-80%);  /* Ajuste para compensar el cambio de posición */
+    animation: slideInGlobo 1s ease-out forwards;
 }
 
+
 .textoGlobo img {
-    width: 100%;
+    width: 40%;
+    left: 20%;
     height: auto;
 }
 
 .textoYoda {
     position: absolute;
-    top: 35%;
-    left: 50%;
+    top: 40%; /* Centrado verticalmente dentro del globo */
+    left: 20%; /* Centrado horizontalmente dentro del globo */
     transform: translate(-50%, -50%);
-    width: 80%;
+    width: 30%; /* Ancho del texto ajustado al globo */
     text-align: center;
-    color: black;
-    font-size: 14px;
-    opacity: 1; /* Inicia con opacidad completa para asegurarse de que es visible */
-    animation: fadeInTexto 2s ease-in 1s forwards; 
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    opacity: 1;
+    animation: fadeInTexto 2s ease-in 1s forwards;
 }
 
-
-/* Estilo del contenedor que hace scroll con la tabla */
 .items {
     border-radius: 15px;
     overflow: hidden;
-    width: 100%;
+    width: 40%;
     max-width: 500px;
-    margin: 20px auto;
-    margin-left: 700px;
-    height: 470px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    right: 50px;
+    position: absolute;
     overflow-y: auto;
+    height: 500px;
+    top: 50px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 }
 
-/* Estilos para la tabla */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #9e7979;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b3ff02;
+}
+
 .tablaBuy {
     width: 100%;
     border-collapse: collapse;
@@ -82,28 +100,6 @@
     border-bottom: 9px solid #7af705;
 }
 
-.tablaBuy tbody tr:nth-of-type(even) {
-    background-color: #333333;
-}
-
-.tablaBuy tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-}
-
-
-/* Personalización del scrollbar */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: #9e7979;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #b3ff02;
-}
-
 button {
     padding: 8px 16px;
     background-color: #009879;
@@ -120,31 +116,34 @@ button:hover {
 
 .botonesAccion {
     position: absolute;
-    top: 80%;
-    left: calc(100% - 450px);
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: row;
-    gap: 1px;
-    animation: slideInFromRight 1.5s ease-out forwards; 
+    margin-top: 20px;
+    bottom: 30px; /* Cambiado a 'bottom' para que estén abajo */
+    right: 50px; /* Ajustado para que estén a la misma distancia del borde derecho que la tabla */
+    transform: translateX(0); /* Resetear transformación para que la ubicación sea relativa a la posición original */
+    display: flex; /* Permitir el uso de 'justify-content' */
+    justify-content: flex-end; /* Alinear los botones al extremo derecho */
 }
 
 .botonesAccion button {
     cursor: pointer;
-    padding: 10px 30px;
-    font-size: 16px;
+    padding: 10px 40px; /* Ajusta el valor del relleno según lo que prefieras */
+    height: 50px;
+    min-width: 120px; /* Establecer un ancho mínimo para asegurar que los botones no sean demasiado pequeños */
+    font-size: 1rem;
+    margin-left: 1px;
+    text-align: center;
     border: 2px solid transparent;
     outline: none;
     background: transparent;
     transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
     font-weight: bold;
+    text-align: center; /* Centrar el texto dentro del botón */
 }
 
 .botonesAccion button.comprar {
     color: limegreen;
     border-color: limegreen;
 }
-
 
 .botonesAccion button.vender {
     color: red;
@@ -166,8 +165,6 @@ button:hover {
     box-shadow: 0 0 5px #fff, 0 0 10px #fff;
 }
 
-
-/* Animaciones utilizadas */
 @keyframes slideUp {
     from { bottom: -100%; }
     to { bottom: 0; }
@@ -179,12 +176,12 @@ button:hover {
         opacity: 0;
     }
     to {
-        left: 23%;
+        left: 50%;
         opacity: 1;
     }
 }
 
-@keyframes fadeIn {
+@keyframes fadeInTexto {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }

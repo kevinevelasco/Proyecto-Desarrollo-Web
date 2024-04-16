@@ -1,12 +1,18 @@
 package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 
+import co.edu.javeriana.dw.proyecto.model.Inventory;
 import co.edu.javeriana.dw.proyecto.model.Market;
 import co.edu.javeriana.dw.proyecto.model.Planet;
+import co.edu.javeriana.dw.proyecto.model.Player;
 import co.edu.javeriana.dw.proyecto.model.Product;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
+import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
 import co.edu.javeriana.dw.proyecto.service.MarketService;
 import co.edu.javeriana.dw.proyecto.service.PlanetService;
 import co.edu.javeriana.dw.proyecto.service.ProductService;
+import co.edu.javeriana.dw.proyecto.service.PlayerService;
+import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
+import co.edu.javeriana.dw.proyecto.service.SpacecraftModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,8 +29,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.util.concurrent.atomic.AtomicReference;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import javax.swing.Spring;
 
 @RestController
 @RequestMapping("/api/market")
@@ -36,6 +46,13 @@ public class MarketController {
     private ProductService productService;
     @Autowired
     private PlanetService planetService;
+    @Autowired
+    private PlayerService playerService;
+    @Autowired
+    private SpacecraftService spacecraftService;
+    @Autowired
+    private SpacecraftModelService spacecraftModelService;  // Asegúrate de tener esta línea en tu controlador
+    
 
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -44,6 +61,50 @@ public class MarketController {
     public List<Market> listMarkets() {
         return marketService.getAllMarket();
     }
+
+    
+    //esto es para reducir los creditos del jugador -  FUNCIONA EN PAGINA Y EN POSTMAN
+    @PutMapping("/sell/{id}/{quantity}")
+    public Spacecraft sellProduct(@PathVariable Long id, @PathVariable Long quantity){
+        Player player = playerService.getPlayerById(id);
+        Spacecraft spacecraft = player.getSpacecraft();
+        // Convertir Long a BigDecimal
+        BigDecimal quantityBD = BigDecimal.valueOf(quantity);
+        // Realizar la resta
+        spacecraft.setCredit(spacecraft.getCredit().subtract(quantityBD));
+        spacecraftService.saveSpacecraft(spacecraft);
+        return spacecraft;
+    }
+
+    //esto es para reducir el stock del mercado
+    @PutMapping("/venta/{id}/{planet}/{stock}")
+    public Market sellProductStock(@PathVariable Long id, @PathVariable Long planet, @PathVariable Integer stock){
+        System.out.println("id: " + id + " planet: " + planet + " stock: " + stock);
+        Planet planeta = planetService.getPlanetById(planet);
+        List<Market> a = planeta.getMarkets();
+        for (Market market : a) {
+            if(market.getProduct().getId() == id && market.getPlanet().getId() == planet) {
+                market.setStock(market.getStock()-stock);
+                marketService.saveMarket(market);
+                System.err.println("Stock: " + market.getStock());
+                return market;
+            }
+        }
+        return null;
+    }
+
+
+    //esto es para reducir el storage de la nave - FUNCIONA EN POST PERO NOOO EN PAGINA
+    @PutMapping("/sellInventario/{id}/{spacecraft}/{storage}")
+    public SpacecraftModel reduceStoragSpacecraftModel(@PathVariable Long id, @PathVariable Long spacecraft, @PathVariable Integer storage) {
+        Spacecraft nave = spacecraftService.getSpacecraftById(spacecraft);
+        SpacecraftModel modelo = nave.getSpacecraftModel();
+        modelo.setStorage(modelo.getStorage() - storage);
+        return spacecraftModelService.saveSpacecraftModel(modelo);
+    }
+
+
+
 
     @GetMapping("/list-page")
     public Page<Market> getAllMarkets(Pageable pageable){
@@ -107,6 +168,5 @@ public class MarketController {
     }
 
     //@PatchMapping("/{id}/planetId") usarlo si se necesita después.
-
-
+    
 }
