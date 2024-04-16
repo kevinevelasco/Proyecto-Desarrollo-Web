@@ -32,10 +32,19 @@ export class TimeService {
   }
 
   decrementTime(): void {
-    console.log('Decrementando tiempo');
+    //console.log('Decrementando tiempo');
     let currentCounter = this.counterSubject.getValue();
     console.log('Tiempo actual:', currentCounter);
     currentCounter=Math.max(0, currentCounter-1);
+    localStorage.setItem('time', currentCounter.toString());
+    this.counterSubject.next(currentCounter);
+  }
+
+  decrementTimeBy(time: number): void {
+    console.log('Decrementando tiempo');
+    let currentCounter = this.counterSubject.getValue();
+    console.log('Tiempo actual:', currentCounter);
+    currentCounter=Math.max(0, currentCounter-time);
     localStorage.setItem('time', currentCounter.toString());
     this.counterSubject.next(currentCounter);
   }

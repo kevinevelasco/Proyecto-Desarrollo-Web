@@ -33,5 +33,8 @@ export class StarService {
   getNearestStars(id: number): Observable<Star[]> {
     return this.http.get<Star[]>(`${environment.serverUrl}/api/star/${id}/nearest`);
   }
+  getDistanceBetweenStars(id: number, id1: number) {
+    return this.http.get<number>(`${environment.serverUrl}/api/star/distance/${id}/${id1}`);
+  }
 
 }
