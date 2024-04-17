@@ -6,14 +6,28 @@ import { environment } from '../../environments/environment.development';
 import { Spacecraft } from '../model/spacecraft';
 import { SpacecraftPlanet } from '../space-travel/ui/spacecraftPlanet';
 import { Planet } from '../model/planet';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpacecraftService {
+
+
+  private spaceCraftSubject = new BehaviorSubject<Spacecraft | null>(null);
+  spaceCraftData$ = this.spaceCraftSubject.asObservable();
+  
   constructor(
     private http: HttpClient
   ) { }
+
+  updateSpaceCraftData(spaceCraft: Spacecraft): void {
+    this.spaceCraftSubject.next(spaceCraft);
+  }
+
+  getCurrentSpaceCraftData(): Spacecraft | null {
+    return this.spaceCraftSubject.getValue();
+  }
 
   private headers = new HttpHeaders(
     {
