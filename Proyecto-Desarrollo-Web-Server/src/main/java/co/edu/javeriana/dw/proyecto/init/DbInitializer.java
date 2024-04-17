@@ -141,8 +141,8 @@ public class DbInitializer implements CommandLineRunner {
         for (int i = 0; i < 10; i++) {
             Spacecraft spacecraft = new Spacecraft();
             spacecraft.setName(faker.team().name());
-            spacecraft.setCredit(BigDecimal.valueOf(faker.number().randomDouble(5, 1000, 1000000)));
-            spacecraft.setTotalTime(faker.number().randomDouble(0, 100, 1000));
+            spacecraft.setCredit(BigDecimal.valueOf(faker.number().randomDouble(2, 20, 999)));
+            spacecraft.setTotalTime(faker.number().randomDouble(0, 300, 1000));
             spacecraft.setSpacecraftModel(spacecraftModelRepository.findById((long) i + 1).get());
             spacecraftRepository.save(spacecraft);
         }
@@ -224,22 +224,29 @@ public class DbInitializer implements CommandLineRunner {
             int numberOfProducts = faker.number().numberBetween(15,50);
             Planet planet = planetRepository.findById((long) i + 1).get();
             List<Product> products = productRepository.findAll();
-            List<Product> productsInPlanet = new ArrayList<>();
+            
             for (int j = 0; j < numberOfProducts; j++) {
-                productsInPlanet.add(products.get(faker.number().numberBetween(0, products.size())));
-            }
-            for (Product product : productsInPlanet) {
+                Product product = products.get(faker.number().numberBetween(0, products.size()));
+                double demandFactor = faker.number().numberBetween(0, 1000000);
+                double supplyFactor = faker.number().numberBetween(0, 1000000);
+                int stock = faker.number().numberBetween(0, 1000000);
+                
+                double sellPrice = demandFactor / (1 + stock);
+                double buyPrice = supplyFactor / (1 + stock);
+                
                 Market market = new Market();
                 market.setPlanet(planet);
                 market.setProduct(product);
-                market.setDemandFactor(faker.number().numberBetween(0, 1000000));
-                market.setStock(faker.number().numberBetween(0, 1000000));
-                market.setSupplyFactor(faker.number().numberBetween(0, 1000000));
-                market.setSellPrice((double) (market.getDemandFactor()/(1+market.getSupplyFactor())));
-                market.setBuyPrice((double) (market.getSupplyFactor()/(1+market.getDemandFactor())));
+                market.setDemandFactor((int) demandFactor);
+                market.setStock(stock);
+                market.setSupplyFactor((int) supplyFactor);
+                market.setSellPrice((Math.round(sellPrice * 100.0) / 100.0));
+                market.setBuyPrice((Math.round(buyPrice * 100.0) / 100.0));
+                
                 marketRepository.save(market);
             }
         }
+        
         double spaceAcum = 0;
         //bucle para el inventario de cada nave, hay que tener en cuenta la cantidad maxima de producto que puede haber en la nave, ya que depende de la capacidad de la nave
         for (int i = 0; i < 10; i++) {

@@ -35,14 +35,13 @@ export class MarketService {
   }
 
   actualizarCreditos(idNave: number, creditos: number): Observable<Spacecraft> {
-    return this.http.put<Spacecraft>
-    (`${environment.serverUrl}/api/market/sell/${idNave}/${creditos}`, idNave, { headers: this.headers });
+    return this.http.patch<Spacecraft>
+    (`${environment.serverUrl}/api/market/venta/${idNave}/${creditos}`, null);
   }
 
-  sellProductStock(idProducto: number, idPlaneta: number, cantidad: number): Observable<Market> {
-    return this.http.put<Market>
-    (`${environment.serverUrl}/api/market/venta/${idProducto}/${idPlaneta}/${cantidad}`, idProducto, { headers: this.headers });
+  sellProductStock(marketId: number): Observable<Market> {
+    console.log(`${environment.serverUrl}/api/market/${marketId}/venta`);
+    return this.http.patch<Market>
+    (`${environment.serverUrl}/api/market/${marketId}/venta`, null);
   }
-
-
 }

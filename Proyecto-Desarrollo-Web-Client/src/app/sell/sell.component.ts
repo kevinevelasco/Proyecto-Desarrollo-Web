@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { LoginService } from '../services/auth/login.service';
 import { SpacecraftService } from '../services/spacecraft.service';
 import { Player } from '../model/player';
@@ -9,35 +8,36 @@ import { PlayerService } from '../services/player.service';
 import { MarketService } from '../services/market.service';
 import { SpacecraftModelService } from '../services/spacecraft-model.service';
 import { SpacecraftModel } from '../model/spacecraft-model';
-import { Inventory } from '../model/inventory';
-import { InventoryService } from '../services/inventory.service';
 import { Market } from '../model/market';
 import { Router } from '@angular/router';
 import { Product } from '../model/product';
-import { HttpClientModule } from '@angular/common/http';
+import { InventoryService } from '../services/inventory.service';
+import { Inventory } from '../model/inventory';
 
 @Component({
-  selector: 'app-sell',
-  templateUrl: './sell.component.html',
-  styleUrls: ['./sell.component.css']
+    selector: 'app-sell',
+    templateUrl: './sell.component.html',
+    styleUrls: ['./sell.component.css']
 })
 export class SellComponent implements OnInit, OnDestroy {
     userLoginOn: boolean = false;
     userData?: Player;
-    spaceCraftData?: Spacecraft;
+    spaceCraftData: Spacecraft;
     spacecraftModelsData?: SpacecraftModel;
     planetData?: Planet;
-    marketData: Market[]= [];
-    marketAux: Market;
-  
+    marketData: Market[] = [];
+    invetoryData: Inventory[] = [];
+    currentSpacecraftStorage: number;
+
     constructor(
         private router: Router,
         private loginService: LoginService,
         private playerService: PlayerService,
         private marketService: MarketService,
         private spaceCraftService: SpacecraftService,
-        private spacecraftModelService: SpacecraftModelService
-    ) {}
+        private spacecraftModelService: SpacecraftModelService,
+        private inventoryService: InventoryService
+    ) { }
 
     ngOnInit(): void {
         const userData = localStorage.getItem('currentUserData');
@@ -53,33 +53,46 @@ export class SellComponent implements OnInit, OnDestroy {
         });
         this.getSpaceCraftData();
     }
-    
+
     ngOnDestroy(): void {
     }
 
 
     getSpaceCraftData(): void {
-        if (this.userData!=null) {
+        if (this.userData != null) {
             this.playerService.getPlayerSpacecraft(this.userData.id).subscribe((spacecraft: Spacecraft) => {
                 console.log('Spacecraft data:', spacecraft);
                 this.spaceCraftData = spacecraft;
+                this.getInventoryData();
                 this.getPlanetData();
+            });
+        }
+    }
+    getInventoryData() {
+        if (this.spaceCraftData != null) {
+            this.inventoryService.getInventoryBySpacecraftId(this.spaceCraftData.id).subscribe((inventory) => {
+                console.log('Inventory data:', inventory);
+                this.invetoryData = inventory;
+                this.inventoryService.getTotalBySpacecraftId(this.spaceCraftData.id).subscribe((total) => {
+                    this.currentSpacecraftStorage = total;
+                    console.log('total de almacenamiento actual de la nave', this.currentSpacecraftStorage);
+                })
             });
         }
     }
 
     getSpacecraftModelsData(): void {
         if (this.spaceCraftData) {
-          this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.spaceCraftData.id)
-            .subscribe((spacecraftModel: SpacecraftModel) => {
-              this.spacecraftModelsData = spacecraftModel;
-              console.log('Spacecraft model:', this.spacecraftModelsData);
-            });
+            this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.spaceCraftData.id)
+                .subscribe((spacecraftModel: SpacecraftModel) => {
+                    this.spacecraftModelsData = spacecraftModel;
+                    console.log('Spacecraft model:', this.spacecraftModelsData);
+                });
         }
     }
 
     getPlanetData(): void {
-        if (this.spaceCraftData!= null) {
+        if (this.spaceCraftData != null) {
             this.spaceCraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
                 this.planetData = planet;
                 this.getMarketData();
@@ -88,69 +101,67 @@ export class SellComponent implements OnInit, OnDestroy {
     }
 
     getMarketData(): void {
-      if (this.planetData!= null) {
-       this.marketService.getMarketsByPlanetId(this.planetData.id)
-          .subscribe((markets: Market[]) => {
-                  this.marketData = markets;
-                  console.log("MarketData:", this.marketData);
-                  this.getSpacecraftModelsData();
-            });
-        }              
-    }
-
-    comprar() {
-        console.log('Comprar acción iniciada');
-        this.router.navigate(['/buy']);
-    }
-
-    vender() {
-        console.log('Vender acción iniciada');
-        this.router.navigate(['/sell']);
+        if (this.planetData != null) {
+            this.marketService.getMarketsByPlanetId(this.planetData.id)
+                .subscribe((markets: Market[]) => {
+                    this.marketData = markets;
+                    this.getSpacecraftModelsData();
+                });
+        }
     }
 
     comprarProducto(product: Product, market: Market, spacecraft: Spacecraft, spacecraftModel: SpacecraftModel) {
-        console.log('Datos de compra:', {
-            'id del Producto': product.id,
-            'Stock del Producto': market.stock,
-            'Tamaño del Producto': product.size,
-            'Precio del Producto': market.sellPrice,
-            'Créditos del Jugador': spacecraft.credit,
-            'Almacenamiento de la Nave': spacecraftModel.storage
-        });
-    
-        if (spacecraft.credit < market.sellPrice) {
-            console.error('No hay suficiente crédito para realizar esta compra.');
-            alert('No hay suficiente crédito para realizar esta compra.');
-            return;
+        console.log('Datos de compra:', market);
+
+        var existe = false;
+        //si el producto existe en el inventario, simplemente se le agrega 1 a la quantity
+        for (var i = 0; i < this.invetoryData.length; i++) {
+            if (this.invetoryData[i].product.id == product.id) {
+                existe = true;
+            }
         }
-        
-        if (spacecraftModel.storage < product.size) {
-            console.error('No hay suficiente espacio de almacenamiento para este producto.');
-            alert('No hay suficiente espacio de almacenamiento para este producto.');
+        console.log('el producto existe en el inventario: ', existe);
+
+        if (market.stock == 0) {
+            alert('No hay stock disponible.');
             return;
         }
 
-        //market.stock -= 1;
-        //spacecraft.credit -= market.sellPrice;
-        //spacecraftModel.storage -= product.size;
+        if (spacecraft.credit < market.sellPrice) {
+            alert('No hay suficiente crédito para realizar esta compra.');
+            return;
+        }
+
+        //si al hacer la compra se pasa del almacenamiento, no se puede hacer la compra
+        if (this.currentSpacecraftStorage + product.size > spacecraftModel.storage) {
+            console.log('el storage maximo es', spacecraftModel.storage, ' y se estaría pasando con la compra: ', this.currentSpacecraftStorage + product.size)
+            alert('No hay suficiente espacio en la nave para realizar esta compra.');
+            return;
+        }
+
+        if (existe) {
+            this.inventoryService.updateInventoryQuantity(spacecraft.id, product.id).subscribe((inventory: Inventory) => {
+                console.log('Inventario actualizado:', inventory);
+                this.getInventoryData();
+            });
+        }
+        else {
+            alert('El producto no existía en el inventario, se ha actualizado correctamente')
+            this.inventoryService.createProductInInventory(spacecraft.id, product.id).subscribe((inventory: Inventory) => {
+                console.log('Inventario creado:', inventory);
+                this.getInventoryData();
+            });
+        }
+
 
         this.marketService.actualizarCreditos(spacecraft.id, market.sellPrice).subscribe((spacecraft: Spacecraft) => {
             console.log('Créditos actualizados:', spacecraft.credit);
             this.spaceCraftData = spacecraft;
         });
-
-        console.log('id', product.id);
-        console.log('id2',market);
-        console.log(this.planetData);
-  
-        if(this.planetData){
-            this.marketService.sellProductStock(product.id, this.planetData?.id, 1).subscribe((market: Market) => {
-                console.log('idProd', product.id);
-                console.log('idPlan', this.planetData?.id);
-                 //console.log('Stock de producto actualizado:', market.stock);   
-                 this.spaceCraftData = spacecraft;
-                 console.log('TERMINA');
-             });   
-        }
+        this.marketService.sellProductStock(market.id).subscribe((market: Market) => {
+            console.log('market actualizado', market);
+            this.spaceCraftData = spacecraft;
+            this.getMarketData();
+        });
     }
 }

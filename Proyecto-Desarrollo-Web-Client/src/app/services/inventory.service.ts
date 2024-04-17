@@ -5,19 +5,38 @@ import { Observable } from 'rxjs';
 import { Inventory } from '../model/inventory';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InventoryService {
+  constructor(private http: HttpClient) {}
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
-  constructor(
-    private http: HttpClient
-  ) { }
-  private headers = new HttpHeaders(
-    {
-      'Content-Type': 'application/json'
-    }
-  )
- getInventoryBySpacecraftId(spacecraftId: number): Observable<Inventory[]> {
-    return this.http.get<Inventory[]>(`${environment.serverUrl}/api/spacecraft/${spacecraftId}/inventory`);
+  getInventoryBySpacecraftId(spacecraftId: number): Observable<Inventory[]> {
+    return this.http.get<Inventory[]>(
+      `${environment.serverUrl}/api/spacecraft/${spacecraftId}/inventory`
+    );
+  }
+
+  getTotalBySpacecraftId(id: number): Observable<number> {
+    return this.http.get<number>(
+      `${environment.serverUrl}/api/inventory/get/total/${id}`
+    );
+  }
+  updateInventoryQuantity(spacecraftId: number, productId: number): Observable<Inventory> {
+    console.log("Update inventory quantity", `${environment.serverUrl}/api/inventory/update/${spacecraftId}/${productId}`);
+    return this.http.patch<Inventory>(
+      `${environment.serverUrl}/api/inventory/update/${spacecraftId}/${productId}`,
+      null
+    );
+  }
+
+  createProductInInventory(spacecraftId: number, productId: number): Observable<Inventory> {
+    return this.http.post<Inventory>(
+      `${environment.serverUrl}/api/inventory/create/${spacecraftId}/${productId}`,
+      null
+    );
   }
 }
+

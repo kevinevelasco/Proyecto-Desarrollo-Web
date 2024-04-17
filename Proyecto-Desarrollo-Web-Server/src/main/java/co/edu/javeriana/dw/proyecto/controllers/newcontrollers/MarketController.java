@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.java.Log;
+import net.datafaker.providers.base.Space;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,11 +64,10 @@ public class MarketController {
     }
 
     
-    //esto es para reducir los creditos del jugador -  FUNCIONA EN PAGINA Y EN POSTMAN
-    @PutMapping("/sell/{id}/{quantity}")
-    public Spacecraft sellProduct(@PathVariable Long id, @PathVariable Long quantity){
-        Player player = playerService.getPlayerById(id);
-        Spacecraft spacecraft = player.getSpacecraft();
+    //localhost:8080/api/market/venta/1/1
+    @PatchMapping("/venta/{id}/{quantity}")
+    public Spacecraft sellProduct(@PathVariable Long id, @PathVariable Double quantity){
+        Spacecraft spacecraft = spacecraftService.getSpacecraftById(id);
         // Convertir Long a BigDecimal
         BigDecimal quantityBD = BigDecimal.valueOf(quantity);
         // Realizar la resta
@@ -77,34 +77,14 @@ public class MarketController {
     }
 
     //esto es para reducir el stock del mercado
-    @PutMapping("/venta/{id}/{planet}/{stock}")
-    public Market sellProductStock(@PathVariable Long id, @PathVariable Long planet, @PathVariable Integer stock){
-        System.out.println("id: " + id + " planet: " + planet + " stock: " + stock);
-        Planet planeta = planetService.getPlanetById(planet);
-        List<Market> a = planeta.getMarkets();
-        for (Market market : a) {
-            if(market.getProduct().getId() == id && market.getPlanet().getId() == planet) {
-                market.setStock(market.getStock()-stock);
-                marketService.saveMarket(market);
-                System.err.println("Stock: " + market.getStock());
-                return market;
-            }
-        }
-        return null;
+    //localhost:8080/api/market/venta/1/product/1/planet/1/
+    @PatchMapping("/{id}/venta")
+    public Market sellProductStock(@PathVariable Long id){
+        System.out.println("a la tupla con id " + id + " se le va a restar 1 al stock");
+        Market market = marketService.getMarketById(id);
+        market.setStock(market.getStock() - 1);
+        return marketService.saveMarket(market);
     }
-
-
-    //esto es para reducir el storage de la nave - FUNCIONA EN POST PERO NOOO EN PAGINA
-    @PutMapping("/sellInventario/{id}/{spacecraft}/{storage}")
-    public SpacecraftModel reduceStoragSpacecraftModel(@PathVariable Long id, @PathVariable Long spacecraft, @PathVariable Integer storage) {
-        Spacecraft nave = spacecraftService.getSpacecraftById(spacecraft);
-        SpacecraftModel modelo = nave.getSpacecraftModel();
-        modelo.setStorage(modelo.getStorage() - storage);
-        return spacecraftModelService.saveSpacecraftModel(modelo);
-    }
-
-
-
 
     @GetMapping("/list-page")
     public Page<Market> getAllMarkets(Pageable pageable){
@@ -167,6 +147,4 @@ public class MarketController {
         return marketService.saveMarket(market);
     }
 
-    //@PatchMapping("/{id}/planetId") usarlo si se necesita después.
-    
 }

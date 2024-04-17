@@ -1,11 +1,4 @@
-<app-summary-bar></app-summary-bar>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Título de tu página</title>
-</head>
-<body>
+    <app-summary-bar></app-summary-bar>
     <!-- Se muestra solo si el usuario NO está logueado -->
     <app-background style="pointer-events: none;"></app-background>
     <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
@@ -35,11 +28,7 @@
         </div>
     </div>
 
-    <div class="babyYoda">
-        <img src="assets/img/sellBuy/baby_yoda.png" alt="babyYoda">
-    </div>
-
-    <div class="globoTexto">
+    <!-- <div class="globoTexto">
         <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
         <div class="textoYoda">
             <p>Gracias por venir al planeta "{{planetData?.name}}", tenemos estos productos en venta!!:</p>
@@ -48,6 +37,4 @@
 
     <div class="botonesAccion">
         <button class="comprar" (click)="comprar()">IR A COMPRAR</button>
-    </div>
-</body>
-</html>
+    </div> -->
