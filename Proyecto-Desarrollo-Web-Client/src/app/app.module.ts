@@ -31,6 +31,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { HamburguerComponent } from './shared/hamburguer/hamburguer.component';
+import { TravelsComponent } from './shared/travels/travels.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { HamburguerComponent } from './shared/hamburguer/hamburguer.component';
     BuyComponent,
     SpacecraftModelComponent,
     SummaryBarComponent,
-    HamburguerComponent
+    HamburguerComponent,
+    TravelsComponent
   ],
   imports: [
     BrowserModule,
