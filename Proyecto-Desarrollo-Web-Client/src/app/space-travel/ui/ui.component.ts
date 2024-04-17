@@ -110,7 +110,7 @@ export class UiComponent implements OnInit, OnDestroy {
     this.starService.getDistanceBetweenStars(planet.star.id, this.currentStar.id).subscribe((distance) => {
       console.log('Distancia entre estrellas:', distance);
       this.distance = distance;
-      var tiempo = distance / this.currentSpacecraftModel.maxSpeed;
+      var tiempo = Math.round(distance / this.currentSpacecraftModel.maxSpeed);
       console.log('Tiempo gastado:', tiempo);
       this.timeService.decrementTimeBy(tiempo);
     });

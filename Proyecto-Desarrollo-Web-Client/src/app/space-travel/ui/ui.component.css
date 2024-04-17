@@ -8,6 +8,7 @@
 }
 
 .right-column {
+  width: 30%;
   flex: 0 0 auto;
   margin-left: auto;
   position: fixed;
@@ -16,7 +17,6 @@
 }
 
 .current-star table {
-  width: 100%;
   border-collapse: collapse;
   font-size: 20px;
   margin-left: 10px;
