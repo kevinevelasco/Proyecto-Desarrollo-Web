@@ -1,0 +1,20 @@
+<div class="menu" [class.menu-abierto]="menuAbierto">
+    <!-- Imagen de la hamburguesa en la parte superior -->
+    <div class="imagenHamburguesa" (click)="toggleMenu()">
+        <img src="assets/img/menuHamburguesa.png" alt="Hamburguesa">
+    </div>
+
+    <!-- Contenedor para la imagen del logo y el botón de salir -->
+    <div class="menu" [class.menu-abierto]="menuAbierto">
+        <div class="imagenHamburguesa" (click)="toggleMenu()">
+            <img src="assets/img/menuHamburguesa.png" alt="Hamburguesa">
+        </div>
+        <div *ngIf="menuAbierto">
+            <div class="logo">
+                <img src="assets/img/lapiz_menu.png" alt="Logo">
+            </div>
+            <button (click)="logoutAndRedirect()" class="exit">Salir</button>
+        </div>
+    </div>
+    
+</div>

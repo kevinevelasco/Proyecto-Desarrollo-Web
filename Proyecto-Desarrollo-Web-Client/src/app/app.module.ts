@@ -30,6 +30,7 @@ import { SummaryBarComponent } from './shared/summary-bar/summary-bar.component'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import { HamburguerComponent } from './shared/hamburguer/hamburguer.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {MatButtonModule} from '@angular/material/button';
     BackgroundComponent,
     BuyComponent,
     SpacecraftModelComponent,
-    SummaryBarComponent
+    SummaryBarComponent,
+    HamburguerComponent
   ],
   imports: [
     BrowserModule,
