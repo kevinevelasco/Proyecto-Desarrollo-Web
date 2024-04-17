@@ -1,20 +1,14 @@
-<div class="menu" [class.menu-abierto]="menuAbierto">
-    <!-- Imagen de la hamburguesa en la parte superior -->
+<div class="menu-principal" [class.menu-abierto]="menuAbierto">
+    <!-- Imagen de la hamburguesa que actúa como botón para abrir/cerrar el menú -->
     <div class="imagenHamburguesa" (click)="toggleMenu()">
-        <img src="assets/img/menuHamburguesa.png" alt="Hamburguesa">
+        <img src="assets/img/menuHamburguesa.png" alt="Icono de menú hamburguesa">
     </div>
 
-    <!-- Contenedor para la imagen del logo y el botón de salir -->
-    <div class="menu" [class.menu-abierto]="menuAbierto">
-        <div class="imagenHamburguesa" (click)="toggleMenu()">
-            <img src="assets/img/menuHamburguesa.png" alt="Hamburguesa">
+    <!-- Solo se muestra este contenido si 'menuAbierto' es true -->
+    <ng-container *ngIf="menuAbierto">
+        <div class="logo">
+            <img src="assets/img/lapiz_menu.png" alt="Logo del juego">
         </div>
-        <div *ngIf="menuAbierto">
-            <div class="logo">
-                <img src="assets/img/lapiz_menu.png" alt="Logo">
-            </div>
-            <button (click)="logoutAndRedirect()" class="exit">Salir</button>
-        </div>
-    </div>
-    
+        <button class="exit" (click)="logoutAndRedirect()">Salir</button>
+    </ng-container>
 </div>
