@@ -66,6 +66,8 @@ public class DbInitializer implements CommandLineRunner {
                     planet1.setSize(faker.number().numberBetween(1, 8));
                     planet1.setTexture(faker.number().numberBetween(1, 18));
                     planet1.setPosition(faker.number().numberBetween(20, 40));
+                    planet1.setCharacter(faker.number().numberBetween(1, 9));
+                    planet1.setAnimation(faker.number().numberBetween(1, 11));
                     planetRepository.save(planet1);
                 } else if (random == 2) {
                     planet1.setName(faker.starWars().planets());
@@ -75,6 +77,8 @@ public class DbInitializer implements CommandLineRunner {
                     planet1.setSize(faker.number().numberBetween(1, 4));
                     planet1.setTexture(faker.number().numberBetween(1, 9));
                     planet1.setPosition(faker.number().numberBetween(20, 30));
+                    planet1.setCharacter(faker.number().numberBetween(1, 4));
+                    planet1.setAnimation(faker.number().numberBetween(1, 5));
 
                     planet2.setName(faker.starCraft().planet());
                     planet2.setStar(star);
@@ -83,6 +87,9 @@ public class DbInitializer implements CommandLineRunner {
                     planet2.setSize(faker.number().numberBetween(4, 6));
                     planet2.setTexture(faker.number().numberBetween(10, 18));
                     planet2.setPosition(faker.number().numberBetween(50, 60));
+                    planet2.setCharacter(faker.number().numberBetween(5, 9));
+                    planet2.setAnimation(faker.number().numberBetween(6, 11));
+
                     planetRepository.save(planet1);
                     planetRepository.save(planet2);
                 } else {
@@ -93,6 +100,8 @@ public class DbInitializer implements CommandLineRunner {
                     planet1.setSize(faker.number().numberBetween(1, 3));
                     planet1.setTexture(faker.number().numberBetween(1, 7));
                     planet1.setPosition(faker.number().numberBetween(20, 25));
+                    planet1.setCharacter(faker.number().numberBetween(1, 3));
+                    planet1.setAnimation(faker.number().numberBetween(1, 4));
 
                     planet2.setName(faker.cultureSeries().planets());
                     planet2.setStar(star);
@@ -101,7 +110,8 @@ public class DbInitializer implements CommandLineRunner {
                     planet2.setSize(faker.number().numberBetween(4, 6));
                     planet2.setTexture(faker.number().numberBetween(8, 13));
                     planet2.setPosition(faker.number().numberBetween(40, 60));
-
+                    planet2.setCharacter(faker.number().numberBetween(4, 6));
+                    planet2.setAnimation(faker.number().numberBetween(5, 8));
 
                     planet3.setName(faker.massEffect().planet());
                     planet3.setStar(star);
@@ -110,6 +120,8 @@ public class DbInitializer implements CommandLineRunner {
                     planet3.setSize(faker.number().numberBetween(6, 8));
                     planet3.setTexture(faker.number().numberBetween(14, 18));
                     planet3.setPosition(faker.number().numberBetween(80, 100));
+                    planet3.setCharacter(faker.number().numberBetween(7, 9));
+                    planet3.setAnimation(faker.number().numberBetween(9, 11));
 
                     planetRepository.save(planet1);
                     planetRepository.save(planet2);

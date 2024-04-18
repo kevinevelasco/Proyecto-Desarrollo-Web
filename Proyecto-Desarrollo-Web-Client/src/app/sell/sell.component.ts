@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { Product } from '../model/product';
 import { InventoryService } from '../services/inventory.service';
 import { Inventory } from '../model/inventory';
+import { PageType } from '../shared/background/pageType';
 
 @Component({
     selector: 'app-sell',
@@ -25,10 +26,11 @@ export class SellComponent implements OnInit, OnDestroy {
     userData?: Player;
     spaceCraftData: Spacecraft;
     spacecraftModelsData?: SpacecraftModel;
-    planetData?: Planet;
+    planetData: Planet;
     marketData: Market[] = [];
     invetoryData: Inventory[] = [];
     currentSpacecraftStorage: number;
+    pageType : PageType = {page : "market"};
 
     constructor(
         private router: Router,

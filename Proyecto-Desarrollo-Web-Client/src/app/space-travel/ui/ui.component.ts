@@ -126,13 +126,13 @@ export class UiComponent implements OnInit, OnDestroy {
             // Redirigir a '/space-travel' después de 2 segundos
             setTimeout(() => {
               this.router.navigate(['/sell']);
-            }, 2000); // retraso de 2 segundos
+            }, 1000); // retraso de 2 segundos
           });
         } else {
           this.router.navigate(['/space-travelling']).then(() => {
             // Redirigir a '/space-travel' después de 5 segundos
             setTimeout(() => {
-              this.router.navigate(['/space-travel']);
+              this.router.navigate(['/sell']);
             }, 5000); // retraso de 5 segundos
           });
         }

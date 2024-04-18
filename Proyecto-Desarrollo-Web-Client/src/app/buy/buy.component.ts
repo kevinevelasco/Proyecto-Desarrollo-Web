@@ -12,6 +12,7 @@ import { MarketService } from '../services/market.service';
 import { SpacecraftService } from '../services/spacecraft.service';
 import { Router } from '@angular/router';
 import { Product } from '../model/product';
+import { PageType } from '../shared/background/pageType';
 
 @Component({
   selector: 'app-buy',
@@ -23,9 +24,10 @@ export class BuyComponent {
   userData?: Player;
   spaceCraftData?: Spacecraft;
   inventoryData: Inventory[] = [];
-  planetData?: Planet;
+  planetData: Planet;
   marketData: Market[] = [];
   productosNuevos: Product[] = [];
+  pageType : PageType = {page : "market"};
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;

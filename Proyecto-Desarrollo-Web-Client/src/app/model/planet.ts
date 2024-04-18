@@ -14,6 +14,8 @@ export class Planet {
     public position: number,
     public ring: boolean,
     public size: number,
-    public texture: number
+    public texture: number,
+    public character: number,
+    public animation: number
   ){}
 }
