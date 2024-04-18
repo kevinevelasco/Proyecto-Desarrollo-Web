@@ -158,6 +158,7 @@ export class SellComponent implements OnInit, OnDestroy {
         this.marketService.actualizarCreditos(spacecraft.id, market.buyPrice, toDoCredits).subscribe((spacecraft: Spacecraft) => {
             console.log('Créditos actualizados:', spacecraft.credit);
             this.spaceCraftData = spacecraft;
+            this.spaceCraftService.updateSpaceCraftData(spacecraft);
         });
         let toDo = 'sell';
         this.marketService.changeProductStock(market.id, toDo).subscribe((market: Market) => {

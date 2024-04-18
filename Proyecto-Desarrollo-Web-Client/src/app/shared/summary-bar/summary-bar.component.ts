@@ -3,12 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { InventoryComponent } from '../../inventory/inventory.component';
 import { MultiplayerComponent } from '../../multiplayer/multiplayer.component';
 import { SpacecraftModelComponent } from '../../spacecraft-model/spacecraft-model.component';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { TimeService } from '../../services/time.service';
 import { Player } from '../../model/player';
 import { Spacecraft } from '../../model/spacecraft';
 import { LoginService } from '../../services/auth/login.service';
 import { PlayerService } from '../../services/player.service';
+import { SpacecraftService } from '../../services/spacecraft.service';
 
 @Component({
   selector: 'app-summary-bar',
@@ -20,10 +21,14 @@ export class SummaryBarComponent {
   time: number ;
   private timeSubscription: Subscription;
 
-  constructor(public dialog: MatDialog, private loginService: LoginService, private playerService: PlayerService, private timeService: TimeService ) { }
+  constructor(public dialog: MatDialog, private loginService: LoginService, private playerService: PlayerService,private spaceCraftService: SpacecraftService, private timeService: TimeService ) { }
+
+
+  spaceCraftData?:Spacecraft;
+  private spaceCraftSubscription: Subscription;
 
   userData?:Player;
-  spaceCraftData?:Spacecraft;
+
 
   ngOnInit(): void {
 
@@ -43,12 +48,24 @@ export class SummaryBarComponent {
         this.time = time;
       }
     });
+    this.spaceCraftSubscription = this.spaceCraftService.spaceCraftData$.subscribe({
+      next: (spaceCraft) => {
+        if(spaceCraft){
+        this.spaceCraftData = spaceCraft;
+        }
+      }
+    });
+
+
     this.getSpaceCraftData();
   }
 
   ngOnDestroy(): void {
     if (this.timeSubscription) {
       this.timeSubscription.unsubscribe();
+    }
+    if (this.spaceCraftSubscription) {
+      this.spaceCraftSubscription.unsubscribe();
     }
   }
 
@@ -60,10 +77,11 @@ export class SummaryBarComponent {
         if (this.userData) {
           this.userData.spacecraft = spacecraft;
         }
-        this.timeService.loadTime(this.spaceCraftData.totalTime);
+        this.timeService.loadTime(spacecraft.totalTime);
       });
     }
   }
+  
   
   
 
