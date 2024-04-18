@@ -47,7 +47,7 @@ export class SummaryBarComponent {
     this.timeSubscription = this.timeService.counter$.subscribe({
       next: (time) => {
         this.time = time;
-        if (this, time == 0) {
+        if (this.time == 0) {
           this.TimeExpired();
         }
       }
