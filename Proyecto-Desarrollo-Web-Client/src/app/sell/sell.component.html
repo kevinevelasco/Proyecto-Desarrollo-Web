@@ -1,6 +1,6 @@
 <app-summary-bar></app-summary-bar>
 <!-- Se muestra solo si el usuario NO está logueado -->
-<app-background style="pointer-events: none;"></app-background>
+<app-background [pageType] = "pageType" [planetData] = "planetData" style="pointer-events: none;"></app-background>
 <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
 
 <!-- Todo lo siguiente se muestra solo si el usuario está logueado -->

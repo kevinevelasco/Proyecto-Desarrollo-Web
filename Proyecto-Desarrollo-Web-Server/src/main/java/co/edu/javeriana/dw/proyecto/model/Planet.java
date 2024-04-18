@@ -48,4 +48,8 @@ public class Planet {
     private Integer size;
 
     private Integer texture;
+
+    private Integer character;
+
+    private Integer animation;
 }

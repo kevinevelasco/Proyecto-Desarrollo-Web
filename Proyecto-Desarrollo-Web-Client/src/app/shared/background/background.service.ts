@@ -10,6 +10,7 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { MathUtils } from 'three';
 import { PageType } from './pageType';
+import { Planet } from '../../model/planet';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,34 @@ export class BackgroundService {
   public controls: OrbitControls;
 
   page: PageType;
+  planet: Planet;
+
+  private characters = [
+    'Ch04_nonPBR.fbx',
+    'Ch44_nonPBR.fbx',
+    'Demon T Wiezzorek.fbx',
+    'Ely By K.Atienza.fbx',
+    'Kachujin G Rosales.fbx',
+    'Paladin J Nordstrom.fbx',
+    'Peasant Man.fbx',
+    'Prisoner B Styperek.fbx',
+    'Vampire A Lusth.fbx',
+    'Vanguard By T. Choonyung.fbx'
+  ];
+
+  private animations = [
+    'Arm Stretching.fbx',
+    'Dancing Twerk.fbx',
+    'Defeated.fbx',
+    'Kick To The Groin.fbx',
+    'Mma Kick.fbx',
+    'Old Man Idle.fbx',
+    'Pointing Forward.fbx',
+    'Praying.fbx',
+    'Rumba Dancing.fbx',
+    'Silly Dancing.fbx',
+    'Waving.fbx'
+  ];
 
   public ngOnDestroy(): void {
     console.log('ngOnDestroy');
@@ -102,6 +131,7 @@ export class BackgroundService {
       this.stars.push(sphere);
     }
 
+    console.log(this.planet)
     this.load3DModelDependingOnPage(this.page.page);
 
     //agregamos iluminación
@@ -150,7 +180,7 @@ export class BackgroundService {
           this.renderer.domElement
         );
       });
-    }
+    } 
   }
 
   public animate(): void {
@@ -242,5 +272,35 @@ export class BackgroundService {
     if (this.mixers) {
       this.mixers.map((m) => m.update(timeElapsedS));
     }
+  }
+
+  addCharacterBasedOnPlanet(p: Planet) {
+    const loader = new FBXLoader();
+    loader.setPath('assets/3d/models/');
+    loader.load(this.characters[p.character], (fbx) => {
+      console.log('character to upload:', this.characters[p.character])
+      fbx.scale.setScalar(0.4);
+      fbx.position.set(-80, -40, 0);
+      fbx.rotation.set(0, 0, 0);
+      fbx.traverse((c) => {
+        c.castShadow = true;
+        c.receiveShadow = true;
+      });
+      const anim = new FBXLoader();
+      anim.setPath('assets/3d/animations/');
+      anim.load(this.animations[p.animation], (anim) => {
+        console.log('animation to upload:', this.animations[p.animation])
+        const m = new THREE.AnimationMixer(fbx);
+        this.mixers.push(m); // Save mixer for later updates
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this.scene.add(fbx);
+      this.model = fbx;
+      this.controls = new OrbitControls(
+        this.camera,
+        this.renderer.domElement
+      );
+    });
   }
 }

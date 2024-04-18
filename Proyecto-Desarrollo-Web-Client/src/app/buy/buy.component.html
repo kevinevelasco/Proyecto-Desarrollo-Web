@@ -1,6 +1,6 @@
 <app-summary-bar></app-summary-bar>
 
-<app-background style="pointer-events: none;"></app-background>
+<app-background [pageType] = "pageType" [planetData] = "planetData" style="pointer-events: none;"></app-background>
 <div class="inventory" *ngIf="inventoryData.length > 0">
     <div class="items">
         <table class="tablaBuy">

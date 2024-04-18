@@ -1,6 +1,7 @@
 import {Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import { BackgroundService } from './background.service';
 import { PageType } from './pageType';
+import { Planet } from '../../model/planet';
 
 @Component({
   selector: 'app-background',
@@ -10,6 +11,7 @@ import { PageType } from './pageType';
 export class BackgroundComponent implements OnInit, OnDestroy, OnChanges {
   
   @Input() pageType: PageType;
+  @Input() planetData : Planet;
 
   @ViewChild('rendererCanvas', {static: true})
   public rendererCanvas: ElementRef<HTMLCanvasElement>
@@ -27,12 +29,24 @@ export class BackgroundComponent implements OnInit, OnDestroy, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("ngOnChanges");
-    var page: PageType;
+    console.log(changes);
+    var page: PageType | undefined;
+    var planet : Planet;
     for (let i in changes){
       if(i === 'pageType'){
         page = changes[i].currentValue;
-        this.backgroundService.page = page;
+        if(page){
+          this.backgroundService.page = page;
+        }
+      } else if(i === 'planetData'){
+        this.planetData = changes[i].currentValue;
+        this.backgroundService.addCharacterBasedOnPlanet(this.planetData);
       }
   }
+  if(page){
+    console.log("entra")
+    console.log(this.planetData)
+      // 
+    }
 }
 }
