@@ -90,6 +90,8 @@ export class BuyComponent {
         .subscribe((spacecraft: Spacecraft) => {
           console.log('Créditos actualizados:', spacecraft.credit);
           this.spaceCraftData = spacecraft;
+
+          this.spaceCraftService.updateSpaceCraftData(spacecraft);
         });
     }
 
