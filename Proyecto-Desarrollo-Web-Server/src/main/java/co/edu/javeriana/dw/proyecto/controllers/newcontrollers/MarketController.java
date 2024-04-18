@@ -65,24 +65,38 @@ public class MarketController {
 
     
     //localhost:8080/api/market/venta/1/1
-    @PatchMapping("/venta/{id}/{quantity}")
-    public Spacecraft sellProduct(@PathVariable Long id, @PathVariable Double quantity){
+    @PatchMapping("/{toDo}/{id}/{quantity}")
+    public Spacecraft sellProduct(@PathVariable String toDo, @PathVariable Long id, @PathVariable Double quantity){
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(id);
         // Convertir Long a BigDecimal
         BigDecimal quantityBD = BigDecimal.valueOf(quantity);
-        // Realizar la resta
-        spacecraft.setCredit(spacecraft.getCredit().subtract(quantityBD));
+        // Realizar la operación
+        if(toDo.equals("substract")){
+            spacecraft.setCredit(spacecraft.getCredit().subtract(quantityBD));
+        } else {
+            spacecraft.setCredit(spacecraft.getCredit().add(quantityBD));
+        }
         spacecraftService.saveSpacecraft(spacecraft);
         return spacecraft;
     }
 
     //esto es para reducir el stock del mercado
     //localhost:8080/api/market/venta/1/product/1/planet/1/
-    @PatchMapping("/{id}/venta")
-    public Market sellProductStock(@PathVariable Long id){
-        System.out.println("a la tupla con id " + id + " se le va a restar 1 al stock");
+    @PatchMapping("/{id}/{toDo}")
+    public Market sellProductStock(@PathVariable Long id, @PathVariable String toDo){
+
         Market market = marketService.getMarketById(id);
-        market.setStock(market.getStock() - 1);
+        if(toDo.equals("sell")){
+            System.out.println("a la tupla con id " + id + " se le va a restar 1 al stock");
+            if(market.getStock() == 0){
+                return market;
+            } else {
+                market.setStock(market.getStock() - 1);
+            }
+        } else {
+            System.out.println("a la tupla con id " + id + " se le va a sumar 1 al stock");
+            market.setStock(market.getStock() + 1);
+        }
         return marketService.saveMarket(market);
     }
 
@@ -145,6 +159,21 @@ public class MarketController {
             market.setProduct(marketAux.getProduct());
         }
         return marketService.saveMarket(market);
+    }
+
+    @PostMapping("/create/{planetId}/{productId}")
+public ResponseEntity<Market> createMarket(@PathVariable Long planetId, @PathVariable Long productId, @RequestBody Market market) {
+
+        Planet planet = planetService.getPlanetById(planetId);
+        Product product = productService.getProductById(productId);
+
+        //creamos un id temporal para el mercado
+        market.setId((long) (marketService.getAllMarket().size() + 1));
+        market.setStock(1);
+        market.setPlanet(planet);
+        market.setProduct(product);
+
+        return ResponseEntity.ok(marketService.saveMarket(market));
     }
 
 }

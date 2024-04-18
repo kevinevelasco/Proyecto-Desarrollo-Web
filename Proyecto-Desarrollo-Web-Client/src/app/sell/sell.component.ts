@@ -140,7 +140,8 @@ export class SellComponent implements OnInit, OnDestroy {
         }
 
         if (existe) {
-            this.inventoryService.updateInventoryQuantity(spacecraft.id, product.id).subscribe((inventory: Inventory) => {
+            let toDo = 'add';
+            this.inventoryService.updateInventoryQuantity(spacecraft.id, product.id, toDo).subscribe((inventory: Inventory) => {
                 console.log('Inventario actualizado:', inventory);
                 this.getInventoryData();
             });
@@ -153,12 +154,13 @@ export class SellComponent implements OnInit, OnDestroy {
             });
         }
 
-
-        this.marketService.actualizarCreditos(spacecraft.id, market.sellPrice).subscribe((spacecraft: Spacecraft) => {
+        let toDoCredits = 'substract';
+        this.marketService.actualizarCreditos(spacecraft.id, market.buyPrice, toDoCredits).subscribe((spacecraft: Spacecraft) => {
             console.log('Créditos actualizados:', spacecraft.credit);
             this.spaceCraftData = spacecraft;
         });
-        this.marketService.sellProductStock(market.id).subscribe((market: Market) => {
+        let toDo = 'sell';
+        this.marketService.changeProductStock(market.id, toDo).subscribe((market: Market) => {
             console.log('market actualizado', market);
             this.spaceCraftData = spacecraft;
             this.getMarketData();

@@ -55,7 +55,7 @@ private ProductService productService;
         Inventory inventory = new Inventory();
 
         //creamos un id temporal para el inventario
-        inventory.setId((long) (spacecraft.getInventories().size() + 1));
+        inventory.setId((long) (inventoryService.getAllInventories().size() + 1));
         inventory.setSpacecraft(spacecraft);
         inventory.setProduct(product);
         inventory.setQuantity(1);
@@ -66,8 +66,8 @@ private ProductService productService;
     }
 
     //actualizamos la cantidad de un producto en el inventario si ya existe, en 1
-    @PatchMapping("/update/{spacecraftId}/{productId}")
-    public ResponseEntity<Inventory> updateInventory(@PathVariable Long spacecraftId, @PathVariable Long productId) {
+    @PatchMapping("/update/{spacecraftId}/{productId}/{toDo}")
+    public ResponseEntity<Inventory> updateInventory(@PathVariable Long spacecraftId, @PathVariable Long productId, @PathVariable String toDo) {
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(spacecraftId);
         Product product = productService.getProductById(productId);
         Inventory inventory = spacecraft.getInventories().stream()
@@ -77,9 +77,23 @@ private ProductService productService;
         if (inventory == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        inventory.setQuantity(inventory.getQuantity() + 1);
+        if (toDo.equals("add")) {
+            inventory.setQuantity(inventory.getQuantity() + 1);
+        } else if (toDo.equals("remove")) {
+            if(inventory.getQuantity() == 1) {
+                spacecraft.getInventories().remove(inventory);
+                product.getInventories().remove(inventory);
+                System.out.println("inventario a eliminar: " + inventory.getId());
+                inventoryService.deleteInventory(inventory.getId());
+                return ResponseEntity.ok(inventory);
+            } else {
+                inventory.setQuantity(inventory.getQuantity() - 1);
+            }
+        }
+        spacecraftService.saveSpacecraft(spacecraft);
+        productService.saveProduct(product);
         inventoryService.saveInventory(inventory);
         return ResponseEntity.ok(inventory);
     }
-    
+
 }

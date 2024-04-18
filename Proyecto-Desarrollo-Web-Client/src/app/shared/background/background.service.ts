@@ -183,12 +183,8 @@ export class BackgroundService {
     const targetRotationX = maxRotationX * mouseYNorm; // Calculamos la rotación en el eje X en función de la posición del ratón
     const targetRotationY = maxRotationY * mouseXNorm; // Calculamos la rotación en el eje Y en función de la posición del ratón
 
-    // Aplicamos la rotación al modelo
     this.model.rotation.x = targetRotationX;
     this.model.rotation.y = targetRotationY;
-
-    // Aplicamos la rotación al modelo solo en el eje X
-    this.model.rotation.x = targetRotationX;
     this.renderer.render(this.scene, this.camera);
     this.step(t - this.previousRAF);
     this.previousRAF = t;

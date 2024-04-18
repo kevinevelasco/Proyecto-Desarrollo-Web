@@ -49,7 +49,7 @@ public class Spacecraft {
     private SpacecraftModel spacecraftModel;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "spacecraft")
+    @OneToMany(mappedBy = "spacecraft", orphanRemoval = true)
     private List<Inventory> inventories;
 
 }

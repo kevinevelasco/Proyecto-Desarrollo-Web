@@ -1,7 +1,7 @@
 <body class="dialog-container"> 
 <div class="inventory" *ngIf="inventoryData.length > 0">
     <h2>Inventario</h2>
-    <div class="items">
+    <div *ngIf="inventoryData.length > 0" class="items">
         <div *ngFor="let item of inventoryData" class="inventory-item">
             <div class="chart">
             <img class="img" src="\assets\img\inventoryaux.png">
@@ -10,5 +10,8 @@
             <p class="quantity">{{item.quantity}}</p>
         </div>
     </div> 
+</div>
+<div class="inventory" *ngIf="inventoryData.length == 0">
+    <h1>No tienes productos en tu inventario</h1>
 </div>
 </body>

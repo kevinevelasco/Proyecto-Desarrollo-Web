@@ -36,6 +36,6 @@ public class Product {
     private List<Market> markets;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", orphanRemoval = true)
     private List<Inventory> inventories;
 }

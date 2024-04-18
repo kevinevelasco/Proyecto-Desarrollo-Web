@@ -5,26 +5,27 @@
     <div class="items">
         <table class="tablaBuy">
             <tbody>
-                <tr *ngFor="let item of inventoryData" class="inventory-item">
-                    <td class="product-image-cell">
-                        <img src="\assets\img\inventoryaux.png" alt="{{ item.product.name }}">
-                    </td>
-                    <td>Producto: {{ item.product.name }}</td>
-                    <td>Cantidad: {{ item.quantity }}</td>
-                    <!-- Use ng-container to apply the conditional without extra HTML elements -->
-
-                    <ng-container *ngFor="let precio of marketData">
-                        <tr *ngIf="item.product.id == precio.product.id" class="market-buy">
-                            <td>Precio: {{ precio.buyPrice }}</td>
-                            <td><button>Vender producto</button></td>
-                        </tr>
-                    </ng-container>
-                </tr>
-                
+                <ng-container *ngFor="let item of inventoryData">
+                    <tr class="inventory-item">
+                        <td class="product-image-cell">
+                            <img src="\assets\img\inventoryaux.png" alt="{{ item.product.name }}">
+                        </td>
+                        <td>Producto: {{ item.product.name }}</td>
+                        <td>Cantidad: {{ item.quantity }}</td>
+                        <ng-container *ngFor="let precio of marketData">
+                            <tr *ngIf="item.product.id == precio.product.id && planetData != null">
+                                <td>Precio: {{ precio.sellPrice }}</td>
+                                <td><button (click)="venderProductos(precio, item.product, precio.sellPrice, planetData.id)">Vender producto</button></td>
+                            </tr>
+                        </ng-container>
+                    </tr>
+                </ng-container>
             </tbody>
         </table>
     </div>
-    <div class="yodaComprador">
+
+
+    <!-- <div class="yodaComprador">
         <img src="assets/img/sellBuy/yodaComprador.jpg" alt="babyYoda">
     </div>
 
@@ -33,9 +34,9 @@
         <div class="textoYoda">
             <p>En "{{planetData?.name}}" Compramos lo que sea!!!</p>
         </div>
-    </div>
-
+    </div> -->
+<!-- 
     <div class="botonesAccion">
         <button class="vender" (click)="vender()">IR A VENDER</button>
-    </div>
+    </div> -->
 </div>

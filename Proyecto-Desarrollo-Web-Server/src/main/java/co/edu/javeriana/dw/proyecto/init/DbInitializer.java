@@ -9,10 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Supplier;
 
 @Component
@@ -218,22 +215,31 @@ public class DbInitializer implements CommandLineRunner {
                 break;
             }
         }
+        Set<Product> uniqueProducts = new HashSet<>();
 
-        //bucle para el Market, en el que por cada planeta, cada producto tiene un precio diferente, dependiendo del stock y la demanda y oferta
         for (int i = 0; i < 400; i++) {
-            int numberOfProducts = faker.number().numberBetween(15,50);
+            int numberOfProducts = faker.number().numberBetween(15, 50);
             Planet planet = planetRepository.findById((long) i + 1).get();
             List<Product> products = productRepository.findAll();
-            
-            for (int j = 0; j < numberOfProducts; j++) {
+
+            // Limpiar el conjunto de productos para cada planeta
+            uniqueProducts.clear();
+
+            // Agregar productos únicos al conjunto
+            while (uniqueProducts.size() < numberOfProducts) {
                 Product product = products.get(faker.number().numberBetween(0, products.size()));
-                double demandFactor = faker.number().numberBetween(0, 1000000);
-                double supplyFactor = faker.number().numberBetween(0, 1000000);
+                uniqueProducts.add(product);
+            }
+
+            // Generar el mercado para cada producto único
+            for (Product product : uniqueProducts) {
+                double demandFactor = faker.number().numberBetween(1, 1000000);
+                double supplyFactor = faker.number().numberBetween(1, 1000000);
                 int stock = faker.number().numberBetween(0, 1000000);
-                
+
                 double sellPrice = demandFactor / (1 + stock);
                 double buyPrice = supplyFactor / (1 + stock);
-                
+
                 Market market = new Market();
                 market.setPlanet(planet);
                 market.setProduct(product);
@@ -242,7 +248,7 @@ public class DbInitializer implements CommandLineRunner {
                 market.setSupplyFactor((int) supplyFactor);
                 market.setSellPrice((Math.round(sellPrice * 100.0) / 100.0));
                 market.setBuyPrice((Math.round(buyPrice * 100.0) / 100.0));
-                
+
                 marketRepository.save(market);
             }
         }

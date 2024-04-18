@@ -24,10 +24,10 @@ export class InventoryService {
       `${environment.serverUrl}/api/inventory/get/total/${id}`
     );
   }
-  updateInventoryQuantity(spacecraftId: number, productId: number): Observable<Inventory> {
+  updateInventoryQuantity(spacecraftId: number, productId: number, toDo: string): Observable<Inventory> {
     console.log("Update inventory quantity", `${environment.serverUrl}/api/inventory/update/${spacecraftId}/${productId}`);
     return this.http.patch<Inventory>(
-      `${environment.serverUrl}/api/inventory/update/${spacecraftId}/${productId}`,
+      `${environment.serverUrl}/api/inventory/update/${spacecraftId}/${productId}/${toDo}`,
       null
     );
   }

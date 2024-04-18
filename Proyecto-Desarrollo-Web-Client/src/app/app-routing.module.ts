@@ -18,8 +18,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'admin', component: AdminComponent},
   { path: 'multiplayer', component: MultiplayerComponent},
-  { path: 'sell', component: SellComponent},
-  { path: 'buy', component: BuyComponent},
+  { path: 'buy', component: SellComponent}, //xd
+  { path: 'sell', component: BuyComponent}, //xd
   { path: 'spacecraft-model', component: SpacecraftModelComponent},
   { path: 'inventory', component: InventoryComponent},
   { path: '', pathMatch: 'full', redirectTo: '/home' },
