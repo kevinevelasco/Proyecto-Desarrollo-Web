@@ -1,3 +1,4 @@
+import { PageType } from './../../shared/background/pageType';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,6 +12,8 @@ import { LoginRequest } from '../../services/auth/loginRequest';
 })
 export class LoginComponent implements OnInit{
   error: string ="";
+  pageType : PageType = {page : "login"};
+
   loginForm = this.formBuilder.group({
     username: ['', [Validators.required]],
     password: ['', Validators.required]

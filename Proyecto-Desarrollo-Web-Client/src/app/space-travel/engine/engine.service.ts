@@ -165,6 +165,7 @@ export class EngineService implements OnDestroy {
       // if the particle is too close move it to the back
       if (star.position.z > 1000) star.position.z -= 2000;
     }
+    
     this.sun.rotateY(0.004);
 
     //con un for hacemos rotar a los objetos y a los planetas

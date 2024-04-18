@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Spacecraft } from '../../model/spacecraft';
 import { Planet } from '../../model/planet';
 import { Router } from '@angular/router';
+import { PageType } from '../../shared/background/pageType';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   playerData?:Player;
   spaceCraftData?:Spacecraft;
   planetData?:Planet;
+  pageType : PageType = {page : "home"};
 
   private loginSubscription: Subscription; 
   private userDataSubscription: Subscription;

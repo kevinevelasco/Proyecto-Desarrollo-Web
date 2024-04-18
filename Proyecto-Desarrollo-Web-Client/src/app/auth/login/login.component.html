@@ -1,5 +1,5 @@
 <div class="container">
-  <app-background style="pointer-events: none;"></app-background>
+  <app-background [pageType] = "pageType" style="pointer-events: none;"></app-background>
   <form [formGroup]="loginForm" class="login-form">
     <!-- añadimos un error-->
     <div *ngIf="error" class="alert alert-danger">{{error}}</div>
