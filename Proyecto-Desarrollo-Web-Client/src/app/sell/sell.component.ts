@@ -20,6 +20,7 @@ import { Inventory } from '../model/inventory';
     styleUrls: ['./sell.component.css']
 })
 export class SellComponent implements OnInit, OnDestroy {
+
     userLoginOn: boolean = false;
     userData?: Player;
     spaceCraftData: Spacecraft;
@@ -166,5 +167,12 @@ export class SellComponent implements OnInit, OnDestroy {
             this.spaceCraftData = spacecraft;
             this.getMarketData();
         });
+    }
+
+    volverViaje() {
+        this.router.navigate(['/space-travel']);
+    }
+    buy() {
+        this.router.navigate(['/sell']);
     }
 }

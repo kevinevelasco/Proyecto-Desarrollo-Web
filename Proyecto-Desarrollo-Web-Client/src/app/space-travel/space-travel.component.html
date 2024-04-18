@@ -1,5 +1,5 @@
 <body>
-  <app-engine *ngIf="userLoginOn" [starPlanets] = "starPlanets" [nearestStars] = "nearestStars"></app-engine>
-  <app-ui *ngIf="userLoginOn" [userData]="userData" [currentStar]="currentStar" [starPlanets]="starPlanets" [nearestStars] = "nearestStars"></app-ui>
-  <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
+  <app-engine *ngIf="userData != null" [starPlanets] = "starPlanets" [nearestStars] = "nearestStars"></app-engine>
+  <app-ui *ngIf="userData != null" [userData]="userData" [currentStar]="currentStar" [starPlanets]="starPlanets" [nearestStars] = "nearestStars"></app-ui>
+  <h1 *ngIf="userData == null">No estás logueado, no puedes acceder a esta funcionalidad</h1>
 </body>

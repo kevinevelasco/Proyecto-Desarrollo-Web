@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../services/auth/login.service';
+import { Player } from '../../model/player';
 
 @Component({
   selector: 'app-space-travel-interface',
@@ -10,7 +11,9 @@ import { LoginService } from '../../services/auth/login.service';
 })
 export class SpaceTravelInterfaceComponent implements OnInit, OnDestroy, OnChanges {
   userLoginOn: boolean = false;
+  userData?: Player;
   private loginSubscription: Subscription;
+  private userDataSubscription: Subscription;
 
   constructor(private loginService: LoginService, private platformLocation: PlatformLocation) { 
     history.pushState(null, '', location.href);
@@ -25,6 +28,11 @@ export class SpaceTravelInterfaceComponent implements OnInit, OnDestroy, OnChang
     this.loginSubscription = this.loginService.currentUserLoginOn.subscribe({
       next: (userLoginOn) => {
         this.userLoginOn = userLoginOn;
+      }
+    });
+    this.userDataSubscription = this.loginService.currentUserData.subscribe({
+      next: (userData) => {
+        this.userData = userData;
       }
     });
   }

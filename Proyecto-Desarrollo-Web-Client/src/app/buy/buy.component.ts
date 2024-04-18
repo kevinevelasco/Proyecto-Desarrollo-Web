@@ -19,6 +19,7 @@ import { Product } from '../model/product';
   styleUrl: './buy.component.css',
 })
 export class BuyComponent {
+
   userData?: Player;
   spaceCraftData?: Spacecraft;
   inventoryData: Inventory[] = [];
@@ -222,5 +223,12 @@ export class BuyComponent {
         }
       }
     }
+  }
+
+  volverViaje() {
+    this.router.navigate(['/space-travel']);
+    }
+    sell() {
+      this.router.navigate(['/buy']);
   }
 }
