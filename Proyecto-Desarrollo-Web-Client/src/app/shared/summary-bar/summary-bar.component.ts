@@ -125,6 +125,16 @@ export class SummaryBarComponent {
   }
 
   TimeExpired(): void {
+    if (this.spaceCraftData) {
+      this.spaceCraftData.totalTime = 1;
+      console.log('Tiempo desde el component:', this.spaceCraftData.totalTime);
+      this.timeService.updateTimeBySpaceCraft(this.spaceCraftData)
+        .subscribe((spacecraft: Spacecraft) => {
+          console.log('Tiempo actualizado:', spacecraft.totalTime);
+          this.spaceCraftData = spacecraft;
+          this.spaceCraftService.updateSpaceCraftData(spacecraft);
+        });
+    }
     if (this.dialog.openDialogs.length == 0) {
       const dialogRef = this.dialog.open(TimeExpiredComponent, {
         panelClass: '.dialog-container',
@@ -133,15 +143,9 @@ export class SummaryBarComponent {
         disableClose: true
       });
     }
-    if (this.spaceCraftData) {
-      this.spaceCraftData.totalTime = 0;
-      this.timeService.updateTimeBySpaceCraft(this.spaceCraftData)
-        .subscribe((spacecraft: Spacecraft) => {
-          console.log('Tiempo actualizado:', spacecraft.totalTime);
-          this.spaceCraftData = spacecraft;
-          this.spaceCraftService.updateSpaceCraftData(spacecraft);
+    this.timeService.pauseCountdown();
+    this.timeService.restartValues();
 
-        });
-    }
   }
+  
 }

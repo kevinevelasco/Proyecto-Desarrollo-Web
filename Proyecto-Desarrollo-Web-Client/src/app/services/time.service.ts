@@ -30,6 +30,7 @@ export class TimeService {
   restartValues(): void {
     this.started = false;
     this.isPaused = false;
+    localStorage.removeItem('time');
   }
 
   public loadTime( time:number): void {

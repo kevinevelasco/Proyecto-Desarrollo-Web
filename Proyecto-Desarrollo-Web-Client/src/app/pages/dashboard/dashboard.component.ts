@@ -94,9 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (time) {
       if (this.spaceCraftData) {
         this.spaceCraftData.totalTime = parseInt(time);
-        console.log('Tiempo desde el component:', this.spaceCraftData.totalTime);
         this.spaceCraftService.setSpacecraftTime(this.spaceCraftData).subscribe((spacecraft: Spacecraft) => {
-          console.log('Tiempo actualizado:', spacecraft.totalTime);
           this.spaceCraftData = spacecraft;
           this.spaceCraftService.updateSpaceCraftData(spacecraft);
         });
@@ -105,11 +103,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   logoutAndRedirect(): void {
+    this.updateSpacecraftTime();
+    this.timeService.restartValues();
     this.loginService.logout();
     this.userLoginOn = false;
-    this.updateSpacecraftTime();
     this.router.navigate(['/login']);
-    this.timeService.restartValues();
   }
 
   startGame(): void {
