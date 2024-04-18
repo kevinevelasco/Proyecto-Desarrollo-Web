@@ -41,7 +41,6 @@ export class BackgroundService {
 
   private characters = [
     'Ch04_nonPBR.fbx',
-    'Ch44_nonPBR.fbx',
     'Demon T Wiezzorek.fbx',
     'Ely By K.Atienza.fbx',
     'Kachujin G Rosales.fbx',
