@@ -66,6 +66,11 @@ export class SpacecraftService {
     return this.http.get<Spacecraft[]>(`${environment.serverUrl}/api/spacecraft/${planetId}/spacecrafts`);
   }
 
+  setSpacecraftTime(spacecraft: Spacecraft): Observable<Spacecraft> {
+    console.log('Tiempo desde el service:', spacecraft.totalTime);
+    return this.http.patch<Spacecraft>(`${environment.serverUrl}/api/spacecraft/${spacecraft.id}/time/${spacecraft.totalTime}`, null);
+}
+
 }
 
 

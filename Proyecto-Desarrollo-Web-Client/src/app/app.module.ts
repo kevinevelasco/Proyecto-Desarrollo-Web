@@ -32,6 +32,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { HamburguerComponent } from './shared/hamburguer/hamburguer.component';
 import { TravelsComponent } from './shared/travels/travels.component';
+import { TimeExpiredComponent } from './time-expired/time-expired.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { TravelsComponent } from './shared/travels/travels.component';
     SpacecraftModelComponent,
     SummaryBarComponent,
     HamburguerComponent,
-    TravelsComponent
+    TravelsComponent,
+    TimeExpiredComponent
   ],
   imports: [
     BrowserModule,

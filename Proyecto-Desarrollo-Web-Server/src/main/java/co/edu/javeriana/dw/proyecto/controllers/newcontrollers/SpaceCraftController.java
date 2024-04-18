@@ -176,5 +176,20 @@ public class SpaceCraftController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @PatchMapping("/{spacecraftId}/time/{totalTime}")
+    public ResponseEntity<Spacecraft> updateSpacecraftTime(@PathVariable Long spacecraftId, @PathVariable Long totalTime) {
+        Spacecraft spacecraft = spaceCraftService.getSpacecraftById(spacecraftId);
+        if(spacecraft != null) {
+            spacecraft.setTotalTime(totalTime.doubleValue());
+            log.info("Tiempo a actualizar: " + totalTime.doubleValue());
+            log.info("Tiempo en nave actualizado: " + spacecraft.getTotalTime());
+            spaceCraftService.saveSpacecraft(spacecraft);
+            return ResponseEntity.ok(spaceCraftService.saveSpacecraft(spacecraft));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+    
     
 }

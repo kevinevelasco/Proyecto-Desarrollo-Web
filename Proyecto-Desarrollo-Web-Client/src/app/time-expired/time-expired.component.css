@@ -1,0 +1,25 @@
+.dialog-container{
+    background-color: black;
+    border: 5px solid red;
+    box-shadow: 0 0 20px red;
+    width: 99%;
+    height: 99%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.time-expired{
+    margin: 30px;
+    font-family:'Big Shoulders display';
+    text-align: center  ;
+}
+
+h1{
+    font-size: 90px;
+    text-transform: uppercase;
+    
+    
+}
+p{
+    font-size: 30px;
+}

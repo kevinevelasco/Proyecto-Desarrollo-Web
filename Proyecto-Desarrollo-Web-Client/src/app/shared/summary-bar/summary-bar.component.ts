@@ -10,6 +10,7 @@ import { Spacecraft } from '../../model/spacecraft';
 import { LoginService } from '../../services/auth/login.service';
 import { PlayerService } from '../../services/player.service';
 import { SpacecraftService } from '../../services/spacecraft.service';
+import { TimeExpiredComponent } from '../../time-expired/time-expired.component';
 
 @Component({
   selector: 'app-summary-bar',
@@ -18,16 +19,16 @@ import { SpacecraftService } from '../../services/spacecraft.service';
 })
 export class SummaryBarComponent {
 
-  time: number ;
+  time: number;
   private timeSubscription: Subscription;
 
-  constructor(public dialog: MatDialog, private loginService: LoginService, private playerService: PlayerService,private spaceCraftService: SpacecraftService, private timeService: TimeService ) { }
+  constructor(public dialog: MatDialog, private loginService: LoginService, private playerService: PlayerService, private spaceCraftService: SpacecraftService, private timeService: TimeService) { }
 
 
-  spaceCraftData?:Spacecraft;
+  spaceCraftData?: Spacecraft;
   private spaceCraftSubscription: Subscription;
 
-  userData?:Player;
+  userData?: Player;
 
 
   ngOnInit(): void {
@@ -46,12 +47,15 @@ export class SummaryBarComponent {
     this.timeSubscription = this.timeService.counter$.subscribe({
       next: (time) => {
         this.time = time;
+        if (this, time == 0) {
+          this.TimeExpired();
+        }
       }
     });
     this.spaceCraftSubscription = this.spaceCraftService.spaceCraftData$.subscribe({
       next: (spaceCraft) => {
-        if(spaceCraft){
-        this.spaceCraftData = spaceCraft;
+        if (spaceCraft) {
+          this.spaceCraftData = spaceCraft;
         }
       }
     });
@@ -81,11 +85,8 @@ export class SummaryBarComponent {
       });
     }
   }
-  
-  
-  
 
-  openInventoryDialog() : void{
+  openInventoryDialog(): void {
     const dialogRef = this.dialog.open(InventoryComponent, {
       panelClass: '.dialog-container',
       width: '80%',
@@ -98,7 +99,7 @@ export class SummaryBarComponent {
     });
   }
 
-  openMultiplayerDialog() : void{
+  openMultiplayerDialog(): void {
     const dialogRef = this.dialog.open(MultiplayerComponent, {
       panelClass: '.dialog-container',
       width: '80%',
@@ -110,7 +111,7 @@ export class SummaryBarComponent {
       console.log('The dialog was closed');
     });
   }
-  openSpacecraftDialog() : void{
+  openSpacecraftDialog(): void {
     const dialogRef = this.dialog.open(SpacecraftModelComponent, {
       panelClass: '.dialog-container',
       width: '80%',
@@ -121,5 +122,26 @@ export class SummaryBarComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  TimeExpired(): void {
+    if (this.dialog.openDialogs.length == 0) {
+      const dialogRef = this.dialog.open(TimeExpiredComponent, {
+        panelClass: '.dialog-container',
+        width: '80%',
+        height: '80%',
+        disableClose: true
+      });
+    }
+    if (this.spaceCraftData) {
+      this.spaceCraftData.totalTime = 0;
+      this.timeService.updateTimeBySpaceCraft(this.spaceCraftData)
+        .subscribe((spacecraft: Spacecraft) => {
+          console.log('Tiempo actualizado:', spacecraft.totalTime);
+          this.spaceCraftData = spacecraft;
+          this.spaceCraftService.updateSpaceCraftData(spacecraft);
+
+        });
+    }
   }
 }
