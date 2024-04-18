@@ -135,6 +135,7 @@ export class SummaryBarComponent {
           this.spaceCraftService.updateSpaceCraftData(spacecraft);
         });
     }
+
     if (this.dialog.openDialogs.length == 0) {
       const dialogRef = this.dialog.open(TimeExpiredComponent, {
         panelClass: '.dialog-container',
@@ -143,8 +144,8 @@ export class SummaryBarComponent {
         disableClose: true
       });
     }
-    this.timeService.pauseCountdown();
     this.timeService.restartValues();
+    this.timeSubscription.unsubscribe();
 
   }
   
