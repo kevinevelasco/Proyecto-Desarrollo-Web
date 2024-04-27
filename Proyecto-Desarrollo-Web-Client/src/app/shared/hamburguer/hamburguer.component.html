@@ -5,9 +5,9 @@
     </div>
 
     <!-- Solo se muestra este contenido si 'menuAbierto' es true -->
-    <ng-container *ngIf="menuAbierto">
+    <ng-container *ngIf="menuAbierto" class="contenidoMenu">
         <div class="logo">
-            <img src="assets/img/lapiz_menu.png" alt="Logo del juego">
+            <!-- <img src="assets/img/lapiz_menu.png" alt="Logo del juego"> -->
         </div>
         <button class="exit" (click)="logoutAndRedirect()">Salir</button>
     </ng-container>

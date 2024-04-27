@@ -1,5 +1,7 @@
-html, body {
-    height: 100%; /* Mantiene la altura al tamaño de la ventana del navegador */
+html,
+body {
+    height: 100%;
+    /* Mantiene la altura al tamaño de la ventana del navegador */
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -10,15 +12,17 @@ html, body {
     position: relative;
     border: 2.8px solid var(--primary);
     box-shadow: 0 0 20px var(--primary);
-    overflow: hidden; /* Evita el desbordamiento en la página principal */
-    box-sizing: border-box; /* Incluye el borde en el ancho/altura total */
+    overflow: hidden;
+    /* Evita el desbordamiento en la página principal */
+    box-sizing: border-box;
+    /* Incluye el borde en el ancho/altura total */
 }
 
 .user-section {
     display: flex;
     max-width: 1200px;
     width: 100%;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
     position: relative;
     z-index: 1;
@@ -26,7 +30,8 @@ html, body {
 }
 
 .nombre.nave {
-    z-index: 1000; /* Asegura que esté encima de otros contenidos */
+    z-index: 1000;
+    /* Asegura que esté encima de otros contenidos */
     position: fixed;
     top: 150px;
     left: 150px;
@@ -34,59 +39,74 @@ html, body {
     color: #B2B7BA;
     padding: 15px 20px;
     box-sizing: border-box;
-    margin: 0; /* Elimina cualquier margen externo que pueda empujar los elementos fuera del viewport */
-    padding: 0; 
+    margin: 0;
+    /* Elimina cualquier margen externo que pueda empujar los elementos fuera del viewport */
+    padding: 0;
+    font-family: 'Big Shoulders Display';
 }
 
 .integrant {
     color: #D4A944;
     text-align: center;
     width: 100%;
-    margin: 10px 0; /* Añade un margen arriba y abajo para separar de otros elementos */
+    margin: 10px 0;
+    /* Añade un margen arriba y abajo para separar de otros elementos */
     padding: 0;
-    list-style: none; /* Elimina los marcadores de lista predeterminados */
-    font-size: 1.2em; /* Aumenta el tamaño de la fuente */
+    list-style: none;
+    /* Elimina los marcadores de lista predeterminados */
+    font-size: 1.2em;
+    /* Aumenta el tamaño de la fuente */
+    font-family: 'Iceland';
 }
 
 .integrant li {
-    padding: 10px; /* Añade padding para hacer cada elemento más grande y fácil de leer */
-    border-bottom: 1px solid #555; /* Añade una línea entre elementos */
-    transition: background-color 0.3s, color 0.3s; /* Transición suave para los efectos de hover */
+    padding: 10px;
+    /* Añade padding para hacer cada elemento más grande y fácil de leer */
+    border-bottom: 1px solid #555;
+    /* Añade una línea entre elementos */
+    transition: background-color 0.3s, color 0.3s;
+    /* Transición suave para los efectos de hover */
 }
 
 .integrant li:hover {
-    background-color: #333; /* Cambio de fondo al hacer hover */
-    color: #FFF; /* Cambio de color de texto al hacer hover */
+    background-color: #333;
+    /* Cambio de fondo al hacer hover */
+    color: #FFF;
+    /* Cambio de color de texto al hacer hover */
 }
 
 .integrant li:last-child {
-    border-bottom: none; /* Elimina la línea del último elemento */
+    border-bottom: none;
+    /* Elimina la línea del último elemento */
 }
 
-.multiplayer, .spacecrafts {
-    width: 100%; 
+.multiplayer,
+.spacecrafts {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    justify-content: center; 
-    margin: 0; /* Elimina cualquier margen externo que pueda empujar los elementos fuera del viewport */
-    padding: 0; 
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    /* Elimina cualquier margen externo que pueda empujar los elementos fuera del viewport */
+    padding: 0;
 }
 
 .planet-info {
     flex: 1;
     color: white;
-    margin-right: 20px; 
+    margin-right: 20px;
     position: relative;
     z-index: 1;
-    margin: 0; /* Elimina cualquier margen externo que pueda empujar los elementos fuera del viewport */
-    padding: 0; 
+    margin: 0;
+    /* Elimina cualquier margen externo que pueda empujar los elementos fuera del viewport */
+    padding: 0;
 }
 
 .planet-info h2 {
-    font-weight: bold; 
-    text-align: center; 
-    width: 100%; 
+    font-weight: bold;
+    width: 100%;
+    font-family: 'Big Shoulders Display';
 }
 
 .spacecraft-image {
@@ -99,55 +119,48 @@ html, body {
 }
 
 .details-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    flex: 0 1 200px; /* No crece, puede encogerse y su base es de 300px */
+    flex: 0 1 300px;
+    /* No crece, puede encogerse y su base es de 300px */
     color: white;
-    margin-left: 20px; 
-    position: relative;
-    z-index: 1;
-    margin: 0; /* Elimina cualquier margen externo que pueda empujar los elementos fuera del viewport */
-    padding: 0; 
-    margin-right: 75px;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* Ajuste el margen derecho para mejorar el espaciado */
+    padding: 0;
 }
 
 .detail-box {
-    position: relative;
-    background: #242425;
-    border: 1px solid #444;
-    border-bottom: 0.5px solid #444; /* Reduce el grosor del borde inferior */
-    box-shadow: 5px 5px 10px rgba(112, 89, 89, 0.5);
+    font-family: 'Big Shoulders Display';
+    background: transparent;
+    border: 1px solid var(--primary) black;
+    box-shadow: 4px 3px 10px var(--primary); /* Ajuste el desplazamiento vertical para la sombra */
     padding: 20px;
-    padding-bottom: 5px;
-    padding-right: 0px;
-    padding-top: 10px;
-    padding-bottom: 0px;
-    border-left: 5px solid #444; /* Agrega un borde izquierdo delgado */
-    border-left-color: #2f2f31;
-    padding-left: 0px;
-    margin-bottom: 20px;
-    color: white;
-}
+    border-left: 5px solid var(--primary);
+  }
+  
+
 
 .detail-box p {
-    font-size: 1.2em; 
-    color: #9b9491; 
-    margin: 0; 
-    padding: 0.5em 0; 
-    background: #1a1010; 
-    padding-left: 10px;
-    border: 1px solid #555;
+    font-size: 1em;
+    /* Ajuste el tamaño de la fuente */
+    color: #9b9491;
+    margin: 0;
+    padding: 5px 0;
+    /* Ajuste el espacio interno */
+    border-top: 1px;
+    font-family: 'Iceland';
 }
 
-.titulo{
+
+.titulo {
     margin-left: 2px;
 }
 
 .nombre.nave {
-    z-index: 1000; /* Asegura que esté encima de otros contenidos */
+    z-index: 1000;
+    /* Asegura que esté encima de otros contenidos */
     position: fixed;
-    top: 75px; /* Anteriormente estaba en 150px, ajusta según la cantidad que desees subirlo */
+    top: 75px;
+    /* Anteriormente estaba en 150px, ajusta según la cantidad que desees subirlo */
     left: 175px;
     width: 100%;
     color: #B2B7BA;
@@ -157,23 +170,30 @@ html, body {
     padding: 0;
 }
 
+.nombre.nave h2,
+.planet-info h2 {
+    margin-bottom: 20px;
+    /* Agrega un margen inferior para separar los títulos */
+}
+
 
 @media (max-width: 768px) {
     .user-section {
         display: flex;
-        flex-direction: column; 
-        max-width: 1200px; 
+        flex-direction: column;
+        max-width: 1200px;
         width: 100%;
-        align-items: center; 
-        justify-content: flex-start; 
-        position: relative; 
-        z-index: 1; 
-        overflow: hidden; 
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
         flex-direction: column;
         align-items: center;
     }
 
-    .planet-info, .details-container {
+    .planet-info,
+    .details-container {
         max-width: 100%;
         margin: 10px 0;
     }

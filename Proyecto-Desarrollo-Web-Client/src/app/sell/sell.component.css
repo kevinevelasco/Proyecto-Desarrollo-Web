@@ -1,96 +1,78 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
+.sell{
+    margin-top: 120px;
 }
 
-.babyYoda {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 80%;
-    transform: translateX(-50%);
-    overflow: hidden;
-    z-index: 1;
-    animation: slideUp 1s forwards;
-}
-
-
-.babyYoda img {
-    position: absolute;
-    bottom: 0; /* Cambiado desde -100% */
-    transform: translateX(-50%);
-    width: 35%;
-    left: 20%; /* Ajustado desde 10% */
-    height: auto;
-}
-
-
-
-.globoTexto {
-    position: absolute;
-    z-index: 10; 
-    width: 80%; 
-    left: 50%; 
-    top: 500px; /* Ajustado para moverlo más abajo */
-    transform: translateX(-50%); 
-    animation: slideInGlobo 1s ease-out forwards; 
-}
-
-
-.globoTexto img {
-    width: 50%; 
-    height: auto;
-}
-
-.textoYoda {
-    position: absolute; 
-    top: 40%; /* Ajustado para centrarlo verticalmente en el globo */
-    left: 25%; 
-    transform: translate(-50%, -50%); /* Centrar horizontal y verticalmente */
-    width: 40%; 
-    text-align: center; 
-    color: rgb(0, 0, 0); 
-    font-size: 1rem; 
-    animation: fadeInTexto 2s ease-in 1s forwards; 
-    opacity: 1; 
+.dialog-chart {
+    font-family: 'Iceland';
+    padding: 15px;
+    font-size: 20px;
+    background-color: rgba(212, 169, 68, 0.6);
+    margin-left: 30px; /* Ajusta el margen izquierdo según necesidad */
+    margin-top: 10px; /* Ajusta el margen superior según necesidad */
+    width: 20%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
 }
 
 
 .table-container {
-    border-radius: 15px;
+    margin-top: 100px;
     overflow: hidden;
-    width: 40%;  /* Ajustable según la necesidad */
-    max-width: 500px;  /* Ancho máximo ajustable según necesidad */
-    right: 50px;  /* Distancia fija del borde derecho */
-    position: absolute;  /* Posicionamiento absoluto necesario para usar 'top' y 'right' */
-    overflow-y: auto;  /* Muestra el scrollbar si el contenido es mayor que la altura */
+    width: 60%;  
+    max-width: 800px;  
+    position: absolute; 
+    overflow-y: auto;  
     overflow-x: hidden;
-    height: 500px;  /* Altura fija ajustable según necesidades */
-    top: 50px;  /* Ajuste la distancia desde la parte superior de la página */
-    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    height: 70%;  
+    top: 50px;  
 }
 
-/* Personalizar la barra de desplazamiento para navegadores que usen WebKit */
-.table-container::-webkit-scrollbar {
-    width: 8px; /* Ancho de la barra de desplazamiento */
-    background-color: #ffffff; /* Color de fondo de la barra */
+.product-img{
+    width: 100px;
+    height: 100px;
+}
+.product-info{
+    font-family:'Big Shoulders display';
+
+}
+.product-name{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.product-details{
+    font-family:'Iceland';
+    font-size: 15px;
+    padding-bottom: 5px;
+
+}
+.buy-button{
+    background-color: var(--primary);
+    color: white;
+    font-family:'Iceland';
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 0px;
+    width: 80%;
 }
 
-.table-container::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #D4A944; /* Color del 'thumb' de la barra de desplazamiento */
-    border: 2px solid #D4A944; /* Borde opcional para el thumb */
+
+::-webkit-scrollbar {
+    width: 20px;  
 }
 
-.table-container::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: #ccbe9a; /* Color del track de la barra */
+::-webkit-scrollbar-track {
+    background: rgba(212,169,68, 0.6);    
 }
 
-
+::-webkit-scrollbar-thumb {
+    background:var(--primary); 
+    box-shadow: 0 0 10px var(--primary);
+}
 
 
 .styled-table {
@@ -101,33 +83,33 @@ body, html {
 }
 
 .styled-table td {
-    padding: 12px 15px;
+    padding: 10px;
     text-align: center;
     vertical-align: middle;
     border-bottom: 1px solid #5e1b1b;
 }
 
 .styled-table tbody tr {
-    background-image: linear-gradient(to right, #0c0c0c, #0c0c0c 40%, #ffd700 200%);
+    background-image: linear-gradient(to right, #0c0c0c, #0c0c0c 40%, var(--primary) 200%);
     color: white; 
-    border-bottom: 9px solid #7af705;
+    border: 2px solid var(--primary);
+    border-bottom: 9px solid var(--primary);
 }
 
 .botonesAccion {
     position: absolute;
     margin-top: 20px;
-    bottom: 30px; /* Cambiado a 'bottom' para que estén abajo */
-    right: 50px; /* Ajustado para que estén a la misma distancia del borde derecho que la tabla */
-    transform: translateX(0); /* Resetear transformación para que la ubicación sea relativa a la posición original */
-    display: flex; /* Permitir el uso de 'justify-content' */
-    justify-content: flex-end; /* Alinear los botones al extremo derecho */
+    margin-right: 50px;
+    bottom: 30px; 
+    display: flex; 
+    justify-content: flex-start; 
 }
 
 .botonesAccion button {
     cursor: pointer;
-    padding: 10px 40px; /* Ajusta el valor del relleno según lo que prefieras */
+    padding: 10px 40px; 
     height: 50px;
-    min-width: 120px; /* Establecer un ancho mínimo para asegurar que los botones no sean demasiado pequeños */
+    min-width: 120px; 
     font-size: 1rem;
     margin-left: 1px;
     text-align: center;
@@ -136,17 +118,17 @@ body, html {
     background: transparent;
     transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
     font-weight: bold;
-    text-align: center; /* Centrar el texto dentro del botón */
+    text-align: center; 
 }
 
 .botonesAccion button.comprar {
-    color: limegreen;
-    border-color: limegreen;
+    color: red;
+    border-color: red;
 }
 
 .botonesAccion button.comprar:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px limegreen, 0 0 20px limegreen, 0 0 30px limegreen;
+    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
 }
 
 .botonesAccion button.comprar:active {
@@ -156,18 +138,6 @@ body, html {
 
 
 @media (min-width: 768px) {
-    .babyYoda {
-        width: 40%;
-        left: 5%;
-        transform: translateX(0);
-    }
-
-    .globoTexto {
-        width: 40%;
-        left: 35%;
-        top: 150px; /* Ajustado para moverlo más abajo */
-        transform: translateX(-50%);
-    }
     .table-container {
         width: 50%; /* Ajusta este porcentaje según el diseño deseado */
         max-width: 500px; /* Ajusta el ancho máximo según necesidad */
@@ -176,18 +146,6 @@ body, html {
 }
 
 @media (min-width: 1024px) {
-    .babyYoda {
-        width: 50%;
-        left: 250px;
-        transform: translateX(0);
-    }
-
-    .table-container {
-        width: 50%;
-        max-width: 500px;
-        right: 50px; 
-    }
-
     .botonesAccion {
         top: 90%;
         width: 50%;

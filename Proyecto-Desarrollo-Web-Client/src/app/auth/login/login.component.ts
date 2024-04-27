@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
+import { TimeService } from '../../services/time.service';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +19,9 @@ export class LoginComponent implements OnInit{
     username: ['', [Validators.required]],
     password: ['', Validators.required]
   });
-  constructor(private formBuilder: FormBuilder, private router:Router, private loginService: LoginService) { 
-
-  }
+  constructor(private formBuilder: FormBuilder, private router:Router, private loginService: LoginService, private timeService: TimeService) { 
+    this.timeService.restartValues();
+}
   ngOnInit(): void {
   }
   get username(){

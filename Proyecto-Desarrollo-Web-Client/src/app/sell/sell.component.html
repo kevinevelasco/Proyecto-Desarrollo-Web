@@ -5,24 +5,27 @@
 
 <!-- Todo lo siguiente se muestra solo si el usuario está logueado -->
 <div *ngIf="userLoginOn">
+    <div class="dialog-chart">
+        <p>Gracias por venir al planeta "{{planetData.name}}", tenemos estos productos en venta!!:</p>
+    </div>
     <!-- Sección para mostrar los datos del mercado -->
     <div class="table-container">
         <table class="styled-table">
             <tbody>
                 <tr *ngFor="let item of marketData">
-                    <td class="product-image-cell">
+                    <td class="product-img">
                         <img src="\assets\img\inventoryaux.png" alt="{{ item.product.name }}">
                     </td>
-                    <td class="product-info-cell">
-                        <div class="product-name">Producto: {{ item.product.name }}</div>
+                    <td class="product-info">
+                        <div class="product-name">{{ item.product.name }}</div>
                         <div class="product-details">
                             Precio: {{ item.buyPrice }}
                             Stock: {{ item.stock }}
                             Tamaño: {{ item.product.size }}
                         </div>
-                        <button class="comprarProducto" *ngIf="spaceCraftData && spacecraftModelsData"
+                        <button class="buy-button" *ngIf="spaceCraftData && spacecraftModelsData"
                             (click)="comprarProducto(item.product, item, spaceCraftData, spacecraftModelsData)">Comprar
-                            Producto</button>
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -38,9 +41,3 @@
 
 </div>
 
- <!-- <div class="globoTexto">
-        <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
-        <div class="textoYoda">
-            <p>Gracias por venir al planeta "{{planetData?.name}}", tenemos estos productos en venta!!:</p>
-        </div>
-    </div> -->

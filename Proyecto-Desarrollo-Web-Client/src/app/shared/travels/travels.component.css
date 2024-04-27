@@ -10,4 +10,5 @@ img {
 
 img:hover {
     cursor: pointer;
+    filter: brightness(1.2);
 }

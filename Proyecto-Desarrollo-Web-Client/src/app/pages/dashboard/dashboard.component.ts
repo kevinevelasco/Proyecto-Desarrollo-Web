@@ -26,7 +26,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
   constructor(private loginService: LoginService, private playerService: PlayerService,
-    private spaceCraftService: SpacecraftService, private router: Router, private timeService: TimeService) { }
+    private spaceCraftService: SpacecraftService, private router: Router, private timeService: TimeService) { 
+    this.timeService.restartValues();
+    }
   ngOnInit(): void {
 
     this.timeService.pauseCountdown();

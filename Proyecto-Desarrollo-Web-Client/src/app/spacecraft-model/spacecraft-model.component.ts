@@ -8,6 +8,8 @@ import { SpacecraftModel } from '../model/spacecraft-model';
 import { SpacecraftModelService } from '../services/spacecraft-model.service';
 import { SpacecraftService } from '../services/spacecraft.service';
 import { Planet } from '../model/planet';
+import { Inventory } from '../model/inventory';
+import { InventoryService } from '../services/inventory.service';
 
 @Component({
   selector: 'app-spacecraft-model',
@@ -21,13 +23,16 @@ export class SpacecraftModelComponent implements OnInit, OnDestroy {
   spacecraftModelsData?: SpacecraftModel;
   playersInSpacecraft: Player[] = [];
   planet?: Planet;
+  inventoryData: Inventory[] = [];
+  currentSpacecraftStorage: number;
 
 
   constructor(
     private loginService: LoginService, 
     private playerService: PlayerService, 
     private spacecraftService: SpacecraftService,  // Asegúrate de que este servicio esté disponible
-    private spacecraftModelService: SpacecraftModelService
+    private spacecraftModelService: SpacecraftModelService,
+    private inventoryService: InventoryService
   ) { }
 
   ngOnInit(): void {
@@ -93,8 +98,22 @@ loadPlayers(): void {
     this.spacecraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
       console.log('El planeta es:', planet.name);
       this.planet = planet;
+      this.getInventoryData();
     });
   }
   }
   
+  getInventoryData() {
+    if (this.spaceCraftData != null) {
+      var spacecraftId = this.spaceCraftData.id;
+        this.inventoryService.getInventoryBySpacecraftId(spacecraftId).subscribe((inventory) => {
+            console.log('Inventory data:', inventory);
+            this.inventoryData = inventory;
+            this.inventoryService.getTotalBySpacecraftId(spacecraftId).subscribe((total) => {
+                this.currentSpacecraftStorage = Math.round(total);
+                console.log('total de almacenamiento actual de la nave', this.currentSpacecraftStorage);
+            })
+        });
+    }
+}
 }

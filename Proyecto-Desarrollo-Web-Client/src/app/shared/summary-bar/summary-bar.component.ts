@@ -33,6 +33,14 @@ export class SummaryBarComponent {
 
   ngOnInit(): void {
 
+    // if (!sessionStorage.getItem('reloaded')) {
+    //   sessionStorage.setItem('reloaded', 'true');
+    //   window.location.reload();
+    // } else {
+    //   sessionStorage.removeItem('reloaded'); // Asegurarse de limpiar para la próxima visita
+    // }
+    // // TODO esto es lo que daña space-travel
+
     const userData = localStorage.getItem('currentUserData');
     console.log(userData);
     if (userData) {
@@ -71,6 +79,8 @@ export class SummaryBarComponent {
     if (this.spaceCraftSubscription) {
       this.spaceCraftSubscription.unsubscribe();
     }
+    //hide dialog
+    this.dialog.closeAll();
   }
 
   getSpaceCraftData(): void {

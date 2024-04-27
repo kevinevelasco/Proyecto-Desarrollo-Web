@@ -66,4 +66,7 @@ export class LoginService {
     this.currentUserData.next(JSON.parse(localStorage.getItem('currentUserData') ?? '{}'));
     localStorage.removeItem('currentUserData');
   }
+  setCurrentUserData(userData: Player) {
+    this.currentUserData.next(userData);
+  }
 }

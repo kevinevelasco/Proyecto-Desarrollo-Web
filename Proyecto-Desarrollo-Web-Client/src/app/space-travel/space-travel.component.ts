@@ -16,13 +16,14 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
 
   //recolectamos los datos que necesitemos para la interfaz para después pasarselas a los componentes hijos
-  userData?: Player;
+  userData: Player;
   currentStar: Star;
   starPlanets: Planet[] = [];
   nearestStars: Star[] = [];
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
+  parsedUserData: any;
 
   constructor(private loginService: LoginService, private starService: StarService, private planetService: PlanetService) {}
 
@@ -32,13 +33,30 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
         this.userLoginOn = userLoginOn;
       }
     });
-
+  
+    // Recuperar userData desde el almacenamiento local al inicio
+    const storedUserData = localStorage.getItem('userData');
+    console.log(storedUserData);
+    if (storedUserData) {
+      if(this.userData?.id == 0 || this.userData?.id == undefined || this.userData?.id == null){
+      this.parsedUserData = JSON.parse(storedUserData);
+      this.userData = this.parsedUserData;
+      console.log(this.userData);
+      if (this.userData) {
+        this.loginService.setCurrentUserData(this.userData);
+      }
+      this.getCurrentStarAndPlanets();
+    }
+    }
+  
     this.userDataSubscription = this.loginService.currentUserData.subscribe({
       next: (userData) => {
         this.userData = userData;
+        // Guardar userData en el almacenamiento local cuando cambie
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
       }
     });
-    this.getCurrentStarAndPlanets();
     window.onbeforeunload = () => this.ngOnDestroy();
   }
 
@@ -60,7 +78,7 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
 
         this.planetService.getPlanetsByStarId(this.currentStar.id).subscribe(planets => {
           this.starPlanets = planets;
-          console.log(this.starPlanets);
+          console.log("los planetas de la estrella en la que estoy son: ", this.starPlanets);
         });
         this.starService.getNearestStars(this.currentStar.id).subscribe(nearestStars => {
           this.nearestStars = nearestStars;
@@ -70,6 +88,7 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
               nearestStar.planets = planets;
             });
         });
+        console.log("los estrellas más cercanas la estrella en la que estoy son: ", this.nearestStars);
     });
   });
 }

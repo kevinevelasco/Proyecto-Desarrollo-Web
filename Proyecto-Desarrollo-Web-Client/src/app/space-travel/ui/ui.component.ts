@@ -1,5 +1,5 @@
 import { StarService } from './../../services/star.service';
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Star } from '../../model/star';
 import { Player } from '../../model/player';
 import { Planet } from '../../model/planet';
@@ -20,7 +20,7 @@ import { TimeService } from '../../services/time.service';
   templateUrl: './ui.component.html',
   styleUrls: ['./ui.component.css'],
 })
-export class UiComponent implements OnInit, OnDestroy {
+export class UiComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private engineService: EngineService,
     private router: Router,
@@ -28,10 +28,11 @@ export class UiComponent implements OnInit, OnDestroy {
     private marketService: MarketService,
     private starService: StarService,
     private spacecraftModelService: SpacecraftModelService,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private planetService: PlanetService
   ) {}
 
-  @Input() userData?: Player;
+  @Input() userData: Player;
   @Input() currentStar: Star;
   @Input() starPlanets: Planet[] = [];
   @Input() nearestStars: Star[] = [];
@@ -44,33 +45,54 @@ export class UiComponent implements OnInit, OnDestroy {
   marketData: Market[]= [];
   distance: number;
 
-  ngOnInit(): void {
-    console.log('user info', this.userData);
-    console.log(this.currentStar);
-    console.log(this.starPlanets);
-    console.log(this.nearestStars);
-    this.engineService.getClicInPlanetObservable().subscribe((planeta) => {
-      this.currentPlanet = planeta;
-      console.log('el planeta clickeado fue', this.currentPlanet);
-      this.booleanPlanet = !this.booleanPlanet;
-    });
-    if (this.userData && this.userData.spacecraft) {
-      this.spacecraftService
-        .getPlanetBySpacecraft(this.userData?.spacecraft.id)
-        .subscribe((planet: Planet) => {
-          console.log('El planeta es:', planet.name);
-          this.inPlanet = planet;
-        });
 
-        this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.userData.spacecraft.id).subscribe(
-          (spacecraftModel) => {
-            console.log('SpacecraftModel:', spacecraftModel);
-            this.currentSpacecraftModel = spacecraftModel;
-          });
-      this.userData.spacecraft.planet = this.inPlanet;7
-      
-      console.log('Spacecraft:', this.userData);
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
+  
+    // Verificar si hubo cambios en currentStar y asignarlo si es así
+    if ('currentStar' in changes) {
+      this.currentStar = changes["currentStar"].currentValue;
     }
+  
+    // Verificar si hubo cambios en starPlanets y asignarlo si es así
+    if ('starPlanets' in changes) {
+      this.starPlanets = changes["starPlanets"].currentValue;
+    }
+  
+    // Verificar si hubo cambios en nearestStars y asignarlo si es así
+    if ('nearestStars' in changes) {
+      this.nearestStars = changes["nearestStars"].currentValue;
+    }
+
+    if(this.currentStar != undefined && this.starPlanets.length > 0 && this.nearestStars.length > 0){
+      console.log("aqui fue")
+      this.engineService.getClicInPlanetObservable().subscribe((planeta) => {
+        this.currentPlanet = planeta;
+        console.log('el planeta clickeado fue', this.currentPlanet);
+        this.booleanPlanet = !this.booleanPlanet;
+      });
+      if (this.userData && this.userData.spacecraft) {
+        this.spacecraftService
+          .getPlanetBySpacecraft(this.userData?.spacecraft.id)
+          .subscribe((planet: Planet) => {
+            console.log('El planeta es:', planet.name);
+            this.inPlanet = planet;
+          });
+  
+          this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.userData.spacecraft.id).subscribe(
+            (spacecraftModel) => {
+              console.log('SpacecraftModel:', spacecraftModel);
+              this.currentSpacecraftModel = spacecraftModel;
+            });
+        this.userData.spacecraft.planet = this.inPlanet;7
+        
+        console.log('Spacecraft:', this.userData);
+      }
+    }
+  }
+  
+
+  ngOnInit(): void {
   }
 
   ngOnDestroy(): void {}
@@ -148,4 +170,28 @@ export class UiComponent implements OnInit, OnDestroy {
       this.deployPlanetList = true; // Abre la lista de planetas para la nueva estrella
     }
   }
+
+  getCurrentStarAndPlanets(): void {
+    console.log(this.userData);
+    if(this.userData.id != 0){
+      this.starService.getStarDataBasedOnUser(this.userData.id).subscribe((star: Star) => {
+        this.currentStar = star;
+        console.log('La estrella en la que estoy es:', this.currentStar); 
+
+        this.planetService.getPlanetsByStarId(this.currentStar.id).subscribe(planets => {
+          this.starPlanets = planets;
+          console.log(this.starPlanets);
+        });
+        this.starService.getNearestStars(this.currentStar.id).subscribe(nearestStars => {
+          this.nearestStars = nearestStars;
+          //por cada una guardamos sus planetas
+          this.nearestStars.forEach(nearestStar => {
+            this.planetService.getPlanetsByStarId(nearestStar.id).subscribe(planets => {
+              nearestStar.planets = planets;
+            });
+        });
+    });
+  });
+}
+}
 }

@@ -1,7 +1,7 @@
 <app-summary-bar></app-summary-bar>
 <div class="ui-wrapper">
   <div class="left-column">
-    <div class="current-star">
+    <div *ngIf="currentStar && inPlanet" class="current-star">
       <h1>Estoy en el sistema: {{currentStar.name}}</h1>
       <h1>En el planeta: {{inPlanet.name}} </h1>
       <table class="star-table">

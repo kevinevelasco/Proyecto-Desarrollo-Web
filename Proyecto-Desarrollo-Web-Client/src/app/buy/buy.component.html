@@ -1,43 +1,42 @@
 <app-summary-bar></app-summary-bar>
 
-<app-background [pageType] = "pageType" [planetData] = "planetData" style="pointer-events: none;"></app-background>
+<app-background [pageType]="pageType" [planetData]="planetData" style="pointer-events: none"></app-background>
+
 <div class="inventory" *ngIf="inventoryData.length > 0">
+    <div class="dialog-chart">
+        <p>En "{{planetData.name}}" Compramos lo que sea!!!</p>
+    </div>
     <div class="items">
-        <table class="tablaBuy">
-            <tbody>
-                <ng-container *ngFor="let item of inventoryData">
-                    <tr class="inventory-item">
-                        <td class="product-image-cell">
+        <div class="table-container">
+            <table class="styled-table">
+                <tbody>
+                    <tr *ngFor="let item of inventoryData">
+                        <td class="product-img">
                             <img src="\assets\img\inventoryaux.png" alt="{{ item.product.name }}">
                         </td>
-                        <td>Producto: {{ item.product.name }}</td>
-                        <td>Cantidad: {{ item.quantity }}</td>
-                        <ng-container *ngFor="let precio of marketData">
-                            <tr *ngIf="item.product.id == precio.product.id && planetData != null">
-                                <td>Precio: {{ precio.sellPrice }}</td>
-                                <td><button (click)="venderProductos(precio, item.product, precio.sellPrice, planetData.id)">Vender producto</button></td>
-                            </tr>
-                        </ng-container>
+                        <td class="product-info">
+                            <div class="product-name">{{ item.product.name }}</div>
+                            <div class="product-details">
+                                Cantidad: {{ item.quantity }}
+                                <ng-container *ngFor="let precio of marketData">
+                                    <div *ngIf="item.product.id == precio.product.id && planetData != null"
+                                        class="partePrecio">
+                                        <div>Precio: {{ precio.sellPrice }}</div>
+                                        <button class="sell-button"
+                                            (click)="venderProductos(precio, item.product, precio.sellPrice, planetData.id)">Vender
+                                            producto</button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </td>
                     </tr>
-                </ng-container>
-            </tbody>
-        </table>
-    </div>
-
-
-    <!-- <div class="yodaComprador">
-        <img src="assets/img/sellBuy/yodaComprador.jpg" alt="babyYoda">
-    </div>
-
-    <div class="textoGlobo">
-        <img src="assets/img/sellBuy/globoTexto.png" alt="globoTexto">
-        <div class="textoYoda">
-            <p>En "{{planetData?.name}}" Compramos lo que sea!!!</p>
+                </tbody>
+            </table>
         </div>
-    </div>  -->
-
+    </div>
 </div>
+
 <div class="botonesAccion">
     <button class="vender" (click)="sell()">IR A COMPRAR</button>
-</div> 
+</div>
 <app-travels></app-travels>

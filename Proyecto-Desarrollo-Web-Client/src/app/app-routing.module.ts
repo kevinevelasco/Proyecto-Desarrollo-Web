@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'sell', component: BuyComponent}, //xd
   { path: 'spacecraft-model', component: SpacecraftModelComponent},
   { path: 'inventory', component: InventoryComponent},
-  { path: '', pathMatch: 'full', redirectTo: '/home' },
+  { path: '', pathMatch: 'full', redirectTo: '/login' },
 ];
 
 @NgModule({
