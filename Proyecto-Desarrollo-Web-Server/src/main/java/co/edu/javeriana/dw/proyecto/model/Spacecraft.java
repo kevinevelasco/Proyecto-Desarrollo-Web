@@ -52,4 +52,14 @@ public class Spacecraft {
     @OneToMany(mappedBy = "spacecraft", orphanRemoval = true)
     private List<Inventory> inventories;
 
+
+    public Spacecraft(String name, BigDecimal credit, Double totalTime, Planet planet, SpacecraftModel spacecraftModel) {
+        this.name = name;
+        this.credit = credit;
+        this.totalTime = totalTime;
+        this.planet = planet;
+        this.spacecraftModel = spacecraftModel;
+    }
+    
+
 }

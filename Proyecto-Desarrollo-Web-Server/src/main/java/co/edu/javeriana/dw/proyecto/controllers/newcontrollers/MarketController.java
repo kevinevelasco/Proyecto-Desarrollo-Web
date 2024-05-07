@@ -52,19 +52,19 @@ public class MarketController {
     @Autowired
     private SpacecraftService spacecraftService;
     @Autowired
-    private SpacecraftModelService spacecraftModelService;  // Asegúrate de tener esta línea en tu controlador
-    
+    private SpacecraftModelService spacecraftModelService;
 
     Logger log = LoggerFactory.getLogger(getClass());
 
-
+    //localhost:8080/api/market/list
     @GetMapping("/list")
     public List<Market> listMarkets() {
         return marketService.getAllMarket();
     }
-
     
+
     //localhost:8080/api/market/venta/1/1
+    //esta prueba sirve para probar la venta de productos
     @PatchMapping("/{toDo}/{id}/{quantity}")
     public Spacecraft sellProduct(@PathVariable String toDo, @PathVariable Long id, @PathVariable Double quantity){
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(id);
@@ -82,6 +82,7 @@ public class MarketController {
 
     //esto es para reducir el stock del mercado
     //localhost:8080/api/market/venta/1/product/1/planet/1/
+    //localhost:8080/api/market/1/sell
     @PatchMapping("/{id}/{toDo}")
     public Market sellProductStock(@PathVariable Long id, @PathVariable String toDo){
 
@@ -100,6 +101,7 @@ public class MarketController {
         return marketService.saveMarket(market);
     }
 
+    //localhost:8080/api/market/list-page
     @GetMapping("/list-page")
     public Page<Market> getAllMarkets(Pageable pageable){
         return marketService.listarMercadosPaginable(pageable);
@@ -119,10 +121,14 @@ public class MarketController {
                     @ApiResponse(responseCode = "404", description = "Mercado no encontrado")
             }
     )
+
+    //localhost:8080/api/market/1     en donde esta el 1 se pone el numero del id del mercado que se quiere traer
     @GetMapping("/{id}")
     public Market getMarket(@PathVariable Long id) {
         return marketService.getMarketById(id);
     }
+
+    //localhost:8080/api/market/planet/1     en donde esta el 1 se pone el numero del id del mercado que se quiere traer
     //Traer market por el id del planeta
     @GetMapping("/planet/{id}")
     public ResponseEntity<List<Market>> getMarketByPlanetId(@PathVariable Long id) {
@@ -134,7 +140,7 @@ public class MarketController {
         }
     }
 
-
+    //link para probar el metodo post localhost:8080/api/market/1/1
     @PostMapping("/{productId}/{planetId}")
     public Market saveMarket(@PathVariable Long productId, @PathVariable Long planetId, @RequestBody Market market) {
         Product product = productService.getProductById(productId);
@@ -145,11 +151,12 @@ public class MarketController {
         return marketService.saveMarket(market);
     }
 
-
+    //localhost:8080/api/market/1   en donde esta el 1 se pone el numero del id del mercado que se quiere borrar
     @DeleteMapping("/{id}")
     public void deleteMarket(@PathVariable Long id) {
         marketService.deleteMarket(id);
     }
+
 
     @PutMapping("")
     public Market updateMarket(@RequestBody Market market) {
@@ -161,8 +168,9 @@ public class MarketController {
         return marketService.saveMarket(market);
     }
 
+    //link para probar el metodo post localhost:8080/api/market/create/1/1
     @PostMapping("/create/{planetId}/{productId}")
-public ResponseEntity<Market> createMarket(@PathVariable Long planetId, @PathVariable Long productId, @RequestBody Market market) {
+    public ResponseEntity<Market> createMarket(@PathVariable Long planetId, @PathVariable Long productId, @RequestBody Market market) {
 
         Planet planet = planetService.getPlanetById(planetId);
         Product product = productService.getProductById(productId);

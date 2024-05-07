@@ -29,4 +29,10 @@ public class Inventory {
     @NotNull(message = "No puede ser vacio")
     private Integer quantity;
 
+    public Inventory(Spacecraft spacecraft, Product product, Integer quantity) {
+        this.spacecraft = spacecraft;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
 }

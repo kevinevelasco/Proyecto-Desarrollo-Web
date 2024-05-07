@@ -11,7 +11,11 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Supplier;
+import org.springframework.context.annotation.Profile;
 
+
+// mvn  spring-boot:run -Dspring-boot.run.profiles=default
+@Profile({"default"})
 @Component
 public class DbInitializer implements CommandLineRunner {
 

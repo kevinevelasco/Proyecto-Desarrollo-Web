@@ -52,4 +52,11 @@ public class Star {
     @JsonIgnore
     @ManyToMany(mappedBy = "wormholes")
     private List<Star> destinations;
+
+    public Star(String name, Double x, Double y, Double z) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 }

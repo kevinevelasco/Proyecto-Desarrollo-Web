@@ -48,4 +48,15 @@ public class Market {
     @NotNull(message = "El precio de venta no puede ser nulo")
     @Column(nullable = false)
     private Double sellPrice;
+
+    public Market(Planet planet, Product product, Integer stock, Integer demandFactor, Integer supplyFactor, Double buyPrice, Double sellPrice) {
+        this.planet = planet;
+        this.product = product;
+        this.stock = stock;
+        this.demandFactor = demandFactor;
+        this.supplyFactor = supplyFactor;
+        this.buyPrice = buyPrice;
+        this.sellPrice = sellPrice;
+    }    
+
 }

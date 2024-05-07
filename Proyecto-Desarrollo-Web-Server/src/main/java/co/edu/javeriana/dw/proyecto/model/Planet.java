@@ -52,4 +52,10 @@ public class Planet {
     private Integer character;
 
     private Integer animation;
+
+    public Planet(String name, Star star) {
+        this.name = name;
+        this.star = star;
+    }
+    
 }

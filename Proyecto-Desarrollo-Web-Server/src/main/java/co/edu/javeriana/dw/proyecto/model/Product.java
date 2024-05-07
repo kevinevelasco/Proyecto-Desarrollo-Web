@@ -38,4 +38,10 @@ public class Product {
     @JsonIgnore
     @OneToMany(mappedBy = "product", orphanRemoval = true)
     private List<Inventory> inventories;
+
+
+    public Product(Double size, String name) {
+        this.size = size;
+        this.name = name;
+    }
 }

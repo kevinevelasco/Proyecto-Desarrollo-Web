@@ -38,4 +38,11 @@ public class SpacecraftModel {
     @JsonIgnore
     @OneToMany(mappedBy = "spacecraftModel")
     private List<Spacecraft> spacecrafts;
+
+    // Constructor específico para pruebas
+    public SpacecraftModel(String modelName, Double storage, Double maxSpeed) {
+        this.modelName = modelName;
+        this.storage = storage;
+        this.maxSpeed = maxSpeed;
+    }
 }

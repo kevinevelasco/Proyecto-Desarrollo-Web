@@ -29,6 +29,15 @@ public class Player {
     @JsonIgnore
     @ManyToOne
     private Spacecraft spacecraft;
+
+
+        // Constructor con todos los campos para pruebas
+        public Player(String userName, String password, PlayerType type, Spacecraft spacecraft) {
+            this.userName = userName;
+            this.password = password;
+            this.type = type;
+            this.spacecraft = spacecraft;
+        }
     
 
 }

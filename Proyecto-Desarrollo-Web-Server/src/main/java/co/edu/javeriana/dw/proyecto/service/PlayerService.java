@@ -49,5 +49,11 @@ public class PlayerService {
         return "Contraseña incorrecta";
     }
 
+    public Player getPlayerByUsername(String username) {
+        return playerRepository.findByUserName(username);
+    }
+
+
+
 
 }
