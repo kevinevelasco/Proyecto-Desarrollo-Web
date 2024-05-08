@@ -30,20 +30,6 @@ public class PlayerController {
     private SpacecraftService spacecraftService;
 
 
-    @PostMapping("/login")
-    public ResponseEntity<Player> login( @RequestBody Player player){
-        String msg = playerService.login(player.getUserName(), player.getPassword());
-        if(msg.equals("Inicio de sesion exitoso")){
-            Player loggedInPlayer = playerService.getLoggedInPlayer();
-            return ResponseEntity.ok(loggedInPlayer);
-        }else if(msg.equals("No existe el usuario")){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-    }
-
     @GetMapping("/loggedInPlayer")
     public ResponseEntity<Player> getLoggedInPlayer(){
         Player player = playerService.getLoggedInPlayer();

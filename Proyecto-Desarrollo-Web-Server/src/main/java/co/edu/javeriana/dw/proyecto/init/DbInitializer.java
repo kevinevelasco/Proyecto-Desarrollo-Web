@@ -6,6 +6,7 @@ import lombok.val;
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -31,6 +32,8 @@ public class DbInitializer implements CommandLineRunner {
     private IMarketRepository marketRepository;
     @Autowired
     private IInventoryRepository inventoryRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -178,7 +181,7 @@ public class DbInitializer implements CommandLineRunner {
         for (int j = 0; j < 100; j++) {
             Player player = new Player();
             player.setUserName(faker.internet().username());
-            player.setPassword("12345");
+            player.setPassword(passwordEncoder.encode("12345"));
             val random = new Random().nextInt(3);
 
             if (random == 0)
