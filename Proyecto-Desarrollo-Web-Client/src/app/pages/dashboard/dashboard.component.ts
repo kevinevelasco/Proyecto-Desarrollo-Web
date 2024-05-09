@@ -15,13 +15,19 @@ import { TimeService } from '../../services/time.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
+
+
 export class DashboardComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
-  userData?: Player;
+  userData: number;
+  userName: string;
   playerData?: Player;
   spaceCraftData?: Spacecraft;
   planetData?: Planet;
   pageType: PageType = { page: "home" };
+
+  ID = "user-id";
+  USERNAME = "user-name";
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
@@ -32,19 +38,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.timeService.pauseCountdown();
-    const userData = localStorage.getItem('currentUserData');
-    console.log(userData);
-    if (userData) {
-      this.loginService.currentUserData.next(JSON.parse(userData));
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    this.userName = sessionStorage.getItem(this.USERNAME) || '';
+    console.log(userId);
+    if (userId != 0 && userId != null) {
       this.userLoginOn = true;
+      this.userData = userId;
+      this.getPlayerData();
+    } else{
+      this.router.navigate(['..//login']);
     }
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      }
-    }
-    );
-    this.getPlayerData();
   }
   ngOnDestroy(): void {
     if (this.loginSubscription) {
@@ -56,10 +59,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   getPlayerData(): void {
     console.log(this.userData);
-    if (this.userData != null) {
-      this.playerService.getPlayerById(this.userData.id).subscribe((player: Player) => {
-        console.log('El jugador es:', player.type);
+    if (this.userData != null && this.userData != 0) {
+      this.playerService.getPlayerById(this.userData).subscribe((player: Player) => {
         this.playerData = player;
+        console.log('El jugador es:', this.playerData);
         this.getSpaceCraftData();
       });
     }
@@ -72,7 +75,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         console.log('La nave es:', spacecraft.name);
         this.spaceCraftData = spacecraft;
         if (this.userData) {
-          this.userData.spacecraft = spacecraft;
+          this.playerData!.spacecraft = spacecraft;
         }
         this.getPlanetData();
       });
@@ -84,8 +87,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.spaceCraftService.getPlanetBySpacecraft(this.spaceCraftData.id).subscribe((planet: Planet) => {
         console.log('El planeta es:', planet.name);
         this.planetData = planet;
-        if (this.userData && this.userData.spacecraft) {
-          this.userData.spacecraft.planet = planet;
+        if (this.playerData && this.playerData.spacecraft) {
+          this.playerData.spacecraft.planet = planet;
         }
       });
     }
@@ -109,7 +112,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.timeService.restartValues();
     this.loginService.logout();
     this.userLoginOn = false;
-    this.router.navigate(['/login']);
+    this.router.navigate(['..//login']);
   }
 
   startGame(): void {

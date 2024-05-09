@@ -40,12 +40,12 @@ export class BackgroundComponent implements OnInit, OnDestroy, OnChanges {
         }
       } else if(i === 'planetData'){
         this.planetData = changes[i].currentValue;
-        this.backgroundService.addCharacterBasedOnPlanet(this.planetData);
+        this.planetData ? this.backgroundService.addCharacterBasedOnPlanet(this.planetData) : console.log("no hay planeta");
       }
   }
   if(page){
     console.log("entra")
-    console.log(this.planetData)
+    this.planetData ? console.log(this.planetData) : console.log("no hay planeta");
       // 
     }
 }

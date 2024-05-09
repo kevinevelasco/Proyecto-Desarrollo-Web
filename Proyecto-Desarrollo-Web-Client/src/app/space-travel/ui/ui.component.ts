@@ -52,6 +52,7 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
     // Verificar si hubo cambios en currentStar y asignarlo si es así
     if ('currentStar' in changes) {
       this.currentStar = changes["currentStar"].currentValue;
+      console.log('currentStar', this.currentStar);
     }
   
     // Verificar si hubo cambios en starPlanets y asignarlo si es así
@@ -71,23 +72,22 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
         console.log('el planeta clickeado fue', this.currentPlanet);
         this.booleanPlanet = !this.booleanPlanet;
       });
-      if (this.userData && this.userData.spacecraft) {
+        console.log("Info")
         this.spacecraftService
-          .getPlanetBySpacecraft(this.userData?.spacecraft.id)
+          .getPlanetBySpacecraft(this.userData.spacecraft!.id)
           .subscribe((planet: Planet) => {
-            console.log('El planeta es:', planet.name);
+            console.log('El planeta donde estoy es:', planet.name);
             this.inPlanet = planet;
           });
   
-          this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.userData.spacecraft.id).subscribe(
+          this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.userData.spacecraft!.id).subscribe(
             (spacecraftModel) => {
               console.log('SpacecraftModel:', spacecraftModel);
               this.currentSpacecraftModel = spacecraftModel;
             });
-        this.userData.spacecraft.planet = this.inPlanet;7
+        this.userData.spacecraft!.planet = this.inPlanet;
         
         console.log('Spacecraft:', this.userData);
-      }
     }
   }
   

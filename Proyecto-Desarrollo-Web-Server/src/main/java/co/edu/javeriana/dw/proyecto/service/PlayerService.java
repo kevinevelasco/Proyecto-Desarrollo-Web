@@ -44,9 +44,14 @@ public class PlayerService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) {
+                System.out.println("Username: " + username);
                 return playerRepository.findByUserName(username)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };
+    }
+    public Player getPlayerByUsername(String username) {
+        return playerRepository.findByUserName(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

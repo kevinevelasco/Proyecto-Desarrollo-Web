@@ -97,7 +97,7 @@
         </div>
         <div class="right">
           <!-- Mostramos la columna derecha solo si se le dio click a onPlanetClick-->
-          <div class="if" *ngIf="booleanPlanet">
+          <div class="if" *ngIf="booleanPlanet && currentPlanet && inPlanet">
             <!-- Tabla de información del planeta -->
             <table class="planet-info-table">
               <thead>

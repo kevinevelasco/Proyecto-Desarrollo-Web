@@ -24,12 +24,12 @@ export class SummaryBarComponent {
 
   constructor(public dialog: MatDialog, private loginService: LoginService, private playerService: PlayerService, private spaceCraftService: SpacecraftService, private timeService: TimeService) { }
 
-
   spaceCraftData?: Spacecraft;
   private spaceCraftSubscription: Subscription;
-
-  userData?: Player;
-
+  userLoginOn: boolean = false;
+  userData: number;
+  ID = "user-id";
+  playerData?: Player;
 
   ngOnInit(): void {
 
@@ -41,25 +41,21 @@ export class SummaryBarComponent {
     // }
     // // TODO esto es lo que daña space-travel
 
-    const userData = localStorage.getItem('currentUserData');
-    console.log(userData);
-    if (userData) {
-      this.loginService.currentUserData.next(JSON.parse(userData));
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userLoginOn = true;
+      this.userData = userId;
     }
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      }
-    }
-    );
-    this.timeSubscription = this.timeService.counter$.subscribe({
-      next: (time) => {
-        this.time = time;
-        if (this.time == 0) {
-          this.TimeExpired();
-        }
-      }
-    });
+    this.getPlayerData();
+    // this.timeSubscription = this.timeService.counter$.subscribe({
+    //   next: (time) => {
+    //     this.time = time;
+    //     if (this.time == 0) {
+    //       this.TimeExpired();
+    //     }
+    //   } //TODO falta hacer esto bien
+    // });
     this.spaceCraftSubscription = this.spaceCraftService.spaceCraftData$.subscribe({
       next: (spaceCraft) => {
         if (spaceCraft) {
@@ -67,9 +63,18 @@ export class SummaryBarComponent {
         }
       }
     });
+  }
 
+  getPlayerData(): void {
+    console.log(this.userData);
+    if (this.userData != null && this.userData != 0) {
+      this.playerService.getPlayerById(this.userData).subscribe((player: Player) => {
+        this.playerData = player;
+        console.log('El jugador es:', this.playerData);
+        this.getSpaceCraftData();
+      });
+    }
 
-    this.getSpaceCraftData();
   }
 
   ngOnDestroy(): void {
@@ -84,12 +89,12 @@ export class SummaryBarComponent {
   }
 
   getSpaceCraftData(): void {
-    if (this.userData != null) {
-      this.playerService.getPlayerSpacecraft(this.userData.id).subscribe((spacecraft: Spacecraft) => {
+    if (this.playerData != null) {
+      this.playerService.getPlayerSpacecraft(this.playerData.id).subscribe((spacecraft: Spacecraft) => {
         console.log('La nave es:', spacecraft.name);
         this.spaceCraftData = spacecraft;
-        if (this.userData) {
-          this.userData.spacecraft = spacecraft;
+        if (this.playerData) {
+          this.playerData.spacecraft = spacecraft;
         }
         this.timeService.loadTime(spacecraft.totalTime);
       });

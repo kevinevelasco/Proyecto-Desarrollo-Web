@@ -29,4 +29,9 @@ export class PlayerService {
     return this.http.get<Player[]>(`${environment.serverUrl}/api/spacecraft/${spacecraftId}/players`, { headers: this.headers });
   }
 
+  getPlayerByUsername(username: string): Observable<Player> {
+    console.log(`${environment.serverUrl}/api/player/user?username=${username}`)
+    return this.http.get<Player>(`${environment.serverUrl}/api/player/user?username=${username}`);
+  }
+
 }

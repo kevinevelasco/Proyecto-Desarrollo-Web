@@ -130,7 +130,7 @@ export class BackgroundService {
       this.stars.push(sphere);
     }
 
-    console.log(this.planet)
+    this.planet ? console.log(this.planet) : console.log('No hay planeta');
     this.load3DModelDependingOnPage(this.page.page);
 
     //agregamos iluminación

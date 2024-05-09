@@ -3,6 +3,7 @@ package co.edu.javeriana.dw.proyecto.controllers.newcontrollers;
 import co.edu.javeriana.dw.proyecto.model.Inventory;
 import co.edu.javeriana.dw.proyecto.model.Planet;
 import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.PlayerDTO;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.model.SpacecraftModel;
 import co.edu.javeriana.dw.proyecto.persistence.ISpacecraftRepository;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/spacecraft")
@@ -159,10 +161,17 @@ public class SpaceCraftController {
     @GetMapping("/{planetId}/spacecrafts")
     public ResponseEntity<List<Spacecraft>> getSpacecraftsByPlanetId(@PathVariable Long planetId) {
         List<Spacecraft> spacecrafts = spaceCraftService.getSpacecraftsByPlanetId(planetId);
+        //convertimos los players de spacecrafts en PlayerDTOs
+        for (Spacecraft spacecraft : spacecrafts) {
+            //eliminamos los atributos innecesarios, solo dejamos el id, username, password y type de cada jugador de la lista de players
+            List<Player> players = spacecraft.getPlayers().stream().map(player -> new Player(player.getId(), player.getUsername(), player.getPassword(), player.getType(), player.getSpacecraft())).collect(Collectors.toList());
+            spacecraft.setPlayers(players);
+        }
+
         if(spacecrafts.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
-            log.info("Naves encontradas: " + spacecrafts);
+            log.info("Naves encontradas: " + spacecrafts.toString());
             return ResponseEntity.ok(spacecrafts);
         }
     }
@@ -171,7 +180,8 @@ public class SpaceCraftController {
     public ResponseEntity<List<Player>> getPlayersBySpacecraft(@PathVariable Long spacecraftId) {
         Spacecraft spacecraft = spaceCraftService.getSpacecraftById(spacecraftId);
         if(spacecraft != null && spacecraft.getPlayers() != null) {
-            return ResponseEntity.ok(spacecraft.getPlayers());
+            List<Player> players = spacecraft.getPlayers().stream().map(player -> new Player(player.getId(), player.getUsername(), player.getPassword(), player.getType(), player.getSpacecraft())).collect(Collectors.toList());
+            return ResponseEntity.ok(players);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

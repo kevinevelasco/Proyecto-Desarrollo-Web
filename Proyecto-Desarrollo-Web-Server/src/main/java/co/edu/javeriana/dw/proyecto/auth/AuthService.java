@@ -28,6 +28,6 @@ public class AuthService {
         final UserDetails userDetails = playerService.userDetailsService().loadUserByUsername(loginRequest.getUsername());
         final Player player = playerRepository.findByUserName(loginRequest.getUsername()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         final String token = jwtService.generateToken(userDetails);
-        return new AuthResponse(token, player.getUsername(), player.getType());
+        return new AuthResponse(player.getId(), token, player.getUsername(), player.getType());
     }
 }

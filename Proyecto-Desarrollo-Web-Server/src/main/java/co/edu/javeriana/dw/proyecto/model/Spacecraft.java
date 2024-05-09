@@ -52,4 +52,5 @@ public class Spacecraft {
     @OneToMany(mappedBy = "spacecraft", orphanRemoval = true)
     private List<Inventory> inventories;
 
+
 }

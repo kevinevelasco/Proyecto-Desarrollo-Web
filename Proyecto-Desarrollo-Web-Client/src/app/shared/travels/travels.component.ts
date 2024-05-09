@@ -16,6 +16,8 @@ export class TravelsComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
   userData?: Player;
   playerData?: Player;
+  userId: number;
+  ID = "user-id";
 
   private loginSubscription: Subscription = new Subscription();
   private userDataSubscription: Subscription = new Subscription();
@@ -29,7 +31,6 @@ export class TravelsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.manageUserLoginStatus();
-    this.getPlayerData();
   }
 
   ngOnDestroy(): void {
@@ -38,36 +39,24 @@ export class TravelsComponent implements OnInit, OnDestroy {
   }
 
   manageUserLoginStatus(): void {
-    const userData = localStorage.getItem('currentUserData');
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      this.loginService.currentUserData.next(parsedData);
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userId = userId;
+      this.getPlayerData();
       this.userLoginOn = true;
-      this.userData = parsedData;
     }
-
-    this.userDataSubscription = this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-        this.userLoginOn = !!userData;
-      }
-    });
   }
 
   getPlayerData(): void {
-    if (this.userData) {
-      this.loginSubscription.add(
-        this.playerService.getPlayerById(this.userData.id).subscribe({
-          next: (player: Player) => {
-            console.log('El jugador es:', player.type);
-            this.playerData = player;
-          },
-          error: (error) => {
-            console.error('Error al obtener datos del jugador:', error);
-          }
-        })
-      );
+    console.log(this.userId);
+    if (this.userId != null && this.userId != 0) {
+      this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+        this.userData = player;
+        console.log('El jugador es:', this.userData);
+      });
     }
+  
   }
 
   logoutAndRedirect(): void {
