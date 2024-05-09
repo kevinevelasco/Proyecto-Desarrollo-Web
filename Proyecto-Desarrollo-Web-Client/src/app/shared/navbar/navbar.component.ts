@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class NavbarComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
   private subscription: Subscription;
+  ID = "user-id";
   constructor(private loginService: LoginService, private router:Router) {}
 
   ngOnInit(): void {
@@ -33,10 +34,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   private checkUserLoginOn(): void {
-    const userData = localStorage.getItem('currentUserData');
-    this.userLoginOn = !!userData; // !! convierte el valor a booleano
-    if (this.userLoginOn) {
-      this.loginService.currentUserLoginOn.next(true);
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userLoginOn = true;
     }
   }
 }

@@ -24,13 +24,15 @@ export class SellComponent implements OnInit, OnDestroy {
 
     userLoginOn: boolean = false;
     userData?: Player;
+    userId: number
     spaceCraftData: Spacecraft;
     spacecraftModelsData?: SpacecraftModel;
     planetData: Planet;
     marketData: Market[] = [];
     invetoryData: Inventory[] = [];
     currentSpacecraftStorage: number;
-    pageType : PageType = {page : "market"};
+    pageType: PageType = { page: "market" };
+    ID = "user-id";
 
     constructor(
         private router: Router,
@@ -43,19 +45,27 @@ export class SellComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        const userData = localStorage.getItem('currentUserData');
-        console.log(userData);
-        if (userData) {
-            this.loginService.currentUserData.next(JSON.parse(userData));
+        const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+        console.log(userId);
+        if (userId != 0 && userId != null) {
             this.userLoginOn = true;
+            this.userId = userId;
+            this.getPlayerData();
+        } else{
+            this.router.navigate(['..//login']);
         }
-        this.loginService.currentUserData.subscribe({
-            next: (userData) => {
-                this.userData = userData;
-            }
-        });
-        this.getSpaceCraftData();
     }
+
+    getPlayerData(): void {
+        console.log(this.userId);
+        if (this.userId != null && this.userId != 0) {
+            this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+            this.userData = player;
+            console.log('El jugador es:', this.userData);
+            this.getSpaceCraftData();
+            });
+        }
+        }
 
     ngOnDestroy(): void {
     }

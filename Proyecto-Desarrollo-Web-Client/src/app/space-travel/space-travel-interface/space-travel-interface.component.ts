@@ -3,6 +3,7 @@ import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../services/auth/login.service';
 import { Player } from '../../model/player';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-space-travel-interface',
@@ -14,8 +15,9 @@ export class SpaceTravelInterfaceComponent implements OnInit, OnDestroy, OnChang
   userData?: Player;
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
+  ID = "user-id";
 
-  constructor(private loginService: LoginService, private platformLocation: PlatformLocation) { 
+  constructor(private router: Router, private platformLocation: PlatformLocation) { 
     history.pushState(null, '', location.href);
     this.platformLocation.onPopState(() => {
       history.pushState(null, '', location.href);
@@ -25,21 +27,15 @@ export class SpaceTravelInterfaceComponent implements OnInit, OnDestroy, OnChang
     throw new Error('Method not implemented.');
   }
   ngOnInit(): void {
-    this.loginSubscription = this.loginService.currentUserLoginOn.subscribe({
-      next: (userLoginOn) => {
-        this.userLoginOn = userLoginOn;
-      }
-    });
-    this.userDataSubscription = this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      }
-    });
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userLoginOn = true;
+    }else{
+      this.router.navigate(['..//login']);
+    }
   }
   ngOnDestroy(): void {
-    if (this.loginSubscription) {
-      this.loginSubscription.unsubscribe();
-    }
   }
 
 }

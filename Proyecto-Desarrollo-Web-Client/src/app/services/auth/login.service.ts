@@ -1,3 +1,4 @@
+import { PlayerService } from './../player.service';
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -8,8 +9,14 @@ import { LoginRequest } from './loginRequest';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../../environments/environment.development';
 import { Player } from '../../model/player';
-import { catchError, throwError, BehaviorSubject, tap } from 'rxjs';
+import { catchError, throwError, BehaviorSubject, tap, map } from 'rxjs';
+import { JwtAuthenticationResponse } from './jwt-authentication-response';
 import { PlayerType } from '../../model/player-type';
+
+const JWT_TOKEN = "jwt-token";
+const USERNAME = "user-name";
+const ID = "user-id";
+const ROLE = "user-role";
 
 @Injectable({
   providedIn: 'root',
@@ -18,26 +25,46 @@ export class LoginService {
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
-  currentUserData: BehaviorSubject<Player> = new BehaviorSubject<Player>(new Player(0, '', '', PlayerType.CAPTAIN));
-  constructor(private http: HttpClient) {}
+  currentUserData: BehaviorSubject<JwtAuthenticationResponse> = new BehaviorSubject<JwtAuthenticationResponse>({id: 0, token:'', username:'', role: PlayerType.CAPTAIN});
+  constructor(private http: HttpClient, private playerService: PlayerService) {
+    this.currentUserLoginOn = new BehaviorSubject<boolean>(sessionStorage.getItem(JWT_TOKEN) != null)
+    this.currentUserData = new BehaviorSubject<JwtAuthenticationResponse>({
+      id: +(sessionStorage.getItem(ID)!), 
+      token: sessionStorage.getItem(JWT_TOKEN) ?? '', 
+      username: sessionStorage.getItem(USERNAME) ?? '', 
+      role: sessionStorage.getItem(ROLE) as PlayerType
+    })
+  }
 
-  login(credentials: LoginRequest): Observable<Player> {
+  login(credentials: LoginRequest): Observable<JwtAuthenticationResponse> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    console.log(credentials.userName, credentials.password)
-    return this.http.post<any>(
-      `${environment.serverUrl}/api/auth/login`, //TODO, hay que realizar este proceso con JWT y con toda la seguridad, pero por el momento sirve así
+    console.log(credentials)
+    return this.http.post<JwtAuthenticationResponse>(
+      `${environment.serverUrl}/auth/login`,
       credentials,
       httpOptions
     ).pipe(
       tap((userData) => {
         console.log(userData);
-        localStorage.setItem('currentUserData', JSON.stringify(userData));
+        sessionStorage.setItem(ID, userData.id.toString());
+        sessionStorage.setItem(JWT_TOKEN, userData.token);
+        sessionStorage.setItem(USERNAME, userData.username);
+        sessionStorage.setItem(ROLE, userData.role);
+
         this.currentUserData.next(userData);
         this.currentUserLoginOn.next(true);
+      }),
+      map(jwt => {
+        // Importante: https://stackoverflow.com/questions/27067251/where-to-store-jwt-in-browser-how-to-protect-against-csrf
+        sessionStorage.setItem(ID, jwt.id.toString());
+        sessionStorage.setItem(JWT_TOKEN, jwt.token);
+        sessionStorage.setItem(USERNAME, jwt.username);
+        sessionStorage.setItem(ROLE, jwt.role);
+        return jwt;
       }),
       catchError(this.handleError)
     );
@@ -54,7 +81,7 @@ export class LoginService {
     return throwError(()=> new Error('Algo falló. Por favor intente nuevamente.'));
   }
   
-  get userData(): Observable<Player> {
+  get userData(): Observable<JwtAuthenticationResponse> {
     return this.currentUserData.asObservable();
   }
 
@@ -62,11 +89,25 @@ export class LoginService {
     return this.currentUserLoginOn.asObservable();
   }
   logout() {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('role');
     this.currentUserLoginOn.next(false);
-    this.currentUserData.next(JSON.parse(localStorage.getItem('currentUserData') ?? '{}'));
-    localStorage.removeItem('currentUserData');
   }
-  setCurrentUserData(userData: Player) {
-    this.currentUserData.next(userData);
+
+  isAuthenticated() {
+    return sessionStorage.getItem(JWT_TOKEN) != null;
   }
+
+  token() {
+    return sessionStorage.getItem(JWT_TOKEN);
+  }
+
+  role() {
+    return sessionStorage.getItem(ROLE);
+  }
+
+  // setCurrentUserData(userData: Player) {
+  //   this.currentUserData.next(userData);
+  // }
 }

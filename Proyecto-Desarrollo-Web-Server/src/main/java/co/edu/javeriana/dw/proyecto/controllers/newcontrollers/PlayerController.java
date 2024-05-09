@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.PlayerDTO;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.service.PlayerService;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/player")
@@ -29,20 +32,6 @@ public class PlayerController {
     @Autowired
     private SpacecraftService spacecraftService;
 
-
-    @PostMapping("/login")
-    public ResponseEntity<Player> login( @RequestBody Player player){
-        String msg = playerService.login(player.getUserName(), player.getPassword());
-        if(msg.equals("Inicio de sesion exitoso")){
-            Player loggedInPlayer = playerService.getLoggedInPlayer();
-            return ResponseEntity.ok(loggedInPlayer);
-        }else if(msg.equals("No existe el usuario")){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-    }
 
     @GetMapping("/loggedInPlayer")
     public ResponseEntity<Player> getLoggedInPlayer(){
@@ -76,6 +65,23 @@ public class PlayerController {
             log.info("Spacecraft not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-    }    
+    }
+    
+    //get the playerDTO by username
+    @GetMapping("/user")
+    public ResponseEntity<PlayerDTO> getPlayerByUsername(@RequestParam String username){ //TODO no se debería enviar todo el objeto porque contiene información privada importante
+        Player player = playerService.getPlayerByUsername(username);
+        PlayerDTO dto = new PlayerDTO();
+        if(player != null){
+            log.info("Player found: " + player.toString());
+            dto.setId(player.getId());
+            dto.setUserName(player.getUsername());
+            return ResponseEntity.ok(dto);
+        }else{
+            log.info("Player not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+    
 
 }

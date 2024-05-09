@@ -22,12 +22,14 @@ import { PageType } from '../shared/background/pageType';
 export class BuyComponent {
 
   userData?: Player;
+  userId: number
   spaceCraftData?: Spacecraft;
   inventoryData: Inventory[] = [];
   planetData: Planet;
   marketData: Market[] = [];
   productosNuevos: Product[] = [];
   pageType : PageType = {page : "market"};
+  ID = "user-id";
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
@@ -42,26 +44,29 @@ export class BuyComponent {
   ) { }
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('currentUserData');
-    console.log(userData);
-    if (userData) {
-      this.loginService.currentUserData.next(JSON.parse(userData));
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userId = userId;
+      this.getPlayerData();
+    }else{
+      this.router.navigate(['..//login']);
     }
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      },
-    });
-    this.getSpaceCraftData();
+  }
+
+  getPlayerData(): void {
+    console.log(this.userId);
+    if (this.userId != null && this.userId != 0) {
+      this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+        this.userData = player;
+        console.log('El jugador es:', this.userData);
+        this.getSpaceCraftData();
+      });
+    }
+
   }
 
   ngOnDestroy(): void {
-    if (this.loginSubscription) {
-      this.loginSubscription.unsubscribe();
-    }
-    if (this.userDataSubscription) {
-      this.userDataSubscription.unsubscribe();
-    }
   }
 
   venderProductos(market: Market, producto: Product, sellPrice: number, planetId: number) {

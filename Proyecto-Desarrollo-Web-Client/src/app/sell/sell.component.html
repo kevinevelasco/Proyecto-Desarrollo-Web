@@ -4,7 +4,7 @@
 <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad</h1>
 
 <!-- Todo lo siguiente se muestra solo si el usuario está logueado -->
-<div *ngIf="userLoginOn">
+<div *ngIf="userLoginOn && planetData">
     <div class="dialog-chart">
         <p>Gracias por venir al planeta "{{planetData.name}}", tenemos estos productos en venta!!:</p>
     </div>

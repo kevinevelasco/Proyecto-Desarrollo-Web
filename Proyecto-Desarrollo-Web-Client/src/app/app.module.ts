@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StarListComponent } from './star/star-list/star-list.component';
 import { StarEditComponent } from './star/star-edit/star-edit.component';
@@ -33,6 +33,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { HamburguerComponent } from './shared/hamburguer/hamburguer.component';
 import { TravelsComponent } from './shared/travels/travels.component';
 import { TimeExpiredComponent } from './time-expired/time-expired.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ErrorInterceptorService } from './interceptors/error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { TimeExpiredComponent } from './time-expired/time-expired.component';
     MatButtonModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

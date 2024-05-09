@@ -6,6 +6,9 @@ import co.edu.javeriana.dw.proyecto.persistence.IPlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,17 +40,18 @@ public class PlayerService {
         playerRepository.deleteById(id);
     }
 
-
-    public String login(String user, String password) {
-        Player player = playerRepository.findByUserName(user);
-        if(player == null) {//No existe el usuario
-            return "No existe el usuario";
-        }else if(player.getPassword().equals(password)) {
-            loggedInPlayer = player;
-            return "Inicio de sesion exitoso";
-        }else
-        return "Contraseña incorrecta";
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) {
+                System.out.println("Username: " + username);
+                return playerRepository.findByUserName(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            }
+        };
     }
-
-
+    public Player getPlayerByUsername(String username) {
+        return playerRepository.findByUserName(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 }

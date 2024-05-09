@@ -1,4 +1,6 @@
 GET http://localhost:8080/api/spacecraft/list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyb2dlci5oZXJtYW4iLCJpYXQiOjE3MTUxMzcyODgsImV4cCI6MTcxNTE3MzI4OH0.ElGBAEGsj65CtMBJz6Lz7YYSQOtrFEzBsnjxge1VedlIYkMhdH7WmTnaN_g_Ftiq
 
 ###
 GET http://localhost:8080/api/spacecraft/list-page?page=0&size=5

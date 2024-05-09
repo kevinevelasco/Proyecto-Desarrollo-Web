@@ -16,6 +16,8 @@ export class HamburguerComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
   userData?: Player;
   playerData?: Player;
+  userId: number;
+  ID = "user-id";
 
   private loginSubscription: Subscription; 
   private userDataSubscription: Subscription;
@@ -29,12 +31,9 @@ export class HamburguerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkLoginStatus();
-    this.subscribeToUserData();
   }
 
   ngOnDestroy(): void {
-    this.loginSubscription.unsubscribe();
-    this.userDataSubscription.unsubscribe();
   }
 
   toggleMenu(): void {
@@ -42,25 +41,17 @@ export class HamburguerComponent implements OnInit, OnDestroy {
   }
 
   checkLoginStatus(): void {
-    const userData = localStorage.getItem('currentUserData');
-    if (userData) {
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    if (userId != 0 && userId != null) {
       this.userLoginOn = true;
-      this.loginService.currentUserData.next(JSON.parse(userData));
+      this.userId = userId;
+      this.getPlayerData();
     }
   }
 
-  subscribeToUserData(): void {
-    this.loginSubscription = this.loginService.currentUserData.subscribe({
-      next: (data) => {
-        this.userData = data;
-        this.getPlayerData();
-      }
-    });
-  }
-
   getPlayerData(): void {
-    if (this.userData) {
-      this.userDataSubscription = this.playerService.getPlayerById(this.userData.id).subscribe({
+    if (this.userId != null && this.userId != 0) {
+      this.userDataSubscription = this.playerService.getPlayerById(this.userId).subscribe({
         next: (player: Player) => {
           this.playerData = player;
         },

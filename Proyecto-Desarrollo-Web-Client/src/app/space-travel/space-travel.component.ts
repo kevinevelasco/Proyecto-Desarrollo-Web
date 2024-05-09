@@ -1,3 +1,4 @@
+import { PlayerService } from './../services/player.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Player } from '../model/player';
 import { Subscription } from 'rxjs';
@@ -6,6 +7,8 @@ import { Planet } from '../model/planet';
 import { Star } from '../model/star';
 import { PlanetService } from '../services/planet.service';
 import { StarService } from '../services/star.service';
+import { Spacecraft } from '../model/spacecraft';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-space-travel',
@@ -17,15 +20,17 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
 
   //recolectamos los datos que necesitemos para la interfaz para después pasarselas a los componentes hijos
   userData: Player;
+  userId: number;
   currentStar: Star;
   starPlanets: Planet[] = [];
   nearestStars: Star[] = [];
+  ID = "user-id";
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
   parsedUserData: any;
 
-  constructor(private loginService: LoginService, private starService: StarService, private planetService: PlanetService) {}
+  constructor(private loginService: LoginService, private starService: StarService, private planetService: PlanetService, private playerService: PlayerService, private router: Router) {}
 
   ngOnInit(): void {
     this.loginSubscription = this.loginService.currentUserLoginOn.subscribe({
@@ -35,29 +40,36 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
     });
   
     // Recuperar userData desde el almacenamiento local al inicio
-    const storedUserData = localStorage.getItem('userData');
-    console.log(storedUserData);
-    if (storedUserData) {
-      if(this.userData?.id == 0 || this.userData?.id == undefined || this.userData?.id == null){
-      this.parsedUserData = JSON.parse(storedUserData);
-      this.userData = this.parsedUserData;
-      console.log(this.userData);
-      if (this.userData) {
-        this.loginService.setCurrentUserData(this.userData);
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+      if (userId != 0 && userId != null) {
+        this.userLoginOn = true;
+        this.userId = userId;
+        this.getPlayerData();
+      }else{
+        this.router.navigate(['..//login']);
       }
-      this.getCurrentStarAndPlanets();
-    }
-    }
   
     this.userDataSubscription = this.loginService.currentUserData.subscribe({
       next: (userData) => {
-        this.userData = userData;
+        //todo this.userData = userData;
         // Guardar userData en el almacenamiento local cuando cambie
         localStorage.setItem('userData', JSON.stringify(userData));
         
       }
     });
     window.onbeforeunload = () => this.ngOnDestroy();
+  }
+
+  getPlayerData(): void {
+    console.log(this.userId);
+    if (this.userId != null && this.userId != 0) {
+      this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+        this.userData = player;
+        console.log('El jugador es:', this.userData);
+        this.getCurrentStarAndPlanets();
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -91,7 +103,21 @@ export class SpaceTravelComponent implements OnInit, OnDestroy {
         console.log("los estrellas más cercanas la estrella en la que estoy son: ", this.nearestStars);
     });
   });
+  this.getSpaceCraftData();
 }
 }
+
+getSpaceCraftData(): void {
+  console.log(this.userData);
+  if (this.userData != null) {
+    this.playerService
+      .getPlayerSpacecraft(this.userData.id)
+      .subscribe((spacecraft: Spacecraft) => {
+        console.log('La nave es:', spacecraft.name);
+        this.userData.spacecraft = spacecraft;
+      });
+  }
+}
+
 }
 
