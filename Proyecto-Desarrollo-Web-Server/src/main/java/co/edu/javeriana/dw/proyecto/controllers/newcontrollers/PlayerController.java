@@ -138,7 +138,7 @@ public class PlayerController {
 
 
 
-
+    //esto es para actualizar solo un campo del jugador
     @PatchMapping("/{id}")
     public ResponseEntity<Player> updatePlayerPartially(@PathVariable Long id, @RequestBody Player updatedPlayer) {
     Player existingPlayer = playerService.getPlayerById(id);
@@ -154,11 +154,5 @@ public class PlayerController {
     Player updated = playerService.savePlayer(existingPlayer);
     return ResponseEntity.ok(updated);
     }
-
-
-
-    
-
-
 
 }

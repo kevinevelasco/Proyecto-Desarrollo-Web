@@ -203,14 +203,12 @@ private WebApplicationContext webApplicationContext;
 
 
     
-    //
+    //essta es la prueba del metodo patch, se corre con el comando mvn test -Dtest=MarketControllerIntegrationTest#crearMercado
     @Test
     public void ventaProducto() {
-        // Configurar el encabezado HTTP para enviar una solicitud PATCH
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
     
-        // Crear un HttpEntity para encapsular los cambios
         HttpEntity<?> entity = new HttpEntity<>(headers);
     
         // Realizar la solicitud PATCH
@@ -220,19 +218,13 @@ private WebApplicationContext webApplicationContext;
             entity, 
             Spacecraft.class);
     
-        // Asegurar que la respuesta es OK
         assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        // Chamo estuvo aqui 
-    
-        // Asegurar que el crédito de la nave espacial se ha ajustado correctamente
         assertNotNull(response.getBody());
         Spacecraft updatedSpacecraft = response.getBody();
-        // Suponiendo que inicialmente el crédito era 1000 y se venden productos por 10.0
         assertEquals(0, new BigDecimal("990").compareTo(updatedSpacecraft.getCredit()));
     }
 
-    //prueba del metodo post, se corre con el comando mvn test -Dtest=MarketControllerIntegrationTest#crearMercado
+    //prueba del metodo patch para venta de productos (creditos), se corre con el comando mvn test -Dtest=MarketControllerIntegrationTest#crearMercado
     @Test
     public void sellProductTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.patch("/api/market/substract/1/10")
@@ -241,7 +233,7 @@ private WebApplicationContext webApplicationContext;
                 .andExpect(jsonPath("$.credit").value("990.0"));
     }
 
-    //prueba del metodo patch, se corre con el comando mvn test -Dtest=MarketControllerIntegrationTest#actualizarMercado
+    //prueba del metodo patch para venta de productos (stock), se corre con el comando mvn test -Dtest=MarketControllerIntegrationTest#actualizarMercado
     @Test
     public void actualizarMercado() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.patch("/api/market/1/sell")

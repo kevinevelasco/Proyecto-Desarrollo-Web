@@ -157,7 +157,7 @@ public class MarketController {
         marketService.deleteMarket(id);
     }
 
-
+    //localhost:8080/api/market/1
     @PutMapping("")
     public Market updateMarket(@RequestBody Market market) {
         if(market.getPlanet() == null || market.getProduct() == null){ //si recibe planet o product nulos es porque quiere que estos queden igual
@@ -183,5 +183,56 @@ public class MarketController {
 
         return ResponseEntity.ok(marketService.saveMarket(market));
     }
+
+
+//para probar que este controller funciona lo hago desde postman, pongo put y esta url "localhost:8080/api/market/2/update"
+//ademas toca ir a body, en json y poner los datos q uno quiere q cambien
+/*esto es un ejemplo de lo q se puede poner
+{ 
+    "id": 1,
+    "stock": 20000000,
+    "demandFactor": 5,
+    "supplyFactor": 8,
+    "buyPrice": 100.0,
+    "sellPrice": 150.0,
+    "planet": {
+        "id": 1
+    },
+    "product": {
+        "id": 1
+    }
+}*/
+
+    @PutMapping("/{id}/update")
+    public ResponseEntity<Market> updateMarket(@PathVariable Long id, @RequestBody Market updatedMarket) {
+    Market existingMarket = marketService.getMarketById(id);
+
+    if (existingMarket == null) {
+        return ResponseEntity.notFound().build();
+    }
+
+    if (updatedMarket.getPlanet() == null) {
+        updatedMarket.setPlanet(existingMarket.getPlanet());
+    }
+
+    if (updatedMarket.getProduct() == null) {
+        updatedMarket.setProduct(existingMarket.getProduct());
+    }
+
+    existingMarket.setStock(updatedMarket.getStock());
+    existingMarket.setDemandFactor(updatedMarket.getDemandFactor());
+    existingMarket.setSupplyFactor(updatedMarket.getSupplyFactor());
+    existingMarket.setBuyPrice(updatedMarket.getBuyPrice());
+    existingMarket.setSellPrice(updatedMarket.getSellPrice());
+    existingMarket.setPlanet(updatedMarket.getPlanet());
+    existingMarket.setProduct(updatedMarket.getProduct());
+
+    return ResponseEntity.ok(marketService.saveMarket(existingMarket));
+}
+
+
+
+
+
 
 }
