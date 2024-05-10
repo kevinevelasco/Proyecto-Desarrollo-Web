@@ -156,16 +156,28 @@ export class SellComponent implements OnInit, OnDestroy {
 
         if (existe) {
             let toDo = 'add';
-            this.inventoryService.updateInventoryQuantity(spacecraft.id, product.id, toDo).subscribe((inventory: Inventory) => {
+            this.inventoryService.updateInventoryQuantity(spacecraft.id, product.id, toDo).subscribe((inventory) => {
                 console.log('Inventario actualizado:', inventory);
                 this.getInventoryData();
-            });
+            },
+                (error) => {
+                    console.error('Error al actualizar el inventario:', error);
+                    if (error.status === 403) {
+                        this.openAlertDialog('Al parecer eres un PILOTO, por lo tanto no puedes comercializar, dile a tus colegas que compren por ti!');
+                    }
+                });
         }
         else {
-            this.openAlertDialog('El producto no existía en el inventario, se ha actualizado correctamente')
             this.inventoryService.createProductInInventory(spacecraft.id, product.id).subscribe((inventory: Inventory) => {
                 console.log('Inventario creado:', inventory);
+                this.openAlertDialog('El producto no existía en el inventario, se ha actualizado correctamente')
                 this.getInventoryData();
+            },
+            (error) => {
+                console.error('Error al actualizar el inventario:', error);
+                if (error.status === 403) {
+                    this.openAlertDialog('Al parecer eres un PILOTO, por lo tanto no puedes comercializar, dile a tus colegas que compren por ti!');
+                }
             });
         }
 

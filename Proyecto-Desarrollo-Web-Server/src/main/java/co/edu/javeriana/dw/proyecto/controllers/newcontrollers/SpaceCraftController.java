@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +101,8 @@ public class SpaceCraftController {
     }
  //hacemos un método para actualizar el planeta en el que se encuentra la nave, usando el id del jugador y el id del planeta
     //http://localhost:8080/api/spacecraft/player/1/planet/1
+    //MÉTODO REALIZADO UNICAMENTE POR EL ROL DE PILOTO
+    @Secured({ "PILOT", "CAPTAIN" })
     @PatchMapping("/player/{id}/planet/{planetId}")
     public Spacecraft updateSpaceCraftPlanet(@PathVariable Long id, @PathVariable Long planetId) {
         //filtramos en las naves, en las que tenga ese jugador con id = id

@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,6 +66,7 @@ public class MarketController {
 
     
     //localhost:8080/api/market/venta/1/1
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PatchMapping("/{toDo}/{id}/{quantity}")
     public Spacecraft sellProduct(@PathVariable String toDo, @PathVariable Long id, @PathVariable Double quantity){
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(id);
@@ -82,6 +84,7 @@ public class MarketController {
 
     //esto es para reducir el stock del mercado
     //localhost:8080/api/market/venta/1/product/1/planet/1/
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PatchMapping("/{id}/{toDo}")
     public Market sellProductStock(@PathVariable Long id, @PathVariable String toDo){
 
@@ -161,6 +164,7 @@ public class MarketController {
         return marketService.saveMarket(market);
     }
 
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PostMapping("/create/{planetId}/{productId}")
 public ResponseEntity<Market> createMarket(@PathVariable Long planetId, @PathVariable Long productId, @RequestBody Market market) {
 
