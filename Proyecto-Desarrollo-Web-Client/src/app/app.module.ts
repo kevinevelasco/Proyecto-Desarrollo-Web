@@ -35,6 +35,7 @@ import { TravelsComponent } from './shared/travels/travels.component';
 import { TimeExpiredComponent } from './time-expired/time-expired.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptorService } from './interceptors/error-interceptor.service';
+import { AlertComponent } from './shared/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ErrorInterceptorService } from './interceptors/error-interceptor.servic
     SummaryBarComponent,
     HamburguerComponent,
     TravelsComponent,
-    TimeExpiredComponent
+    TimeExpiredComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

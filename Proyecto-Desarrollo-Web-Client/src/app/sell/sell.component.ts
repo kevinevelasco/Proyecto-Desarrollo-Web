@@ -14,6 +14,8 @@ import { Product } from '../model/product';
 import { InventoryService } from '../services/inventory.service';
 import { Inventory } from '../model/inventory';
 import { PageType } from '../shared/background/pageType';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertComponent } from '../shared/alert/alert.component';
 
 @Component({
     selector: 'app-sell',
@@ -36,7 +38,7 @@ export class SellComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
-        private loginService: LoginService,
+        public dialog: MatDialog,
         private playerService: PlayerService,
         private marketService: MarketService,
         private spaceCraftService: SpacecraftService,
@@ -51,7 +53,7 @@ export class SellComponent implements OnInit, OnDestroy {
             this.userLoginOn = true;
             this.userId = userId;
             this.getPlayerData();
-        } else{
+        } else {
             this.router.navigate(['..//login']);
         }
     }
@@ -60,12 +62,12 @@ export class SellComponent implements OnInit, OnDestroy {
         console.log(this.userId);
         if (this.userId != null && this.userId != 0) {
             this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
-            this.userData = player;
-            console.log('El jugador es:', this.userData);
-            this.getSpaceCraftData();
+                this.userData = player;
+                console.log('El jugador es:', this.userData);
+                this.getSpaceCraftData();
             });
         }
-        }
+    }
 
     ngOnDestroy(): void {
     }
@@ -136,19 +138,19 @@ export class SellComponent implements OnInit, OnDestroy {
         console.log('el producto existe en el inventario: ', existe);
 
         if (market.stock == 0) {
-            alert('No hay stock disponible.');
+            this.openAlertDialog('No hay stock disponible.');
             return;
         }
 
         if (spacecraft.credit < market.sellPrice) {
-            alert('No hay suficiente crédito para realizar esta compra.');
+            this.openAlertDialog('No hay suficiente crédito para realizar esta compra.');
             return;
         }
 
         //si al hacer la compra se pasa del almacenamiento, no se puede hacer la compra
         if (this.currentSpacecraftStorage + product.size > spacecraftModel.storage) {
             console.log('el storage maximo es', spacecraftModel.storage, ' y se estaría pasando con la compra: ', this.currentSpacecraftStorage + product.size)
-            alert('No hay suficiente espacio en la nave para realizar esta compra.');
+            this.openAlertDialog('No hay suficiente espacio en la nave para realizar esta compra.');
             return;
         }
 
@@ -160,7 +162,7 @@ export class SellComponent implements OnInit, OnDestroy {
             });
         }
         else {
-            alert('El producto no existía en el inventario, se ha actualizado correctamente')
+            this.openAlertDialog('El producto no existía en el inventario, se ha actualizado correctamente')
             this.inventoryService.createProductInInventory(spacecraft.id, product.id).subscribe((inventory: Inventory) => {
                 console.log('Inventario creado:', inventory);
                 this.getInventoryData();
@@ -186,5 +188,17 @@ export class SellComponent implements OnInit, OnDestroy {
     }
     buy() {
         this.router.navigate(['/sell']);
+    }
+
+    openAlertDialog(message: string) {
+        this.dialog.open(AlertComponent, {
+            data: {
+                message: message
+            },
+            panelClass: '.dialog-container',
+            width: '80%',
+            height: '80%',
+            disableClose: false
+        });
     }
 }
