@@ -166,14 +166,15 @@ public ResponseEntity<Market> createMarket(@PathVariable Long planetId, @PathVar
 
         Planet planet = planetService.getPlanetById(planetId);
         Product product = productService.getProductById(productId);
-
-        //creamos un id temporal para el mercado
-        market.setId((long) (marketService.getAllMarket().size() + 1));
-        market.setStock(1);
-        market.setPlanet(planet);
-        market.setProduct(product);
-
-        return ResponseEntity.ok(marketService.saveMarket(market));
+        Market m = new Market();
+        m.setPlanet(planet);
+        m.setProduct(product);
+        m.setStock(1);
+        m.setDemandFactor(market.getDemandFactor());
+        m.setSupplyFactor(market.getSupplyFactor());
+        m.setBuyPrice(market.getBuyPrice());
+        m.setSellPrice(market.getSellPrice());
+        return ResponseEntity.ok(marketService.saveMarket(m));
     }
 
 }

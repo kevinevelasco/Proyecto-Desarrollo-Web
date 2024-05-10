@@ -53,9 +53,6 @@ private ProductService productService;
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(spacecraftId);
         Product product = productService.getProductById(productId);
         Inventory inventory = new Inventory();
-
-        //creamos un id temporal para el inventario
-        inventory.setId((long) (inventoryService.getAllInventories().size() + 1));
         inventory.setSpacecraft(spacecraft);
         inventory.setProduct(product);
         inventory.setQuantity(1);
