@@ -2,7 +2,7 @@
 
 <app-background [pageType]="pageType" [planetData]="planetData" style="pointer-events: none"></app-background>
 
-<div class="dialog-chart">
+<div *ngIf="planetData" class="dialog-chart">
     <p>En "{{planetData.name}}" Compramos lo que sea!!!</p>
 </div>
 <div class="inventory" *ngIf="inventoryData.length > 0">
