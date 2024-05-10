@@ -177,10 +177,12 @@ public class SpaceCraftController {
     }
 
     @GetMapping("/{spacecraftId}/players")
-    public ResponseEntity<List<Player>> getPlayersBySpacecraft(@PathVariable Long spacecraftId) {
+    public ResponseEntity<List<PlayerDTO>> getPlayersBySpacecraft(@PathVariable Long spacecraftId) {
         Spacecraft spacecraft = spaceCraftService.getSpacecraftById(spacecraftId);
         if(spacecraft != null && spacecraft.getPlayers() != null) {
-            List<Player> players = spacecraft.getPlayers().stream().map(player -> new Player(player.getId(), player.getUsername(), player.getPassword(), player.getType(), player.getSpacecraft())).collect(Collectors.toList());
+            List<PlayerDTO> players = spacecraft.getPlayers().stream().map(player -> new PlayerDTO(player.getId(), player.getUsername())).collect(Collectors.toList());
+            System.out.println("Jugadores encontrados: ");
+            players.forEach(System.out::println);
             return ResponseEntity.ok(players);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

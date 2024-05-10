@@ -1,18 +1,15 @@
 <body>
     <h1 *ngIf="!userLoginOn">No estás logueado, no puedes acceder a esta funcionalidad.</h1>
-
+    <div class="info">
+        <h2>Nombre del equipo: {{ spaceCraftData?.name }}</h2>
+    </div>
     <!-- Contenedor principal solo visible si el usuario está logueado -->
-    <div *ngIf="userLoginOn" class="user-section">
-        <!-- Sección de nombre de la nave -->
-        <div class="nombre nave">
-            <h2>Nombre del equipo: {{ spaceCraftData?.name }}</h2>
-        </div>
-        
+    <div *ngIf="userLoginOn" class="user-section">        
         <!-- Sección de integrantes de la nave, visible solo si hay un planeta y jugadores en la nave -->
         <div *ngIf="planet && playersInSpacecraft.length > 0" class="planet-info">
-            <h2 class="nombre nave">Integrantes de la nave</h2>
+
             <div class="integrants-list">
-                <!-- Listado de integrantes generados dinámicamente -->
+                <h2 style="text-align: center;">Integrantes </h2>
                 <div *ngFor="let player of playersInSpacecraft" class="integrant">
                     {{ player.userName }}
                 </div>

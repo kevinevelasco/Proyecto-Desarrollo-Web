@@ -75,7 +75,23 @@ loadSpacecrafts(): void {
   this.spaceCraftService.getSpacecraftsByPlanet(this.planet.id).subscribe((spacecrafts: Spacecraft[]) => {
     console.log('Las naves son:', spacecrafts); //TODO no funciona porque no se mapea bien el Player de Spring con el Player de Angular
     this.spacecrafts = spacecrafts;
+    //Por cada spacecraft, asignamos su lista de players
+    this.spacecrafts.forEach(spacecraft => {
+      this.loadPlayers(spacecraft);
+    });
   });
   }
 }
+  loadPlayers(spacecraft: Spacecraft) {
+    if (spacecraft) {
+      this.playerService.getPlayersBySpacecraft(spacecraft.id).subscribe({
+          next: (players: Player[]) => {
+            spacecraft.players = players;
+          },
+          error: (error) => {
+              console.log('Error fetching players:', error);
+          }
+      });
+  }
+  }
 }
