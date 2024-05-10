@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'sell', component: BuyComponent}, //xd
   { path: 'spacecraft-model', component: SpacecraftModelComponent},
   { path: 'inventory', component: InventoryComponent},
+  { path: '**', component: DashboardComponent },
   { path: '', pathMatch: 'full', redirectTo: '/login' },
 ];
 
