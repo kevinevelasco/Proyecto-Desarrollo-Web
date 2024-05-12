@@ -4,7 +4,9 @@
     <div *ngIf="inventoryData.length > 0" class="items">
         <div *ngFor="let item of inventoryData" class="inventory-item">
             <div class="chart">
-            <img class="img" src="\assets\img\inventoryaux.png">
+            <div class="img">
+                <img src="\assets\items\{{item.product.name.toLowerCase().split(' ').join('_')}}.png" alt="{{ item.product.name }}">
+            </div>
             <p class="name">{{item.product.name}}</p>
             </div>
             <p class="quantity">{{item.quantity}}</p>

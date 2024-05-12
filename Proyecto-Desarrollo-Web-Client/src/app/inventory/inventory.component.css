@@ -15,7 +15,7 @@ h2{
     text-transform: uppercase;
 }
 .inventory-item{
-    width: 10%;
+    width: 5%;
     height: 20%;
     display: inline-block;
     padding: 0;
@@ -30,10 +30,13 @@ h2{
     border: 1px solid var(--primary);
     box-shadow: 0 0 20px var(--primary);
 }
-.img{
-    width: 100%;
-    height: 100%;
+.img {
+    height: 50%;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
 }
+
 
 .name{
     width: 100%;

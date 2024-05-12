@@ -9,7 +9,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -197,39 +203,32 @@ public class DbInitializer implements CommandLineRunner {
             player.setSpacecraft(spacecraftRepository.findById(spacecraftId).get());
             playerRepository.save(player);
         }
-        int totalItemsPrinted = 0;
-        int totalItemsToPrint = 500;
-        List<Supplier<String>> fakerCategories = new ArrayList<>();
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("minecraft.item_name"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.spices"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.dish"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.fruits"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.vegetables"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.sushi"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("creature.animal.name"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("creature.animal.genus"));
+        Path directory = Paths.get("../Proyecto-Desarrollo-Web-Client/src/assets/items");
+        System.out.println(directory.toAbsolutePath().toString());
 
-        // Itera a través de cada categoría de Faker
-        for (Supplier<String> category : fakerCategories) {
-            while (totalItemsPrinted < totalItemsToPrint) {
-                try {
-                    Product product = new Product();
-                    product.setName(category.get());
-                    //generamos un numero aleatorio que identifica los metros cubicos que ocupa el producto
-                    product.setSize(faker.number().randomDouble(2, 1, 10));
-
-                    productRepository.save(product);
-                    totalItemsPrinted++;
-                } catch (Exception e) {
-                    // Rompe el bucle interno si se agotan los elementos únicos de la categoría actual
-                    break;
+        if (Files.isDirectory(directory)) {
+            System.out.println("El directorio existe.");
+            File[] files = directory.toFile().listFiles();
+            for (File file : files) {
+                Product product = new Product();
+                String name = file.getName();
+                String step1 = name.replace("_", " ");
+                String step2 = step1.replace(".png", "");
+                String[] words = step2.split(" ");
+                StringBuilder result = new StringBuilder();
+                for (String word : words) {
+                    if (!word.isEmpty()) {
+                        result.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(" ");
+                    }
                 }
+                product.setName(result.toString().trim());
+                product.setSize(faker.number().randomDouble(2, 1, 10));
+                productRepository.save(product);
             }
-            // Verifica si ya se alcanzó el límite total de impresiones
-            if (totalItemsPrinted >= totalItemsToPrint) {
-                break;
-            }
+        } else {
+            System.out.println("El directorio no existe.");
         }
+
         Set<Product> uniqueProducts = new HashSet<>();
 
         for (int i = 0; i < 400; i++) {
@@ -299,11 +298,5 @@ public class DbInitializer implements CommandLineRunner {
                     inventoryRepository.save(inventory);
             }
         }
-        //creamos al administrador
-//        Player admin = new Player();
-//        admin.setUserName("admin");
-//        admin.setPassword("admin");
-//        playerRepository.save(admin);
-
     }
 }
