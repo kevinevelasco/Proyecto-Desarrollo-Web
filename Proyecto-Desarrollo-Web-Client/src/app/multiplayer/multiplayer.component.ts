@@ -7,6 +7,8 @@ import { PlayerService } from '../services/player.service';
 import { SpacecraftService } from '../services/spacecraft.service';
 import { Planet } from '../model/planet';
 import { Router } from '@angular/router';
+import { SpacecraftModelService } from '../services/spacecraft-model.service';
+import { SpacecraftModel } from '../model/spacecraft-model';
 
 @Component({
   selector: 'app-multiplayer',
@@ -26,7 +28,7 @@ export class MultiplayerComponent {
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
 
-  constructor(private router: Router,private playerService: PlayerService, private spaceCraftService : SpacecraftService) { }
+  constructor(private spacecraftModelService: SpacecraftModelService,private playerService: PlayerService, private spaceCraftService : SpacecraftService) { }
 
   ngOnInit(): void {
     const userId: number = +(sessionStorage.getItem(this.ID) || 0);
@@ -73,11 +75,12 @@ loadPlanet(): void {
 loadSpacecrafts(): void {
   if(this.planet != null){
   this.spaceCraftService.getSpacecraftsByPlanet(this.planet.id).subscribe((spacecrafts: Spacecraft[]) => {
-    console.log('Las naves son:', spacecrafts); //TODO no funciona porque no se mapea bien el Player de Spring con el Player de Angular
+    console.log('Las naves son:', spacecrafts);
     this.spacecrafts = spacecrafts;
     //Por cada spacecraft, asignamos su lista de players
     this.spacecrafts.forEach(spacecraft => {
       this.loadPlayers(spacecraft);
+      this.getSpacecraftModelsData(spacecraft);
     });
   });
   }
@@ -93,5 +96,15 @@ loadSpacecrafts(): void {
           }
       });
   }
+  }
+
+  getSpacecraftModelsData(spacecraft: Spacecraft): void {
+    if (spacecraft) {
+      this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(spacecraft.id)
+        .subscribe((spacecraftModel: SpacecraftModel) => {
+          spacecraft.spacecraftModel = spacecraftModel;
+          console.log('Spacecraft model:', spacecraft.spacecraftModel);
+        });
+    }
   }
 }

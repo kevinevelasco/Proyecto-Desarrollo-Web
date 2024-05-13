@@ -141,21 +141,26 @@ public class DbInitializer implements CommandLineRunner {
             starRepository.save(star);
 
         }
-        for (int i = 0; i < 10; i++) {
-            SpacecraftModel spacecraftModel = new SpacecraftModel();
-            while (true) {
-                try {
-                    spacecraftModel.setModelName(faker.unique().fetchFromYaml("space.nasa_space_craft"));
-                } catch (NoSuchElementException e) {
-                    spacecraftModel.setModelName(faker.unique().fetchFromYaml("star_wars.vehicles"));
-                    break;
-                } finally {
-                    spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
-                    spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 10, 100));
-                    spacecraftModelRepository.save(spacecraftModel);
-                }
+
+        Path d = Paths.get("../Proyecto-Desarrollo-Web-Client/src/assets/ships");
+        if(Files.isDirectory(d)){
+            System.out.println("El directorio existe.");
+            File[] files = d.toFile().listFiles();
+            for (File file : files) {
+                SpacecraftModel spacecraftModel = new SpacecraftModel();
+                String name = file.getName();
+                String step1 = name.replace("_", " ");
+                String step2 = step1.replace(".png", "");
+                spacecraftModel.setModelName(step2.trim());
+                spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
+                spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 10, 100));
+                spacecraftModelRepository.save(spacecraftModel);
             }
+        } else {
+            System.out.println("El directorio no existe.");
+
         }
+
         for (int i = 0; i < 10; i++) {
             Spacecraft spacecraft = new Spacecraft();
             spacecraft.setName(faker.team().name());
@@ -204,7 +209,7 @@ public class DbInitializer implements CommandLineRunner {
             playerRepository.save(player);
         }
         Path directory = Paths.get("../Proyecto-Desarrollo-Web-Client/src/assets/items");
-        System.out.println(directory.toAbsolutePath().toString());
+        System.out.println(directory.toAbsolutePath());
 
         if (Files.isDirectory(directory)) {
             System.out.println("El directorio existe.");

@@ -20,7 +20,7 @@ export class SpacecraftModelComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
   userData?: Player;
   userId: number
-  spaceCraftData?: Spacecraft;
+  spaceCraftData: Spacecraft;
   spacecraftModelsData?: SpacecraftModel;
   playersInSpacecraft: Player[] = [];
   planet?: Planet;

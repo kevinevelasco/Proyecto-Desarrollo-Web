@@ -17,7 +17,7 @@
         </div>
 
         <!-- Imagen de la nave espacial -->
-        <img src="/assets/img/starshipimgaux.png" class="spacecraft-image">
+            <img src="\assets\ships\{{spacecraftModelsData!.modelName.split(' ').join('_')}}.png" alt="{{spacecraftModelsData!.modelName}}" class="spacecraft-image" />
 
         <!-- Detalles de la nave, visibles solo si hay datos del modelo -->
         <div *ngIf="spacecraftModelsData" class="details-container">
