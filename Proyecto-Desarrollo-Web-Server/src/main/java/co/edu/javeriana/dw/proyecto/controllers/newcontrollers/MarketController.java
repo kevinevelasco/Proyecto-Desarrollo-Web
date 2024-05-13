@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,6 +54,10 @@ public class MarketController {
     private SpacecraftService spacecraftService;
     @Autowired
     private SpacecraftModelService spacecraftModelService;
+    @Autowired
+    public MarketController(MarketService marketService) {
+        this.marketService = marketService;
+    }
 
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -61,7 +66,12 @@ public class MarketController {
     public List<Market> listMarkets() {
         return marketService.getAllMarket();
     }
-    
+
+    // Constructor para inyectar dependencias en pruebas
+    public MarketController(SpacecraftService spacecraftService) {
+        this.spacecraftService = spacecraftService;
+    }
+
 
     //localhost:8080/api/market/venta/1/1
     //esta prueba sirve para probar la venta de productos
@@ -153,8 +163,14 @@ public class MarketController {
 
     //localhost:8080/api/market/1   en donde esta el 1 se pone el numero del id del mercado que se quiere borrar
     @DeleteMapping("/{id}")
-    public void deleteMarket(@PathVariable Long id) {
-        marketService.deleteMarket(id);
+    public ResponseEntity<?> deleteMarket(@PathVariable Long id) {
+        Market market = marketService.getMarketById(id);
+        if(market != null){
+            marketService.deleteMarket(id);
+            return ResponseEntity.ok(market);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     //localhost:8080/api/market/1

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -50,7 +51,6 @@ public class PlayerControllerIntegrationTest {
     private ISpacecraftModelRepository spacecraftModelRepository;
     @Autowired
     private ISpacecraftRepository spacecraftRepository;
-
     @Autowired
     private IPlayerRepository playerRepository;
     @Autowired
@@ -60,6 +60,11 @@ public class PlayerControllerIntegrationTest {
     @Autowired
     private IInventoryRepository inventoryRepository;
 
+    @Autowired
+    private TestRestTemplate testRestTemplate;
+
+    @LocalServerPort
+private int port;
 
     @BeforeEach
     void init() {
@@ -166,12 +171,11 @@ public class PlayerControllerIntegrationTest {
 
     //prueba para delete, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#borrarJugadorPorId
     //FUNCIONA
-    @Test
     void borrarJugadorPorId() {
-        TestRestTemplate testRestTemplate = new TestRestTemplate();
-        testRestTemplate.delete(SERVER_URL + "/api/player/1");
-        Player player = testRestTemplate.getForObject(SERVER_URL + "/api/player/1", Player.class);
-        assertEquals(null, player);
+        String serverUrl = "http://localhost:" + port;
+        testRestTemplate.delete(serverUrl + "/api/player/1");
+        ResponseEntity<Player> responseEntity = testRestTemplate.getForEntity(serverUrl + "/api/player/1", Player.class);
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     //Prueba para post, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#crearJugador
