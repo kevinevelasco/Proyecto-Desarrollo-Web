@@ -17,12 +17,12 @@
                         <td class="product-info">
                             <div class="product-name">{{ item.product.name }}</div>
                             <div class="product-details">
-                                Cantidad: {{ item.quantity }}
+                                <div class="cantidad" id="cantidadProductoBuy">Cantidad: {{ item.quantity }}</div>
                                 <ng-container *ngFor="let precio of marketData">
                                     <div *ngIf="item.product.id == precio.product.id && planetData != null"
                                         class="partePrecio">
                                         <div>Precio: {{ precio.sellPrice }}</div>
-                                        <button class="sell-button"
+                                        <button class="sell-button" id="botonVender"
                                             (click)="venderProductos(precio, item.product, precio.sellPrice, planetData.id)">Vender
                                             producto</button>
                                     </div>
@@ -37,6 +37,6 @@
 </div>
 
 <div class="botonesAccion">
-    <button class="vender" (click)="sell()">IR A COMPRAR</button>
+    <button class="vender" id="irComprar"(click)="sell()">IR A COMPRAR</button>
 </div>
 <app-travels></app-travels>

@@ -2,6 +2,8 @@ package co.edu.javeriana.dw.proyecto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -9,8 +11,19 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -26,22 +39,41 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import co.edu.javeriana.dw.proyecto.controllers.newcontrollers.PlayerController;
+import co.edu.javeriana.dw.proyecto.controllers.newcontrollers.MarketController;
 import co.edu.javeriana.dw.proyecto.model.*;
 import co.edu.javeriana.dw.proyecto.persistence.*;
-import co.edu.javeriana.dw.proyecto.service.PlayerService;
+import co.edu.javeriana.dw.proyecto.service.MarketService;
+import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
 
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.WebApplicationContext;
 
-//Para correr todas al mismo tiempo se debe usar mvn test -Dtest=co.edu.javeriana.dw.proyecto.PlayerControllerIntegrationTest
+import java.time.Duration;
 
-@ActiveProfiles("integration-testing")
-@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.http.MediaType;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import org.springframework.web.context.WebApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import co.edu.javeriana.dw.proyecto.service.MarketService;
+
+//para correr solo esta parte de pruebas usar el comando mvn -Dtest=MarketSystemTest test
+
+@ActiveProfiles("systemtest")
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-public class PlayerControllerIntegrationTest {
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+public class MarketSystemTest {
 
-    private static final String SERVER_URL = "http://localhost:8081";
+    private ChromeDriver browser;
+    private WebDriverWait wait;
 
     @Autowired
     private IStarRepository starRepository;
@@ -60,11 +92,9 @@ public class PlayerControllerIntegrationTest {
     @Autowired
     private IInventoryRepository inventoryRepository;
 
-    @Autowired
-    private TestRestTemplate testRestTemplate;
 
-    @LocalServerPort
-private int port;
+    String baseUrl;
+    
 
     @BeforeEach
     void init() {
@@ -89,9 +119,9 @@ private int port;
         Planet planet9 = planetRepository.save(new Planet("Planeta9", star3));
 
         // Crear modelos de naves espaciales del servidor de pruebas
-        SpacecraftModel model1 = spacecraftModelRepository.save(new SpacecraftModel("Modelo A", 100.0, 2.5));
-        SpacecraftModel model2 = spacecraftModelRepository.save(new SpacecraftModel("Modelo B", 150.0, 3.0));
-        SpacecraftModel model3 = spacecraftModelRepository.save(new SpacecraftModel("Modelo C", 200.0, 4.0));
+        SpacecraftModel model1 = spacecraftModelRepository.save(new SpacecraftModel("Modelo A", 1000.0, 2.5));
+        SpacecraftModel model2 = spacecraftModelRepository.save(new SpacecraftModel("Modelo B", 1500.0, 3.0));
+        SpacecraftModel model3 = spacecraftModelRepository.save(new SpacecraftModel("Modelo C", 2000.0, 4.0));
 
         // Crear naves espaciales para cada planeta de la estrella 1 del servidor de pruebas
         spacecraftRepository.save(new Spacecraft("Nave 1", new BigDecimal("1000"), 150.0, planet1, model1));
@@ -157,85 +187,91 @@ private int port;
         inventoryRepository.save(new Inventory(spacecraft2, product3, 200));
         inventoryRepository.save(new Inventory(spacecraft3, product1, 250));
 
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments(new String[]{"--no-sandbox"});
+        options.addArguments(new String[]{"--disable-gpu"});
+        options.addArguments(new String[]{"--disable-extensions"});
+        options.addArguments(new String[]{"start-maximized"});
+
+        this.browser = new ChromeDriver(options);
+        this.wait = new WebDriverWait(this.browser, Duration.ofSeconds(10L));
+
+        this.baseUrl = "http://localhost:4200";
+    }
+
+    @AfterEach
+    void end(){
+        this.browser.quit();
     }
 
 
-    //Prueba para get, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#traerJugadorPorId
-    //FUNCIONA  
+    //para correr la prueba se usa el comando mvn -Dtest=MarketSystemTest#venderProducto test
     @Test
-    void traerJugadorPorId() {
-        TestRestTemplate testRestTemplate = new TestRestTemplate();
-        Player player = testRestTemplate.getForObject(SERVER_URL + "/api/player/1", Player.class);
-        assertEquals("jugador1", player.getUserName());
+    void venderProducto() {
+        this.browser.get(baseUrl + "/login");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("username")));
+        WebElement username = this.browser.findElement(By.id("username"));
+        username.sendKeys("jugador1");
+        WebElement password = this.browser.findElement(By.id("password"));
+        password.sendKeys("12345");
+        WebElement botonIniciar = this.browser.findElement(By.id(   "iniciarSesion"));
+        botonIniciar.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
+
+        // esto es mientras se quita cuando se arregle lo de sin tiempo
+        this.browser.navigate().refresh();
+        //q no se nos olvide quitar lo de arriba!!!
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
+        WebElement botonIniciarJuego = this.browser.findElement(By.id("iniciarJuego"));
+        botonIniciarJuego.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("botonVender")));
+        WebElement botonVender = this.browser.findElement(By.id("botonVender"));
+        botonVender.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("cantidadProductoBuy")));
+        WebElement cantidadProducto = this.browser.findElement(By.id("cantidadProductoBuy"));
+        String cantidadEsperada = "Cantidad: 99";
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(cantidadProducto, cantidadEsperada));
+        } catch (TimeoutException e) {
+            fail("No se pudo vender, se encontró " + cantidadProducto.getText());
+        }
     }
 
-    //prueba para delete, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#borrarJugadorPorId
-    //FUNCIONA
-    void borrarJugadorPorId() {
-        String serverUrl = "http://localhost:" + port;
-        testRestTemplate.delete(serverUrl + "/api/player/1");
-        ResponseEntity<Player> responseEntity = testRestTemplate.getForEntity(serverUrl + "/api/player/1", Player.class);
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-    }
-
-    //Prueba para post, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#testRegisterPlayer
-    //FUNCIONA
+    //para correr la prueba se usa el comando mvn -Dtest=MarketSystemTest#comprarProducto test
     @Test
-    public void testRegisterPlayer() {
-        PlayerService playerService = mock(PlayerService.class);
-        PlayerController playerController = new PlayerController(playerService);
-        // el "jugador" q se va a crear
-        Player player = new Player();
-        player.setUserName("nombredeusuario");
-        player.setPassword("contraseña");
-        when(playerService.getPlayerByUsername("nombredeusuario")).thenReturn(null);
-        when(playerService.savePlayer(player)).thenReturn(player); 
-        ResponseEntity<Player> responseEntity = playerController.registerPlayer(player);
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(player, responseEntity.getBody());
-    }
+    void comprarProducto(){
+        this.browser.get(baseUrl + "/login");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("username")));
+        WebElement username = this.browser.findElement(By.id("username"));
+        username.sendKeys("jugador1");
+        WebElement password = this.browser.findElement(By.id("password"));
+        password.sendKeys("12345");
+        WebElement botonIniciar = this.browser.findElement(By.id("iniciarSesion"));
+        botonIniciar.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
 
+        // esto es mientras se quita cuando se arregle lo de sin tiempo
+        this.browser.navigate().refresh();
+        //q no se nos olvide quitar lo de arriba!!!
 
-    //Prueba para put, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#actualizarJugador
-    //FUNCIONA
-    @Test
-    public void actualizarJugador() {
-        PlayerService playerService = mock(PlayerService.class);
-        PlayerController playerController = new PlayerController(playerService);
-        Long playerId = 1L;
-        Player existingPlayer = new Player();
-        existingPlayer.setId(playerId);
-        existingPlayer.setUserName("nombredeusuario");
-        existingPlayer.setPassword("contraseña");
-        Player updatedPlayer = new Player();
-        updatedPlayer.setId(playerId);
-        updatedPlayer.setUserName("nuevoNombreDeUsuario");
-        updatedPlayer.setPassword("nuevaContraseña");
-        when(playerService.getPlayerById(playerId)).thenReturn(existingPlayer);
-        when(playerService.savePlayer(updatedPlayer)).thenReturn(updatedPlayer); 
-        ResponseEntity<Player> responseEntity = playerController.updatePlayer(playerId, updatedPlayer);
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(updatedPlayer, responseEntity.getBody());
-    }
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
+        WebElement botonIniciarJuego = this.browser.findElement(By.id("iniciarJuego"));
+        botonIniciarJuego.click();
 
-
-    //Prueba para patch, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#actualizarJugadorParcialmente
-    //FUNCIONA
-    @Test
-    public void actualizarJugadorParcialmente() {
-        PlayerService playerService = mock(PlayerService.class);
-        PlayerController playerController = new PlayerController(playerService);
-        Long playerId = 1L;
-        Player existingPlayer = new Player();
-        existingPlayer.setId(playerId);
-        existingPlayer.setUserName("nombredeusuario");
-        existingPlayer.setPassword("contraseña");
-        Player updatedPlayer = new Player();
-        updatedPlayer.setUserName("nuevoNombreDeUsuario");
-        when(playerService.getPlayerById(playerId)).thenReturn(existingPlayer); 
-        when(playerService.savePlayer(existingPlayer)).thenReturn(existingPlayer);
-        ResponseEntity<Player> responseEntity = playerController.updatePlayerPartially(playerId, updatedPlayer);
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(existingPlayer, responseEntity.getBody());
+        WebElement comprar = this.browser.findElement(By.id("irComprar"));
+        comprar.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("botonComprar")));
+        WebElement botonComprar = this.browser.findElement(By.id("botonComprar"));
+        botonComprar.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("botonComprar")));
+        WebElement cantidadProducto = this.browser.findElement(By.id("cantidadProducto")); 
+        String cantidadEsperada = "Stock: 99";
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(cantidadProducto, cantidadEsperada));
+        } catch (TimeoutException e) {
+            fail("No se pudo comprar, se encontró " + cantidadProducto.getText());
+        }
     }
 }

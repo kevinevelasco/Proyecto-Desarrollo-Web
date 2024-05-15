@@ -20,10 +20,10 @@
                         <div class="product-name">{{ item.product.name }}</div>
                         <div class="product-details">
                             Precio: {{ item.buyPrice }}
-                            Stock: {{ item.stock }}
+                            <div class="cantidadProducto" id="cantidadProducto"> Stock: {{ item.stock }} </div>
                             Tamaño: {{ item.product.size }}
                         </div>
-                        <button class="buy-button" *ngIf="spaceCraftData && spacecraftModelsData"
+                        <button class="buy-button" *ngIf="spaceCraftData && spacecraftModelsData" id="botonComprar"
                             (click)="comprarProducto(item.product, item, spaceCraftData, spacecraftModelsData)">Comprar
                         </button>
                     </td>
