@@ -193,7 +193,7 @@ public class MarketControllerIntegrationTest {
         assertEquals("Producto1", market.getProduct().getName());
     }
 
-    
+    //en postman para probar el metodo delete se debe hacer una peticion delete a la url http://localhost:8081/api/market/1
     //Prueba del metodo delete con el comando mvn test -Dtest=MarketControllerIntegrationTest#borrarMercado 
     //FUNCIONA sola, da error con todos
     /*
@@ -216,7 +216,6 @@ public class MarketControllerIntegrationTest {
      }
      */
 
-    //en postman para probar el metodo delete se debe hacer una peticion delete a la url http://localhost:8081/api/market/1
     //Esta es una prueba patch para la venta de productos, se corre con el comando mvn test -Dtest=MarketControllerIntegrationTest#sellProductStockTest
     @Test
     public void sellProductStockTest() {
