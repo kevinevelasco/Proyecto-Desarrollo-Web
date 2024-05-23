@@ -15,7 +15,7 @@ export class TimeService {
   spaceCraftData?: Spacecraft;
   started: boolean = false;
   isPaused: boolean = false;
-  private counterSubject = new BehaviorSubject<number>(0);
+  private counterSubject = new BehaviorSubject<number>(-1);
   public counter$ = this.counterSubject.asObservable();
   private interval: any;
 
@@ -29,8 +29,7 @@ export class TimeService {
   }
   restartValues(): void {
     this.started = false;
-    this.isPaused = false;
-    localStorage.removeItem('time');
+    this.isPaused = true;
   }
 
   public loadTime( time:number): void {
@@ -50,6 +49,11 @@ export class TimeService {
     let currentCounter = this.counterSubject.getValue();
     currentCounter=Math.max(0, currentCounter-1);
     localStorage.setItem('time', currentCounter.toString());
+    console.log('Tiempo actual:', currentCounter);
+    if(currentCounter==0){
+      localStorage.setItem('time', '1');
+      this.pauseCountdown();
+    }
     this.counterSubject.next(currentCounter);
   }
 

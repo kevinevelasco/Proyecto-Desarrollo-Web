@@ -33,14 +33,6 @@ export class SummaryBarComponent {
 
   ngOnInit(): void {
 
-    // if (!sessionStorage.getItem('reloaded')) {
-    //   sessionStorage.setItem('reloaded', 'true');
-    //   window.location.reload();
-    // } else {
-    //   sessionStorage.removeItem('reloaded'); // Asegurarse de limpiar para la próxima visita
-    // }
-    // // TODO esto es lo que daña space-travel
-
     const userId: number = +(sessionStorage.getItem(this.ID) || 0);
     console.log(userId);
     if (userId != 0 && userId != null) {
@@ -48,14 +40,6 @@ export class SummaryBarComponent {
       this.userData = userId;
     }
     this.getPlayerData();
-    // this.timeSubscription = this.timeService.counter$.subscribe({
-    //   next: (time) => {
-    //     this.time = time;
-    //     if (this.time == 0) {
-    //       this.TimeExpired();
-    //     }
-    //   } //TODO falta hacer esto bien
-    // });
     this.spaceCraftSubscription = this.spaceCraftService.spaceCraftData$.subscribe({
       next: (spaceCraft) => {
         if (spaceCraft) {
@@ -97,6 +81,15 @@ export class SummaryBarComponent {
           this.playerData.spacecraft = spacecraft;
         }
         this.timeService.loadTime(spacecraft.totalTime);
+        this.timeSubscription = this.timeService.counter$.subscribe({
+          next: (time) => {
+             this.time = time;
+             if (this.time == 0) {
+              console.log('Tiempo expirado');
+               this.TimeExpired();
+             }
+           } 
+         });
       });
     }
   }

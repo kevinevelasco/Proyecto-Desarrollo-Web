@@ -33,7 +33,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private userDataSubscription: Subscription;
   constructor(private loginService: LoginService, private playerService: PlayerService,
     private spaceCraftService: SpacecraftService, private router: Router, private timeService: TimeService) { 
-    this.timeService.restartValues();
     }
   ngOnInit(): void {
 
@@ -112,6 +111,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.timeService.restartValues();
     this.loginService.logout();
     this.userLoginOn = false;
+    this.timeService.pauseCountdown();
     this.router.navigate(['..//login']);
   }
 

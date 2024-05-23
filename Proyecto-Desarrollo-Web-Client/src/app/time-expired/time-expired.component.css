@@ -23,3 +23,26 @@ h1{
 p{
     font-size: 30px;
 }
+.exit-button {
+    font-family: 'Big Shoulders Display';
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 1px solid red;
+    background-color: transparent;
+    color: red;
+    padding: 20px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  
+  .exit-button:hover {
+    background-color: red;
+    color: black;
+    border-color: red;
+  }
+  
+  .button-container {
+    margin-top: 20px;
+  }
+  
