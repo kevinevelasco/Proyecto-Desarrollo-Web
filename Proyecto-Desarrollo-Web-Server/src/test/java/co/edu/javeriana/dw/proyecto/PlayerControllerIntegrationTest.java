@@ -3,12 +3,11 @@ package co.edu.javeriana.dw.proyecto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +15,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 
+import co.edu.javeriana.dw.proyecto.auth.AuthResponse;
+import co.edu.javeriana.dw.proyecto.auth.LoginRequest;
 import co.edu.javeriana.dw.proyecto.controllers.newcontrollers.PlayerController;
 import co.edu.javeriana.dw.proyecto.model.*;
 import co.edu.javeriana.dw.proyecto.persistence.*;
 import co.edu.javeriana.dw.proyecto.service.PlayerService;
 
-import org.springframework.web.client.RestTemplate;
-
 //Para correr todas al mismo tiempo se debe usar mvn test -Dtest=co.edu.javeriana.dw.proyecto.PlayerControllerIntegrationTest
-
 @ActiveProfiles("integration-testing")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -61,7 +59,10 @@ public class PlayerControllerIntegrationTest {
     private IInventoryRepository inventoryRepository;
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TestRestTemplate rest;
 
     @LocalServerPort
 private int port;
@@ -114,17 +115,18 @@ private int port;
         Spacecraft spacecraft3 = spacecraftRepository.findById(3L).orElseThrow(() -> new RuntimeException("Spacecraft not found"));
 
         // Crear jugadores y asignarlos a las naves
-        playerRepository.save(new Player("jugador1", "12345", PlayerType.PILOT, spacecraft1));
-        playerRepository.save(new Player("jugador2", "12345", PlayerType.CAPTAIN, spacecraft1));
-        playerRepository.save(new Player("jugador3", "12345", PlayerType.MERCHANT, spacecraft1));
+        playerRepository.save(new Player("jugador1", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft1));
+        playerRepository.save(new Player("jugador2", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft1));
+        playerRepository.save(new Player("jugador3", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft1));
 
-        playerRepository.save(new Player("jugador4", "12345", PlayerType.PILOT, spacecraft2));
-        playerRepository.save(new Player("jugador5", "12345", PlayerType.CAPTAIN, spacecraft2));
-        playerRepository.save(new Player("jugador6", "12345", PlayerType.MERCHANT, spacecraft2));
+        playerRepository.save(new Player("jugador4", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft2));
+        playerRepository.save(new Player("jugador5", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft2));
+        playerRepository.save(new Player("jugador6", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft2));
 
-        playerRepository.save(new Player("jugador7", "12345", PlayerType.PILOT, spacecraft3));
-        playerRepository.save(new Player("jugador8", "12345", PlayerType.CAPTAIN, spacecraft3));
-        playerRepository.save(new Player("jugador9", "12345", PlayerType.MERCHANT, spacecraft3));
+        playerRepository.save(new Player("jugador7", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft3));
+        playerRepository.save(new Player("jugador8", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft3));
+        playerRepository.save(new Player("jugador9", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft3));
+
 
         // Crear productos
         productRepository.save(new Product(0.5, "Producto1"));
@@ -160,34 +162,58 @@ private int port;
     }
 
 
+    private AuthResponse login(String username, String password) {
+        LoginRequest loginRequest = new LoginRequest(username, password);
+        System.out.println("Sending login request for user: " + username);
+        RequestEntity<LoginRequest> request = RequestEntity.post(SERVER_URL + "/auth/login")
+                .body(loginRequest);
+        ResponseEntity<AuthResponse> response = rest.exchange(request, AuthResponse.class);
+        System.out.println("Received response: " + response);
+        if (response.getBody() == null) {
+            System.out.println("Response body is null");
+        } else {
+            System.out.println("Response token: " + response.getBody().getToken());
+        }
+        assertNotNull(response.getBody());
+        return response.getBody();
+    }
+    
+
     //Prueba para get, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#traerJugadorPorId
-    //FUNCIONA  
     @Test
     void traerJugadorPorId() {
-        TestRestTemplate testRestTemplate = new TestRestTemplate();
-        Player player = testRestTemplate.getForObject(SERVER_URL + "/api/player/1", Player.class);
-        assertEquals("jugador1", player.getUserName());
+        AuthResponse authResponse = login("jugador1", "12345");
+        RequestEntity<Void> request = RequestEntity.get(SERVER_URL + "/api/player/1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + authResponse.getToken())
+                .build();
+        ResponseEntity<PlayerDTO> response = rest.exchange(request,
+         PlayerDTO.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(1L, response.getBody().getId());
+
     }
 
     //prueba para delete, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#borrarJugadorPorId
-    //FUNCIONA
     void borrarJugadorPorId() {
-        String serverUrl = "http://localhost:" + port;
-        testRestTemplate.delete(serverUrl + "/api/player/1");
-        ResponseEntity<Player> responseEntity = testRestTemplate.getForEntity(serverUrl + "/api/player/1", Player.class);
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        AuthResponse authResponse = login("jugador1", "12345");
+        RequestEntity<Void> request = RequestEntity.delete(SERVER_URL + "/api/player/1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + authResponse.getToken())
+                .build();
+        ResponseEntity<Void> response = rest.exchange(request, Void.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     //Prueba para post, para acceder usar comando mvn test -Dtest=PlayerControllerIntegrationTest#testRegisterPlayer
-    //FUNCIONA
     @Test
     public void testRegisterPlayer() {
+
         PlayerService playerService = mock(PlayerService.class);
         PlayerController playerController = new PlayerController(playerService);
         // el "jugador" q se va a crear
         Player player = new Player();
         player.setUserName("nombredeusuario");
         player.setPassword("contraseña");
+
         when(playerService.getPlayerByUsername("nombredeusuario")).thenReturn(null);
         when(playerService.savePlayer(player)).thenReturn(player); 
         ResponseEntity<Player> responseEntity = playerController.registerPlayer(player);

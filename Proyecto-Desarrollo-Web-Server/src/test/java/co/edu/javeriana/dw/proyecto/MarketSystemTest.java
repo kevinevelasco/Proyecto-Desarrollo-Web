@@ -36,6 +36,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
@@ -92,6 +93,9 @@ public class MarketSystemTest {
     @Autowired
     private IInventoryRepository inventoryRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     String baseUrl;
     
@@ -143,18 +147,19 @@ public class MarketSystemTest {
         Spacecraft spacecraft2 = spacecraftRepository.findById(2L).orElseThrow(() -> new RuntimeException("Spacecraft not found"));
         Spacecraft spacecraft3 = spacecraftRepository.findById(3L).orElseThrow(() -> new RuntimeException("Spacecraft not found"));
 
-        // Crear jugadores y asignarlos a las naves
-        playerRepository.save(new Player("jugador1", "12345", PlayerType.PILOT, spacecraft1));
-        playerRepository.save(new Player("jugador2", "12345", PlayerType.CAPTAIN, spacecraft1));
-        playerRepository.save(new Player("jugador3", "12345", PlayerType.MERCHANT, spacecraft1));
+       // Crear jugadores y asignarlos a las naves
+       playerRepository.save(new Player("jugador1", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft1));
+       playerRepository.save(new Player("jugador2", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft1));
+       playerRepository.save(new Player("jugador3", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft1));
 
-        playerRepository.save(new Player("jugador4", "12345", PlayerType.PILOT, spacecraft2));
-        playerRepository.save(new Player("jugador5", "12345", PlayerType.CAPTAIN, spacecraft2));
-        playerRepository.save(new Player("jugador6", "12345", PlayerType.MERCHANT, spacecraft2));
+       playerRepository.save(new Player("jugador4", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft2));
+       playerRepository.save(new Player("jugador5", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft2));
+       playerRepository.save(new Player("jugador6", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft2));
 
-        playerRepository.save(new Player("jugador7", "12345", PlayerType.PILOT, spacecraft3));
-        playerRepository.save(new Player("jugador8", "12345", PlayerType.CAPTAIN, spacecraft3));
-        playerRepository.save(new Player("jugador9", "12345", PlayerType.MERCHANT, spacecraft3));
+       playerRepository.save(new Player("jugador7", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft3));
+       playerRepository.save(new Player("jugador8", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft3));
+       playerRepository.save(new Player("jugador9", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft3));
+
 
         // Crear productos
         productRepository.save(new Product(0.5, "Producto1"));

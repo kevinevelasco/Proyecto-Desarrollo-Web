@@ -25,17 +25,21 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import co.edu.javeriana.dw.proyecto.auth.AuthResponse;
+import co.edu.javeriana.dw.proyecto.auth.LoginRequest;
 import co.edu.javeriana.dw.proyecto.controllers.newcontrollers.MarketController;
 import co.edu.javeriana.dw.proyecto.model.*;
 import co.edu.javeriana.dw.proyecto.persistence.*;
 import co.edu.javeriana.dw.proyecto.service.MarketService;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
+import io.jsonwebtoken.security.Password;
 
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
@@ -45,6 +49,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.springframework.web.context.WebApplicationContext;
@@ -82,7 +88,10 @@ public class MarketControllerIntegrationTest {
     private IInventoryRepository inventoryRepository;
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private TestRestTemplate rest;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @LocalServerPort
     private int port;
@@ -135,18 +144,19 @@ public class MarketControllerIntegrationTest {
         Spacecraft spacecraft2 = spacecraftRepository.findById(2L).orElseThrow(() -> new RuntimeException("Spacecraft not found"));
         Spacecraft spacecraft3 = spacecraftRepository.findById(3L).orElseThrow(() -> new RuntimeException("Spacecraft not found"));
 
-        // Crear jugadores y asignarlos a las naves
-        playerRepository.save(new Player("jugador1", "12345", PlayerType.PILOT, spacecraft1));
-        playerRepository.save(new Player("jugador2", "12345", PlayerType.CAPTAIN, spacecraft1));
-        playerRepository.save(new Player("jugador3", "12345", PlayerType.MERCHANT, spacecraft1));
 
-        playerRepository.save(new Player("jugador4", "12345", PlayerType.PILOT, spacecraft2));
-        playerRepository.save(new Player("jugador5", "12345", PlayerType.CAPTAIN, spacecraft2));
-        playerRepository.save(new Player("jugador6", "12345", PlayerType.MERCHANT, spacecraft2));
+       // Crear jugadores y asignarlos a las naves
+       playerRepository.save(new Player("jugador1", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft1));
+       playerRepository.save(new Player("jugador2", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft1));
+       playerRepository.save(new Player("jugador3", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft1));
 
-        playerRepository.save(new Player("jugador7", "12345", PlayerType.PILOT, spacecraft3));
-        playerRepository.save(new Player("jugador8", "12345", PlayerType.CAPTAIN, spacecraft3));
-        playerRepository.save(new Player("jugador9", "12345", PlayerType.MERCHANT, spacecraft3));
+       playerRepository.save(new Player("jugador4", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft2));
+       playerRepository.save(new Player("jugador5", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft2));
+       playerRepository.save(new Player("jugador6", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft2));
+
+       playerRepository.save(new Player("jugador7", passwordEncoder.encode("12345"), PlayerType.PILOT, spacecraft3));
+       playerRepository.save(new Player("jugador8", passwordEncoder.encode("12345"), PlayerType.CAPTAIN, spacecraft3));
+       playerRepository.save(new Player("jugador9", passwordEncoder.encode("12345"), PlayerType.MERCHANT, spacecraft3));
 
         // Crear productos
         productRepository.save(new Product(0.5, "Producto1"));
@@ -180,18 +190,38 @@ public class MarketControllerIntegrationTest {
         inventoryRepository.save(new Inventory(spacecraft3, product1, 250));
 
     }
-
-    @Autowired
-    TestRestTemplate rest;
-
-
+    private AuthResponse login(String username, String password) {
+        LoginRequest loginRequest = new LoginRequest(username, password);
+        System.out.println("Sending login request for user: " + username);
+        RequestEntity<LoginRequest> request = RequestEntity.post(SERVER_URL + "/auth/login")
+                .body(loginRequest);
+        ResponseEntity<AuthResponse> response = rest.exchange(request, AuthResponse.class);
+        System.out.println("Received response: " + response);
+        if (response.getBody() == null) {
+            System.out.println("Response body is null");
+        } else {
+            System.out.println("Response token: " + response.getBody().getToken());
+        }
+        assertNotNull(response.getBody());
+        return response.getBody();
+    }
     //Prueba de get 
     //FUNCIONA
     @Test
-    void verMercadoExistente(){
-        Market market = rest.getForObject(SERVER_URL + "/api/market/1", Market.class);
-        assertEquals("Producto1", market.getProduct().getName());
+    void verMercadoExistente() {
+    // Iniciar sesión y obtener el token JWT
+    AuthResponse authResponse = login("jugador1", "12345");
+    HttpHeaders headers = new HttpHeaders();
+    headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + authResponse.getToken());
+
+    HttpEntity<Void> entity = new HttpEntity<>(headers);
+    ResponseEntity<Market> response = rest.exchange(SERVER_URL + "/api/market/1", HttpMethod.GET, entity, Market.class);
+    Market market = response.getBody();
+
+    assertNotNull(market, "El objeto Market no debería ser nulo");
+    assertEquals("Producto1", market.getProduct().getName());
     }
+
 
     //en postman para probar el metodo delete se debe hacer una peticion delete a la url http://localhost:8081/api/market/1
     //Prueba del metodo delete con el comando mvn test -Dtest=MarketControllerIntegrationTest#borrarMercado 

@@ -40,20 +40,7 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-
-    @PostMapping("/login")
-    public ResponseEntity<Player> login( @RequestBody Player player){
-        String msg = playerService.login(player.getUserName(), player.getPassword());
-        if(msg.equals("Inicio de sesion exitoso")){
-            Player loggedInPlayer = playerService.getLoggedInPlayer();
-            return ResponseEntity.ok(loggedInPlayer);
-        }else if(msg.equals("No existe el usuario")){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }
-
+    
     @GetMapping("/loggedInPlayer")
     public ResponseEntity<Player> getLoggedInPlayer(){
         Player player = playerService.getLoggedInPlayer();
@@ -102,7 +89,7 @@ public class PlayerController {
     @PostMapping("/register")
     public ResponseEntity<Player> registerPlayer(@RequestBody Player player) {
         // Antes de registrar, verifica si ya existe un jugador con el mismo nombre de usuario
-        Player existingPlayer = playerService.getPlayerByUsername(player.getUserName());
+        Player existingPlayer = playerService.getPlayerByUsername(player.getUsername());
         if (existingPlayer != null) {
             return ResponseEntity.badRequest().body(null); // Usuario ya existe
         }
@@ -126,7 +113,7 @@ public class PlayerController {
     }
     
     // Actualiza los datos del jugador
-    existingPlayer.setUserName(updatedPlayer.getUserName());
+    existingPlayer.setUserName(updatedPlayer.getUsername());
     existingPlayer.setPassword(updatedPlayer.getPassword());
     // Puedes actualizar más campos aquí según sea necesario
 
@@ -147,8 +134,8 @@ public class PlayerController {
     if (existingPlayer == null) {
         return ResponseEntity.notFound().build();
     }
-    if (updatedPlayer.getUserName() != null) {
-        existingPlayer.setUserName(updatedPlayer.getUserName());
+    if (updatedPlayer.getUsername() != null) {
+        existingPlayer.setUserName(updatedPlayer.getUsername());
     }
     if (updatedPlayer.getPassword() != null) {
         existingPlayer.setPassword(updatedPlayer.getPassword());
