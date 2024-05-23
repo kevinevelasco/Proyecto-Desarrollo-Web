@@ -2,17 +2,17 @@
 
 <app-background [pageType]="pageType" [planetData]="planetData" style="pointer-events: none"></app-background>
 
+<div *ngIf="planetData" class="dialog-chart">
+    <p>En "{{planetData.name}}" Compramos lo que sea!!!</p>
+</div>
 <div class="inventory" *ngIf="inventoryData.length > 0">
-    <div class="dialog-chart">
-        <p>En "{{planetData.name}}" Compramos lo que sea!!!</p>
-    </div>
     <div class="items">
         <div class="table-container">
             <table class="styled-table">
                 <tbody>
                     <tr *ngFor="let item of inventoryData">
                         <td class="product-img">
-                            <img src="\assets\img\inventoryaux.png" alt="{{ item.product.name }}">
+                            <img src="\assets\items\{{item.product.name.toLowerCase().split(' ').join('_')}}.png" alt="{{ item.product.name }}">
                         </td>
                         <td class="product-info">
                             <div class="product-name">{{ item.product.name }}</div>

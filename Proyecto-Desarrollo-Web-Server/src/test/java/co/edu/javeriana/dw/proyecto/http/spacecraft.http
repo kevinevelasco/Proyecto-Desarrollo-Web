@@ -1,5 +1,6 @@
 GET http://localhost:8080/api/spacecraft/list
 
+
 ###
 GET http://localhost:8080/api/spacecraft/list-page?page=0&size=5
 
@@ -46,8 +47,9 @@ Content-Type: application/json
 }
 
 ###@PatchMapping("/player/{id}/planet/{planetId}")
-PATCH http://localhost:8080/api/spacecraft/player/1/planet/4
-
+PATCH http://localhost:8080/api/spacecraft/player/1/planet/8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzaGFudGUud2lsZGVybWFuIiwiaWF0IjoxNzE1MzExODk5LCJleHAiOjE3MTUzNDc4OTl9.77OBhHlcPQxOd2t-GIPaV-sYmnXnwfCCRCKv8rTj2MXDYqO9M_mScVDlE8BxS1cn
 ###
 DELETE http://localhost:8080/api/spacecraft/14
 

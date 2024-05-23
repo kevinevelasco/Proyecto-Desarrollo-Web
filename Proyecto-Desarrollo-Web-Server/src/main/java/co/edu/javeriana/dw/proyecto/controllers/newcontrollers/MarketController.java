@@ -27,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -74,7 +75,7 @@ public class MarketController {
 
 
     //localhost:8080/api/market/venta/1/1
-    //esta prueba sirve para probar la venta de productos
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PatchMapping("/{toDo}/{id}/{quantity}")
     public Spacecraft sellProduct(@PathVariable String toDo, @PathVariable Long id, @PathVariable Double quantity){
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(id);
@@ -92,7 +93,7 @@ public class MarketController {
 
     //esto es para reducir el stock del mercado
     //localhost:8080/api/market/venta/1/product/1/planet/1/
-    //localhost:8080/api/market/1/sell
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PatchMapping("/{id}/{toDo}")
     public Market sellProductStock(@PathVariable Long id, @PathVariable String toDo){
 
@@ -184,20 +185,21 @@ public class MarketController {
         return marketService.saveMarket(market);
     }
 
-    //link para probar el metodo post localhost:8080/api/market/create/1/1
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PostMapping("/create/{planetId}/{productId}")
     public ResponseEntity<Market> createMarket(@PathVariable Long planetId, @PathVariable Long productId, @RequestBody Market market) {
 
         Planet planet = planetService.getPlanetById(planetId);
         Product product = productService.getProductById(productId);
-
-        //creamos un id temporal para el mercado
-        market.setId((long) (marketService.getAllMarket().size() + 1));
-        market.setStock(1);
-        market.setPlanet(planet);
-        market.setProduct(product);
-
-        return ResponseEntity.ok(marketService.saveMarket(market));
+        Market m = new Market();
+        m.setPlanet(planet);
+        m.setProduct(product);
+        m.setStock(1);
+        m.setDemandFactor(market.getDemandFactor());
+        m.setSupplyFactor(market.getSupplyFactor());
+        m.setBuyPrice(market.getBuyPrice());
+        m.setSellPrice(market.getSellPrice());
+        return ResponseEntity.ok(marketService.saveMarket(m));
     }
 
 

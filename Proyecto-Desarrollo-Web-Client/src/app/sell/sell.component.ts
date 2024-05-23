@@ -14,6 +14,8 @@ import { Product } from '../model/product';
 import { InventoryService } from '../services/inventory.service';
 import { Inventory } from '../model/inventory';
 import { PageType } from '../shared/background/pageType';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertComponent } from '../shared/alert/alert.component';
 
 @Component({
     selector: 'app-sell',
@@ -24,17 +26,19 @@ export class SellComponent implements OnInit, OnDestroy {
 
     userLoginOn: boolean = false;
     userData?: Player;
+    userId: number
     spaceCraftData: Spacecraft;
     spacecraftModelsData?: SpacecraftModel;
     planetData: Planet;
     marketData: Market[] = [];
     invetoryData: Inventory[] = [];
     currentSpacecraftStorage: number;
-    pageType : PageType = {page : "market"};
+    pageType: PageType = { page: "market" };
+    ID = "user-id";
 
     constructor(
         private router: Router,
-        private loginService: LoginService,
+        public dialog: MatDialog,
         private playerService: PlayerService,
         private marketService: MarketService,
         private spaceCraftService: SpacecraftService,
@@ -43,18 +47,26 @@ export class SellComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        const userData = localStorage.getItem('currentUserData');
-        console.log(userData);
-        if (userData) {
-            this.loginService.currentUserData.next(JSON.parse(userData));
+        const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+        console.log(userId);
+        if (userId != 0 && userId != null) {
             this.userLoginOn = true;
+            this.userId = userId;
+            this.getPlayerData();
+        } else {
+            this.router.navigate(['..//login']);
         }
-        this.loginService.currentUserData.subscribe({
-            next: (userData) => {
-                this.userData = userData;
-            }
-        });
-        this.getSpaceCraftData();
+    }
+
+    getPlayerData(): void {
+        console.log(this.userId);
+        if (this.userId != null && this.userId != 0) {
+            this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+                this.userData = player;
+                console.log('El jugador es:', this.userData);
+                this.getSpaceCraftData();
+            });
+        }
     }
 
     ngOnDestroy(): void {
@@ -126,34 +138,46 @@ export class SellComponent implements OnInit, OnDestroy {
         console.log('el producto existe en el inventario: ', existe);
 
         if (market.stock == 0) {
-            alert('No hay stock disponible.');
+            this.openAlertDialog('No hay stock disponible.');
             return;
         }
 
         if (spacecraft.credit < market.sellPrice) {
-            alert('No hay suficiente crédito para realizar esta compra.');
+            this.openAlertDialog('No hay suficiente crédito para realizar esta compra.');
             return;
         }
 
         //si al hacer la compra se pasa del almacenamiento, no se puede hacer la compra
         if (this.currentSpacecraftStorage + product.size > spacecraftModel.storage) {
             console.log('el storage maximo es', spacecraftModel.storage, ' y se estaría pasando con la compra: ', this.currentSpacecraftStorage + product.size)
-            alert('No hay suficiente espacio en la nave para realizar esta compra.');
+            this.openAlertDialog('No hay suficiente espacio en la nave para realizar esta compra.');
             return;
         }
 
         if (existe) {
             let toDo = 'add';
-            this.inventoryService.updateInventoryQuantity(spacecraft.id, product.id, toDo).subscribe((inventory: Inventory) => {
+            this.inventoryService.updateInventoryQuantity(spacecraft.id, product.id, toDo).subscribe((inventory) => {
                 console.log('Inventario actualizado:', inventory);
                 this.getInventoryData();
-            });
+            },
+                (error) => {
+                    console.error('Error al actualizar el inventario:', error);
+                    if (error.status === 403) {
+                        this.openAlertDialog('Al parecer eres un PILOTO, por lo tanto no puedes comercializar, dile a tus colegas que compren por ti!');
+                    }
+                });
         }
         else {
-            alert('El producto no existía en el inventario, se ha actualizado correctamente')
             this.inventoryService.createProductInInventory(spacecraft.id, product.id).subscribe((inventory: Inventory) => {
                 console.log('Inventario creado:', inventory);
+                this.openAlertDialog('El producto no existía en el inventario, se ha actualizado correctamente')
                 this.getInventoryData();
+            },
+            (error) => {
+                console.error('Error al actualizar el inventario:', error);
+                if (error.status === 403) {
+                    this.openAlertDialog('Al parecer eres un PILOTO, por lo tanto no puedes comercializar, dile a tus colegas que compren por ti!');
+                }
             });
         }
 
@@ -176,5 +200,17 @@ export class SellComponent implements OnInit, OnDestroy {
     }
     buy() {
         this.router.navigate(['/sell']);
+    }
+
+    openAlertDialog(message: string) {
+        this.dialog.open(AlertComponent, {
+            data: {
+                message: message
+            },
+            panelClass: '.dialog-container',
+            width: '80%',
+            height: '80%',
+            disableClose: false
+        });
     }
 }

@@ -6,9 +6,16 @@ import lombok.val;
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Supplier;
 import org.springframework.context.annotation.Profile;
@@ -35,6 +42,8 @@ public class DbInitializer implements CommandLineRunner {
     private IMarketRepository marketRepository;
     @Autowired
     private IInventoryRepository inventoryRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -136,21 +145,26 @@ public class DbInitializer implements CommandLineRunner {
             starRepository.save(star);
 
         }
-        for (int i = 0; i < 10; i++) {
-            SpacecraftModel spacecraftModel = new SpacecraftModel();
-            while (true) {
-                try {
-                    spacecraftModel.setModelName(faker.unique().fetchFromYaml("space.nasa_space_craft"));
-                } catch (NoSuchElementException e) {
-                    spacecraftModel.setModelName(faker.unique().fetchFromYaml("star_wars.vehicles"));
-                    break;
-                } finally {
-                    spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
-                    spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 10, 100));
-                    spacecraftModelRepository.save(spacecraftModel);
-                }
+
+        Path d = Paths.get("../Proyecto-Desarrollo-Web-Client/src/assets/ships");
+        if(Files.isDirectory(d)){
+            System.out.println("El directorio existe.");
+            File[] files = d.toFile().listFiles();
+            for (File file : files) {
+                SpacecraftModel spacecraftModel = new SpacecraftModel();
+                String name = file.getName();
+                String step1 = name.replace("_", " ");
+                String step2 = step1.replace(".png", "");
+                spacecraftModel.setModelName(step2.trim());
+                spacecraftModel.setStorage(faker.number().randomDouble(0, 15, 580));
+                spacecraftModel.setMaxSpeed(faker.number().randomDouble(0, 10, 100));
+                spacecraftModelRepository.save(spacecraftModel);
             }
+        } else {
+            System.out.println("El directorio no existe.");
+
         }
+
         for (int i = 0; i < 10; i++) {
             Spacecraft spacecraft = new Spacecraft();
             spacecraft.setName(faker.team().name());
@@ -182,7 +196,7 @@ public class DbInitializer implements CommandLineRunner {
         for (int j = 0; j < 100; j++) {
             Player player = new Player();
             player.setUserName(faker.internet().username());
-            player.setPassword("12345");
+            player.setPassword(passwordEncoder.encode("12345"));
             val random = new Random().nextInt(3);
 
             if (random == 0)
@@ -198,39 +212,32 @@ public class DbInitializer implements CommandLineRunner {
             player.setSpacecraft(spacecraftRepository.findById(spacecraftId).get());
             playerRepository.save(player);
         }
-        int totalItemsPrinted = 0;
-        int totalItemsToPrint = 500;
-        List<Supplier<String>> fakerCategories = new ArrayList<>();
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("minecraft.item_name"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.spices"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.dish"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.fruits"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.vegetables"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("food.sushi"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("creature.animal.name"));
-        fakerCategories.add(() -> faker.unique().fetchFromYaml("creature.animal.genus"));
+        Path directory = Paths.get("../Proyecto-Desarrollo-Web-Client/src/assets/items");
+        System.out.println(directory.toAbsolutePath());
 
-        // Itera a través de cada categoría de Faker
-        for (Supplier<String> category : fakerCategories) {
-            while (totalItemsPrinted < totalItemsToPrint) {
-                try {
-                    Product product = new Product();
-                    product.setName(category.get());
-                    //generamos un numero aleatorio que identifica los metros cubicos que ocupa el producto
-                    product.setSize(faker.number().randomDouble(2, 1, 10));
-
-                    productRepository.save(product);
-                    totalItemsPrinted++;
-                } catch (Exception e) {
-                    // Rompe el bucle interno si se agotan los elementos únicos de la categoría actual
-                    break;
+        if (Files.isDirectory(directory)) {
+            System.out.println("El directorio existe.");
+            File[] files = directory.toFile().listFiles();
+            for (File file : files) {
+                Product product = new Product();
+                String name = file.getName();
+                String step1 = name.replace("_", " ");
+                String step2 = step1.replace(".png", "");
+                String[] words = step2.split(" ");
+                StringBuilder result = new StringBuilder();
+                for (String word : words) {
+                    if (!word.isEmpty()) {
+                        result.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(" ");
+                    }
                 }
+                product.setName(result.toString().trim());
+                product.setSize(faker.number().randomDouble(2, 1, 10));
+                productRepository.save(product);
             }
-            // Verifica si ya se alcanzó el límite total de impresiones
-            if (totalItemsPrinted >= totalItemsToPrint) {
-                break;
-            }
+        } else {
+            System.out.println("El directorio no existe.");
         }
+
         Set<Product> uniqueProducts = new HashSet<>();
 
         for (int i = 0; i < 400; i++) {
@@ -300,11 +307,5 @@ public class DbInitializer implements CommandLineRunner {
                     inventoryRepository.save(inventory);
             }
         }
-        //creamos al administrador
-//        Player admin = new Player();
-//        admin.setUserName("admin");
-//        admin.setPassword("admin");
-//        playerRepository.save(admin);
-
     }
 }

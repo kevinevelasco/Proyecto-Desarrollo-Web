@@ -19,12 +19,14 @@ import { InventoryService } from '../services/inventory.service';
 export class SpacecraftModelComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
   userData?: Player;
-  spaceCraftData?: Spacecraft;
+  userId: number
+  spaceCraftData: Spacecraft;
   spacecraftModelsData?: SpacecraftModel;
   playersInSpacecraft: Player[] = [];
   planet?: Planet;
   inventoryData: Inventory[] = [];
   currentSpacecraftStorage: number;
+  ID = "user-id";
 
 
   constructor(
@@ -36,18 +38,24 @@ export class SpacecraftModelComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('currentUserData');
-    console.log(userData);
-    if (userData) {
-        this.loginService.currentUserData.next(JSON.parse(userData));
-        this.userLoginOn = true;
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userId = userId;
+      this.userLoginOn = true;
+      this.getPlayerData();
     }
-    this.loginService.currentUserData.subscribe({
-        next: (userData) => {
-            this.userData = userData;
-        }
-    });
-    this.getSpaceCraftData();
+  }
+
+  getPlayerData(): void {
+    console.log(this.userId);
+    if (this.userId != null && this.userId != 0) {
+      this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+        this.userData = player;
+        console.log('El jugador es:', this.userData);
+        this.getSpaceCraftData();
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -69,7 +77,7 @@ export class SpacecraftModelComponent implements OnInit, OnDestroy {
     }
 }
 
-loadPlayers(): void {
+loadPlayers(): void { //TODO hay que corregir ya que el Player del backend no es compatible con el Player de Angular
   if (this.spaceCraftData) {
       this.playerService.getPlayersBySpacecraft(this.spaceCraftData.id).subscribe({
           next: (players: Player[]) => {

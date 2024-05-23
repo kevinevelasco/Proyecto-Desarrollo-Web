@@ -6,6 +6,9 @@ import { LoginService } from '../services/auth/login.service';
 import { PlayerService } from '../services/player.service';
 import { SpacecraftService } from '../services/spacecraft.service';
 import { Planet } from '../model/planet';
+import { Router } from '@angular/router';
+import { SpacecraftModelService } from '../services/spacecraft-model.service';
+import { SpacecraftModel } from '../model/spacecraft-model';
 
 @Component({
   selector: 'app-multiplayer',
@@ -15,37 +18,39 @@ import { Planet } from '../model/planet';
 export class MultiplayerComponent {
 
   userData?: Player;
+  userId: number
   spaceCraftData?: Spacecraft;
   planet?: Planet;
   spacecrafts: Spacecraft[] = [];
+  ID = "user-id";
 
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
 
-  constructor(private loginService: LoginService,private playerService: PlayerService, private spaceCraftService : SpacecraftService) { }
+  constructor(private spacecraftModelService: SpacecraftModelService,private playerService: PlayerService, private spaceCraftService : SpacecraftService) { }
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('currentUserData');
-    console.log(userData);
-    if (userData) {
-      this.loginService.currentUserData.next(JSON.parse(userData));
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userId = userId;
+      this.getPlayerData();
     }
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      }
+}
+getPlayerData(): void {
+  console.log(this.userId);
+  if (this.userId != null && this.userId != 0) {
+    this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+      this.userData = player;
+      console.log('El jugador es:', this.userData);
+      this.getSpaceCraftData();
     });
-    this.getSpaceCraftData();
+  }
+
 }
 
 ngOnDestroy(): void {
-  if (this.loginSubscription) {
-    this.loginSubscription.unsubscribe();
-  }
-  if (this.userDataSubscription) {
-    this.userDataSubscription.unsubscribe();
-  }
 }
 getSpaceCraftData(): void {
   console.log(this.userData);
@@ -72,7 +77,34 @@ loadSpacecrafts(): void {
   this.spaceCraftService.getSpacecraftsByPlanet(this.planet.id).subscribe((spacecrafts: Spacecraft[]) => {
     console.log('Las naves son:', spacecrafts);
     this.spacecrafts = spacecrafts;
+    //Por cada spacecraft, asignamos su lista de players
+    this.spacecrafts.forEach(spacecraft => {
+      this.loadPlayers(spacecraft);
+      this.getSpacecraftModelsData(spacecraft);
+    });
   });
   }
 }
+  loadPlayers(spacecraft: Spacecraft) {
+    if (spacecraft) {
+      this.playerService.getPlayersBySpacecraft(spacecraft.id).subscribe({
+          next: (players: Player[]) => {
+            spacecraft.players = players;
+          },
+          error: (error) => {
+              console.log('Error fetching players:', error);
+          }
+      });
+  }
+  }
+
+  getSpacecraftModelsData(spacecraft: Spacecraft): void {
+    if (spacecraft) {
+      this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(spacecraft.id)
+        .subscribe((spacecraftModel: SpacecraftModel) => {
+          spacecraft.spacecraftModel = spacecraftModel;
+          console.log('Spacecraft model:', spacecraft.spacecraftModel);
+        });
+    }
+  }
 }

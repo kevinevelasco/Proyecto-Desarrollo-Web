@@ -13,6 +13,8 @@ import { SpacecraftService } from '../services/spacecraft.service';
 import { Router } from '@angular/router';
 import { Product } from '../model/product';
 import { PageType } from '../shared/background/pageType';
+import { AlertComponent } from '../shared/alert/alert.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-buy',
@@ -22,18 +24,20 @@ import { PageType } from '../shared/background/pageType';
 export class BuyComponent {
 
   userData?: Player;
+  userId: number
   spaceCraftData?: Spacecraft;
   inventoryData: Inventory[] = [];
   planetData: Planet;
   marketData: Market[] = [];
   productosNuevos: Product[] = [];
   pageType : PageType = {page : "market"};
+  ID = "user-id";
 
   private loginSubscription: Subscription;
   private userDataSubscription: Subscription;
 
   constructor(
-    private loginService: LoginService,
+    public dialog: MatDialog,
     private playerService: PlayerService,
     private inventoryService: InventoryService,
     private marketService: MarketService,
@@ -42,26 +46,29 @@ export class BuyComponent {
   ) { }
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('currentUserData');
-    console.log(userData);
-    if (userData) {
-      this.loginService.currentUserData.next(JSON.parse(userData));
+    const userId: number = +(sessionStorage.getItem(this.ID) || 0);
+    console.log(userId);
+    if (userId != 0 && userId != null) {
+      this.userId = userId;
+      this.getPlayerData();
+    }else{
+      this.router.navigate(['..//login']);
     }
-    this.loginService.currentUserData.subscribe({
-      next: (userData) => {
-        this.userData = userData;
-      },
-    });
-    this.getSpaceCraftData();
+  }
+
+  getPlayerData(): void {
+    console.log(this.userId);
+    if (this.userId != null && this.userId != 0) {
+      this.playerService.getPlayerById(this.userId).subscribe((player: Player) => {
+        this.userData = player;
+        console.log('El jugador es:', this.userData);
+        this.getSpaceCraftData();
+      });
+    }
+
   }
 
   ngOnDestroy(): void {
-    if (this.loginSubscription) {
-      this.loginSubscription.unsubscribe();
-    }
-    if (this.userDataSubscription) {
-      this.userDataSubscription.unsubscribe();
-    }
   }
 
   venderProductos(market: Market, producto: Product, sellPrice: number, planetId: number) {
@@ -79,19 +86,27 @@ export class BuyComponent {
     if (this.spaceCraftData) {
       this.inventoryService
         .updateInventoryQuantity(this.spaceCraftData.id, producto.id, toDo)
-        .subscribe((inventory: Inventory) => {
+        .subscribe((inventory) => {
           console.log('Inventario actualizado:', inventory);
           this.loadInventory();
+        },
+        (error) => {
+          console.error('Error al actualizar el inventario:', error);
+          if (error.status === 403) {
+            this.openAlertDialog('Al parecer eres un PILOTO, por lo tanto no puedes comercializar, dile a tus colegas que compren por ti!');
+          }
         });
       //ahora realizamos la lógica para agregarle créditos al spacecraft
       let toDoCredits = 'add';
       this.marketService
         .actualizarCreditos(this.spaceCraftData.id, sellPrice, toDoCredits)
-        .subscribe((spacecraft: Spacecraft) => {
+        .subscribe((spacecraft) => {
           console.log('Créditos actualizados:', spacecraft.credit);
           this.spaceCraftData = spacecraft;
-
           this.spaceCraftService.updateSpaceCraftData(spacecraft);
+        },
+        (error) => {
+          console.error('Error al actualizar los créditos:', error);
         });
     }
 
@@ -103,15 +118,21 @@ export class BuyComponent {
 
     if (productFound) {
       console.log('producto nuevo: ' + producto.id);
-      this.marketService.createNewMarket(planetId, producto.id, market).subscribe((market: Market) => {
+      this.marketService.createNewMarket(planetId, producto.id, market).subscribe((market) => {
         console.log("tupla de market insertada: ", market);
+      },
+      (error) => {
+        console.error('Error al crear la tupla de market:', error);
       });
     } else{
       console.log("producto existente: " + producto.id);
       let toDo = 'buy';
-        this.marketService.changeProductStock(market.id, toDo).subscribe((market: Market) => {
+        this.marketService.changeProductStock(market.id, toDo).subscribe((market) => {
             console.log('market actualizado', market);
             this.getMarketData();
+        },
+        (error) => {
+          console.error('Error al actualizar el stock del producto:', error);
         });
     }
   }
@@ -235,4 +256,15 @@ export class BuyComponent {
     sell() {
       this.router.navigate(['/buy']);
   }
+  openAlertDialog(message: string) {
+    this.dialog.open(AlertComponent, {
+        data: {
+            message: message
+        },
+        panelClass: '.dialog-container',
+        width: '80%',
+        height: '80%',
+        disableClose: false
+    });
+}
 }

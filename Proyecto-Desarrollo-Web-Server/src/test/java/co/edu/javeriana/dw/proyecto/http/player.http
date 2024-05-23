@@ -1,3 +1,9 @@
 ###
 GET  http://localhost:8080/api/player/1
 Content-Type: application/json
+
+###
+
+GET  http://localhost:8080/api/player/user?username=milton.klocko
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtaWx0b24ua2xvY2tvIiwiaWF0IjoxNzE1MjExOTIxLCJleHAiOjE3MTUyNDc5MjF9.mRZWvhn8CUW278FFVnj8Hy5jaBu_U6IvrzNNtL4fX3rk9tH-bAPd11GCld4XnUdl

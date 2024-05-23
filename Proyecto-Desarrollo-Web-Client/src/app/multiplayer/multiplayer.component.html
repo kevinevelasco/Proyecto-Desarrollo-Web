@@ -2,7 +2,7 @@
     <h2>En la estrella {{planet?.name}} se encuentran los siguientes equipos: </h2>
         <div class="multiplayer">
         <div *ngFor="let item of spacecrafts" class="spacecrafts">
-            <img src="/assets/img/starshipimgaux.png">
+            <img src="\assets\ships\{{item.spacecraftModel!.modelName.split(' ').join('_')}}.png" alt="{{item!.spacecraftModel?.modelName}}" class="spacecraft-image" />
             <p class="name">{{item.name}}</p>
             <div class="divider"></div>
             <div class="info">

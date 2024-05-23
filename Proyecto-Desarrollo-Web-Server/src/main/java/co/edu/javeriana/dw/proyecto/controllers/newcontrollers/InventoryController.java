@@ -9,6 +9,7 @@ import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import co.edu.javeriana.dw.proyecto.model.Inventory;
@@ -48,14 +49,12 @@ private ProductService productService;
     }
 
     //crear inventario en la lista de inventarios de mi spacecraft
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PostMapping("/create/{spacecraftId}/{productId}")
     public ResponseEntity<Inventory> createInventory(@PathVariable Long spacecraftId, @PathVariable Long productId) {
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(spacecraftId);
         Product product = productService.getProductById(productId);
         Inventory inventory = new Inventory();
-
-        //creamos un id temporal para el inventario
-        inventory.setId((long) (inventoryService.getAllInventories().size() + 1));
         inventory.setSpacecraft(spacecraft);
         inventory.setProduct(product);
         inventory.setQuantity(1);
@@ -66,6 +65,7 @@ private ProductService productService;
     }
 
     //actualizamos la cantidad de un producto en el inventario si ya existe, en 1
+    @Secured({ "MERCHANT", "CAPTAIN" })
     @PatchMapping("/update/{spacecraftId}/{productId}/{toDo}")
     public ResponseEntity<Inventory> updateInventory(@PathVariable Long spacecraftId, @PathVariable Long productId, @PathVariable String toDo) {
         Spacecraft spacecraft = spacecraftService.getSpacecraftById(spacecraftId);

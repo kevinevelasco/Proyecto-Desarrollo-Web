@@ -8,12 +8,13 @@ import { EngineService } from '../engine/engine.service';
 import { Router } from '@angular/router';
 import { SpacecraftService } from '../../services/spacecraft.service';
 import { SpacecraftPlanet } from './spacecraftPlanet';
-import { delay } from 'rxjs/operators';
+import { AlertComponent } from '../../shared/alert/alert.component';
 import { MarketService } from '../../services/market.service';
 import { Market } from '../../model/market';
 import { SpacecraftModelService } from '../../services/spacecraft-model.service';
 import { SpacecraftModel } from '../../model/spacecraft-model';
 import { TimeService } from '../../services/time.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ui',
@@ -29,7 +30,8 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
     private starService: StarService,
     private spacecraftModelService: SpacecraftModelService,
     private timeService: TimeService,
-    private planetService: PlanetService
+    private planetService: PlanetService,
+    public dialog: MatDialog,
   ) {}
 
   @Input() userData: Player;
@@ -52,6 +54,7 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
     // Verificar si hubo cambios en currentStar y asignarlo si es así
     if ('currentStar' in changes) {
       this.currentStar = changes["currentStar"].currentValue;
+      console.log('currentStar', this.currentStar);
     }
   
     // Verificar si hubo cambios en starPlanets y asignarlo si es así
@@ -71,23 +74,22 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
         console.log('el planeta clickeado fue', this.currentPlanet);
         this.booleanPlanet = !this.booleanPlanet;
       });
-      if (this.userData && this.userData.spacecraft) {
+        console.log("Info")
         this.spacecraftService
-          .getPlanetBySpacecraft(this.userData?.spacecraft.id)
+          .getPlanetBySpacecraft(this.userData.spacecraft!.id)
           .subscribe((planet: Planet) => {
-            console.log('El planeta es:', planet.name);
+            console.log('El planeta donde estoy es:', planet.name);
             this.inPlanet = planet;
           });
   
-          this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.userData.spacecraft.id).subscribe(
+          this.spacecraftModelService.getSpacecraftModelsBySpacecraftId(this.userData.spacecraft!.id).subscribe(
             (spacecraftModel) => {
               console.log('SpacecraftModel:', spacecraftModel);
               this.currentSpacecraftModel = spacecraftModel;
             });
-        this.userData.spacecraft.planet = this.inPlanet;7
+        this.userData.spacecraft!.planet = this.inPlanet;
         
         console.log('Spacecraft:', this.userData);
-      }
     }
   }
   
@@ -129,12 +131,11 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
       idUser: userData.id,
     };
 
+    var tiempo;
+
     this.starService.getDistanceBetweenStars(planet.star.id, this.currentStar.id).subscribe((distance) => {
       console.log('Distancia entre estrellas:', distance);
       this.distance = distance;
-      var tiempo = Math.round(distance / this.currentSpacecraftModel.maxSpeed);
-      console.log('Tiempo gastado:', tiempo);
-      this.timeService.decrementTimeBy(tiempo);
     });
     this.spacecraftService
       .setPlanet(spacecraftPlanet)
@@ -144,6 +145,7 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((data) => {
         console.log(data);
         if (viajarAPlaneta) {
+          console.log("No se decrementa el tiempo")
           this.router.navigate(['/space-travelling']).then(() => {
             // Redirigir a '/space-travel' después de 2 segundos
             setTimeout(() => {
@@ -151,6 +153,9 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
             }, 1000); // retraso de 2 segundos
           });
         } else {
+          tiempo = Math.round(this.distance / this.currentSpacecraftModel.maxSpeed);
+          console.log('Tiempo gastado:', tiempo);
+          this.timeService.decrementTimeBy(tiempo);
           this.router.navigate(['/space-travelling']).then(() => {
             // Redirigir a '/space-travel' después de 5 segundos
             setTimeout(() => {
@@ -158,7 +163,13 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
             }, 5000); // retraso de 5 segundos
           });
         }
-      });
+      },
+    (error) => {
+      console.error('Error al viajar a otro planeta:', error);
+      if (error.status === 403) {
+        this.openAlertDialog('Al parecer eres un COMERCIANTE, por lo tanto no puedes pilotar hacia otros planetas y estrellas, dile a tus colegas que te lleven!');
+      }
+    });
   }
 
   onStarClick(star: Star) {
@@ -194,4 +205,16 @@ export class UiComponent implements OnInit, OnDestroy, OnChanges {
   });
 }
 }
+openAlertDialog(message: string) {
+  this.dialog.open(AlertComponent, {
+      data: {
+          message: message
+      },
+      panelClass: '.dialog-container',
+      width: '80%',
+      height: '80%',
+      disableClose: false
+  });
+}
+
 }

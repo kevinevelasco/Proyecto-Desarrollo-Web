@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.javeriana.dw.proyecto.model.Player;
+import co.edu.javeriana.dw.proyecto.model.PlayerDTO;
 import co.edu.javeriana.dw.proyecto.model.Spacecraft;
 import co.edu.javeriana.dw.proyecto.service.PlayerService;
 import co.edu.javeriana.dw.proyecto.service.SpacecraftService;
+import org.springframework.web.bind.annotation.RequestParam;
 import lombok.Delegate;
 
 @RestController

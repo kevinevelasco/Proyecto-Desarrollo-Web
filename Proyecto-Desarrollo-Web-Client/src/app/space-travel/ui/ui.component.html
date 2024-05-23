@@ -97,7 +97,7 @@
         </div>
         <div class="right">
           <!-- Mostramos la columna derecha solo si se le dio click a onPlanetClick-->
-          <div class="if" *ngIf="booleanPlanet">
+          <div class="if" *ngIf="booleanPlanet && currentPlanet && inPlanet">
             <!-- Tabla de información del planeta -->
             <table class="planet-info-table">
               <thead>
@@ -124,7 +124,7 @@
                     <button (click)="onCancelClick()" class="exit">Salir</button>
                   </td>
                   <td *ngIf="inPlanet.name === currentPlanet.name">
-                    <button (click)="onTravelClick(currentPlanet)" class="go">Volver al planeta</button>
+                    <button routerLink="/sell" class="go">Volver al planeta</button>
                     <button (click)="onCancelClick()" class="exit">Salir</button>
                   </td>
                 </tr>
