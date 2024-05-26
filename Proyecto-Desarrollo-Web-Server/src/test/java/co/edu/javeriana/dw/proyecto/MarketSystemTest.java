@@ -223,10 +223,6 @@ public class MarketSystemTest {
         botonIniciar.click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
 
-        // esto es mientras se quita cuando se arregle lo de sin tiempo
-        this.browser.navigate().refresh();
-        //q no se nos olvide quitar lo de arriba!!!
-
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
         WebElement botonIniciarJuego = this.browser.findElement(By.id("iniciarJuego"));
         botonIniciarJuego.click();
@@ -256,10 +252,6 @@ public class MarketSystemTest {
         WebElement botonIniciar = this.browser.findElement(By.id("iniciarSesion"));
         botonIniciar.click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
-
-        // esto es mientras se quita cuando se arregle lo de sin tiempo
-        this.browser.navigate().refresh();
-        //q no se nos olvide quitar lo de arriba!!!
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
         WebElement botonIniciarJuego = this.browser.findElement(By.id("iniciarJuego"));
